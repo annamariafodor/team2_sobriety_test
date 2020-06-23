@@ -31,6 +31,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showLoading() {
-        /// TODO: 2020.06.23. valami 
+
     }
 }
