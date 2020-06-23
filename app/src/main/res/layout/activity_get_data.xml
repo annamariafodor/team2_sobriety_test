@@ -4,6 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GetData">
+    tools:context=".Taxi">
+
+    <TextView
+        android:id="@+id/setLocation2"
+        android:layout_width="285dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Taxi number in your area"
+        android:textSize="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="271dp" />
+
+    <TextView
+        android:id="@+id/setLocation"
+        android:layout_width="180dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="Set location"
+        android:textSize="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="104dp" />
+
+    <SearchView
+        android:id="@+id/searchBar"
+        android:layout_width="279dp"
+        android:layout_height="61dp"
+        android:background="#DADAD8D8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.219"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="162dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
