@@ -58,10 +58,9 @@
 
     <EditText
         android:id="@+id/password2"
-        android:layout_width="381dp"
+        android:layout_width="386dp"
         android:layout_height="67dp"
         android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
         android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="textPersonName"
