@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/title_top_margin"
         android:layout_marginBottom="157dp"
         android:text="Register"
-        android:textSize="25sp"
+        android:textSize="@dimen/title_size"
         app:layout_constraintBottom_toTopOf="@+id/password1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
