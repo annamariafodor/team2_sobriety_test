@@ -7,33 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".GetData">
 
-    <Button
-        android:id="@+id/registbutton2"
-        android:layout_width="149dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="19dp"
-        android:layout_marginBottom="80dp"
-        android:background="@drawable/mybutton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password2"
-        app:layout_constraintVertical_bias="0.23" />
-
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/height_text"
         android:layout_width="370dp"
         android:layout_height="41dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="25dp"
-        android:layout_marginBottom="65dp"
         android:hint="Height (cm)"
-        app:layout_constraintBottom_toTopOf="@+id/registbutton2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Height"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintTop_toBottomOf="@+id/Height" />
 
     <TextView
         android:id="@+id/Height"
@@ -136,4 +118,21 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="158dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="136dp"
+        android:layout_marginBottom="59dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/height_text"
+        app:layout_constraintVertical_bias="0.884"
+        app:srcCompat="@mipmap/ic_launcher_foreground" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
