@@ -11,6 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainScreen"></activity>
         <activity android:name=".Settings" />
+        <activity android:name=".GetData"></activity>
+        <activity android:name=".Taxi" />
         <activity android:name=".Regist" />
         <activity android:name=".MainActivity">
             <intent-filter>
