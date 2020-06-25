@@ -9,5 +9,6 @@
     <fragment
         android:id="@+id/registFragment"
         android:name="Register.RegistFragment"
-        android:label="RegistFragment" />
+        android:label="RegistFragment"
+        tools:layout="@layout/fragment_regist"/>
 </navigation>
