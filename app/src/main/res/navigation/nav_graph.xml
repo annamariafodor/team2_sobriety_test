@@ -11,4 +11,5 @@
         android:name="Register.RegistFragment"
         android:label="RegistFragment"
         tools:layout="@layout/fragment_regist"/>
+
 </navigation>
