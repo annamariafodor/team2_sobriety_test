@@ -19,12 +19,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailInput"
         android:layout_width="347dp"
         android:layout_height="58dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/global_horizontal_margin"
         android:layout_marginTop="130dp"
         android:ems="10"
         android:hint="Email Address"
@@ -32,44 +31,37 @@
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/register" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
         android:id="@+id/password1"
-        android:layout_width="344dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="20dp"
-        android:autofillHints="password"
+        android:layout_width="349dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="@dimen/global_horizontal_margin"
+        android:layout_marginTop="@dimen/global_horizontal_margin"
         android:ems="10"
-        android:hint="password"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Password"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/emailInput"
-        tools:ignore="TextFields" />
+        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
         android:id="@+id/password2"
-        android:layout_width="346dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="349dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="@dimen/global_horizontal_margin"
+        android:layout_marginTop="@dimen/global_horizontal_margin"
         android:ems="10"
-        android:hint="password again"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="Password again"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/password1"
-        tools:ignore="TextFields" />
+        app:layout_constraintTop_toBottomOf="@+id/password1" />
+
 
     <Button
         android:id="@+id/registbutton"
         android:layout_width="217dp"
         android:layout_height="51dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/mybutton"
-
         android:text="Register"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +81,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.06" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
