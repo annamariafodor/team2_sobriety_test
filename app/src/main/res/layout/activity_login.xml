@@ -10,14 +10,14 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/title_top_margin"
         android:clickable="false"
         android:gravity="center"
         android:text="Login"
         android:textSize="@dimen/title_size"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
@@ -53,6 +53,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
         android:clickable="true"
         android:text="Forgot password?"
         android:textSize="20sp"
@@ -65,21 +66,21 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginStart="80dp"
-        android:layout_marginBottom="118dp"
+        android:layout_marginTop="98dp"
         android:background="@color/cardview_light_background"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
         app:srcCompat="@mipmap/face_round" />
 
     <ImageButton
         android:id="@+id/imageButton6"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginEnd="78dp"
-        android:layout_marginBottom="118dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="80dp"
         android:background="@color/cardview_light_background"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button2"
         app:srcCompat="@mipmap/google_foreground" />
 
     <Button
@@ -101,6 +102,7 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="150dp"
+        android:layout_marginTop="17dp"
         android:layout_marginEnd="152dp"
         android:layout_marginBottom="84dp"
         android:background="@drawable/mybutton"
@@ -110,6 +112,14 @@
         app:layout_constraintBottom_toTopOf="@+id/imageButton5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@dimen/title_guideline"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
