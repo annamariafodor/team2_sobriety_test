@@ -13,6 +13,19 @@
         android:layout_height="match_parent"
         tools:context=".GetData">
 
+        <EditText
+            android:id="@+id/heightInput"
+            android:layout_width="340dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/Height" />
+
         <TextView
             android:id="@+id/gender"
             android:layout_width="wrap_content"
@@ -32,38 +45,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginTop="32dp"
             android:text="~Height"
             android:textSize="@dimen/subtitle_size"
-            app:layout_constraintBottom_toTopOf="@+id/height_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weight_text" />
+            app:layout_constraintTop_toBottomOf="@+id/weightInput" />
 
         <TextView
             android:id="@+id/weight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:text="~Weight"
             android:textSize="@dimen/subtitle_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.064"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputEditText2" />
+            app:layout_constraintTop_toBottomOf="@+id/ageInput" />
 
         <Spinner
             android:id="@+id/spinner"
             android:layout_width="162dp"
             android:layout_height="42dp"
-            android:layout_marginStart="@dimen/global_horizontal_margin"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:spinnerMode="dropdown"
             android:textColor="#000000"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/gender" />
 
         <TextView
@@ -79,46 +90,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/weight_text"
-            android:layout_width="370dp"
-            android:layout_height="41dp"
-            android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="26dp"
-            android:hint="Weight"
-            app:layout_constraintBottom_toTopOf="@+id/Height"
+        <EditText
+            android:id="@+id/weightInput"
+            android:layout_width="340dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weight"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/height_text"
-            android:layout_width="370dp"
-            android:layout_height="41dp"
-            android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="@dimen/global_horizontal_margin"
-            android:layout_marginBottom="6dp"
-            android:hint="Height (cm)"
-            app:layout_constraintBottom_toTopOf="@+id/imageButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/Height" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditText2"
-            android:layout_width="370dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="@dimen/global_horizontal_margin"
-            android:layout_marginEnd="@dimen/global_horizontal_margin"
-            android:hint="Age"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/age1" />
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/weight" />
 
         <TextView
             android:id="@+id/profile"
@@ -136,13 +119,13 @@
             android:layout_width="113dp"
             android:layout_height="43dp"
             android:layout_marginStart="117dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="136dp"
             android:background="@drawable/mybutton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.58"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/height_text"
+            app:layout_constraintTop_toBottomOf="@+id/heightInput"
             app:srcCompat="@mipmap/ic_launcher_foreground" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -151,6 +134,28 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="@dimen/top_title_guideline" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <EditText
+            android:id="@+id/ageInput"
+            android:layout_width="340dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/age1" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
