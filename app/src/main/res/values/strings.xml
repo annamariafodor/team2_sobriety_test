@@ -13,4 +13,8 @@
     <string name="degree">Degree</string>
     <string name="quantity_ml">Quantity (mL)</string>
     <string name="show">Show</string>
+
+    <string name="quantity">Quantity:</string>
+    <string name="date">Date:</string>
+    <string name="time">Time:</string>
 </resources>
