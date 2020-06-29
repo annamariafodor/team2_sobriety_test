@@ -18,7 +18,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="88dp"
         android:layout_marginBottom="30dp"
-        android:text="Call taxi!"
+        android:text="Call a taxi!"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
