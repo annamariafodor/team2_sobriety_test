@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GetData extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class GetData extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class GetData extends AppCompatActivity implements AdapterView.OnItemSele
         setContentView(R.layout.activity_get_data);
         Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
-                (this,R.array.gender,android.R.layout.simple_spinner_item);
+                (this, R.array.gender, android.R.layout.simple_spinner_item);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -31,7 +31,7 @@ public class GetData extends AppCompatActivity implements AdapterView.OnItemSele
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(),text, Toast.LENGTH_LONG).show();
+        Toast.makeText(parent.getContext(), text, Toast.LENGTH_LONG).show();
 
         System.out.println("naa");
     }
