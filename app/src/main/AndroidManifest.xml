@@ -15,6 +15,7 @@
         <activity android:name=".Settings" />
         <activity android:name=".GetData" />
         <activity android:name=".MainScreen"/>
+        <activity android:name=".Taxi" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
