@@ -6,6 +6,4 @@
     <dimen name="subtitle_size">22sp</dimen>
     <dimen name="top_title_guideline">0.06</dimen>
     <dimen name="title_guideline">0.06</dimen>
-
-
 </resources>
