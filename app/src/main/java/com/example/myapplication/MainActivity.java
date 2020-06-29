@@ -4,9 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.FrameLayout;
-
-import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
