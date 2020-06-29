@@ -19,4 +19,9 @@
     <string name="quantity">Quantity:</string>
     <string name="date">Date:</string>
     <string name="time">Time:</string>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>
