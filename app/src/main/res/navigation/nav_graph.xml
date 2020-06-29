@@ -4,5 +4,4 @@
     android:id="@+id/nav_graph"
     tools:ignore="UnusedNavigation">
 
-
 </navigation>
