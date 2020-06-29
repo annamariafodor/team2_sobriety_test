@@ -4,9 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.FrameLayout;
-
-import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
@@ -18,6 +15,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         presenter = new MainPresenter(this);
 
