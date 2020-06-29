@@ -110,6 +110,7 @@
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@id/inputQuantity"
+            android:layout_toEndOf="@id/inputQuantity"
             android:background="@null"
             android:scaleType="fitEnd"
             app:srcCompat="@drawable/ic_baseline_edit_24" />
