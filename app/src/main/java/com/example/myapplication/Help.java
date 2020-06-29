@@ -1,6 +1,14 @@
 package com.example.myapplication;
 
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 
-public class Help extends Activity {
+import android.os.Bundle;
+
+public class Help extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_help);
+    }
 }
