@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Sobriety test</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="add">+</string>
+    <string name="result">Result</string>
+    <string name="when_did_you_drink_hour">When did you drink? (hour)</string>
+    <string name="when_did_you_drink_date">When did you drink? (date)</string>
+    <string name="degree">Degree</string>
+    <string name="quantity_ml">Quantity (mL)</string>
+    <string name="show">Show</string>
+    <string name="login">Login</string>
+    <string name="password_reset">Password reset</string>
+    <string name="reset_your_password">Reset your password</string>
+    <string name="enter_your_email">Enter your email</string>
+
+</resources>
