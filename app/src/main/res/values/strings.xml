@@ -7,6 +7,6 @@
 
     <string-array name="gender">
         <item>Male</item>
-        <item>Gender</item>
+        <item>Female</item>
     </string-array>
 </resources>
