@@ -20,5 +20,4 @@ public class GetData extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
     }
-
 }
