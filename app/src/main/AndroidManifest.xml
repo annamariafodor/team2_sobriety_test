@@ -14,6 +14,7 @@
         <activity android:name=".Login" />
         <activity android:name=".Settings" />
         <activity android:name=".GetData" />
+        <activity android:name=".Register" />
         <activity android:name=".MainScreen"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
