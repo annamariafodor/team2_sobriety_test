@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showLoading() {
+            //todo: add loading mechanism
+        //todo
 
     }
 }
