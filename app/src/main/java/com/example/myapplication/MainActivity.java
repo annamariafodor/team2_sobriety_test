@@ -1,10 +1,14 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 
@@ -17,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_main);
 
         presenter = new MainPresenter(this);
 
@@ -31,7 +35,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
 
     @Override
     public void showLoading() {
-        //todo
 
     }
 }
