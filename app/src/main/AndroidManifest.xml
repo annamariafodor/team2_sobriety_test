@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".PasswordReset"></activity>
         <activity android:name=".Help"></activity>
+        <activity android:name=".Login" />
         <activity android:name=".Settings" />
         <activity android:name=".MainActivity">
             <intent-filter>
