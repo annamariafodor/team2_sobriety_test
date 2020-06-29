@@ -17,7 +17,7 @@ public class GetData extends AppCompatActivity implements AdapterView.OnItemSele
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_data);
+        setContentView(R.layout.activity_main);
 
         Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
