@@ -12,10 +12,10 @@ import com.example.myapplication.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Get_DataFragment#newInstance} factory method to
+ * Use the {@link GetDataFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Get_DataFragment extends Fragment {
+public class GetDataFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class Get_DataFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Get_DataFragment() {
+    public GetDataFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class Get_DataFragment extends Fragment {
      * @return A new instance of fragment Get_DataFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Get_DataFragment newInstance(String param1, String param2) {
-        Get_DataFragment fragment = new Get_DataFragment();
+    public static GetDataFragment newInstance(String param1, String param2) {
+        GetDataFragment fragment = new GetDataFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
