@@ -34,7 +34,7 @@
     <fragment
         tools:layout="@layout/fragment_register"
         android:id="@+id/registerFragment"
-        android:name="com.example.myapplication.RegisterFragment.RegisterFragment"
+        android:name="com.example.myapplication.register.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_get_DataFragment"
@@ -64,7 +64,7 @@
     <fragment
         tools:layout="@layout/fragment_get__data"
         android:id="@+id/get_DataFragment"
-        android:name="com.example.myapplication.Get_dataFragment.Get_DataFragment"
+        android:name="com.example.myapplication.getData.Get_DataFragment"
         android:label="Get_DataFragment" >
         <action
             android:id="@+id/action_get_DataFragment_to_mainScreenFragment"
@@ -73,7 +73,7 @@
     <fragment
         tools:layout="@layout/fragment_settings"
         android:id="@+id/settingsFragment"
-        android:name="com.example.myapplication.SettingsFragment.SettingsFragment"
+        android:name="com.example.myapplication.settings.SettingsFragment"
         android:label="SettingsFragment" />
     <fragment
         tools:layout="@layout/fragment_row"
@@ -93,7 +93,7 @@
     <fragment
         tools:layout="@layout/fragment_taxi"
         android:id="@+id/taxiFragment"
-        android:name="com.example.myapplication.TaxiFragment.TaxiFragment"
+        android:name="com.example.myapplication.taxi.TaxiFragment"
         android:label="TaxiFragment" />
     <fragment
         tools:layout="@layout/popup"

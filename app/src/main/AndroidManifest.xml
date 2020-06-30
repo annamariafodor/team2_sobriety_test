@@ -16,7 +16,6 @@
         <activity android:name=".Login" />
         <activity android:name=".Settings" />
         <activity android:name=".GetData" />
-        <activity android:name=".MainActivity"/>
         <activity android:name=".splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
