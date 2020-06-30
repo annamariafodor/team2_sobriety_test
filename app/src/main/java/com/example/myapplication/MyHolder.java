@@ -19,7 +19,6 @@ public class MyHolder extends RecyclerView.ViewHolder {
         this.mDate=itemView.findViewById(R.id.textDate);
         this.mTime=itemView.findViewById(R.id.textTime);
 
-
         this.quantity=itemView.findViewById(R.id.inputQuantity);
         this.degree=itemView.findViewById(R.id.inputDegree);
         this.date=itemView.findViewById(R.id.inputDate);

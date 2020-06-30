@@ -11,10 +11,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ListScreen"/>
         <activity android:name=".MainScreen" />
-        <activity android:name=".Help" />
-        <activity android:name=".Settings" />
-        <activity android:name=".GetData" />
-        <activity android:name=".splash.SplashActivity">
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

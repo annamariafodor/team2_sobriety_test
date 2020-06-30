@@ -10,7 +10,7 @@
     <fragment
         tools:layout="@layout/fragment_splash"
         android:id="@+id/splash"
-        android:name="com.example.myapplication.splash.Splash"
+        android:name="com.example.myapplication.ui.splash.Splash"
         android:label="Splash" >
         <action
             android:id="@+id/action_splash_to_loginFragment"
@@ -22,7 +22,7 @@
     <fragment
         tools:layout="@layout/fragment_login"
         android:id="@+id/loginFragment"
-        android:name="com.example.myapplication.login.LoginFragment"
+        android:name="com.example.myapplication.ui.authentication.login.LoginFragment"
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_passwordResetFragment"
@@ -34,7 +34,7 @@
     <fragment
         tools:layout="@layout/fragment_register"
         android:id="@+id/registerFragment"
-        android:name="com.example.myapplication.register.RegisterFragment"
+        android:name="com.example.myapplication.ui.authentication.register.RegisterFragment"
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_get_DataFragment"
@@ -43,7 +43,7 @@
     <fragment
         tools:layout="@layout/fragment_password_reset"
         android:id="@+id/passwordResetFragment"
-        android:name="com.example.myapplication.passwordReset.PasswordResetFragment"
+        android:name="com.example.myapplication.ui.authentication.passwordReset.PasswordResetFragment"
         android:label="PasswordResetFragment" >
         <action
             android:id="@+id/action_passwordResetFragment_to_loginFragment"
@@ -52,7 +52,7 @@
     <fragment
         tools:layout="@layout/fragment_main_screen"
         android:id="@+id/mainScreenFragment"
-        android:name="com.example.myapplication.mainScreen.MainScreenFragment"
+        android:name="com.example.myapplication.ui.home.mainScreen.MainScreenFragment"
         android:label="MainScreenFragment" >
         <action
             android:id="@+id/action_mainScreenFragment_to_settingsFragment"
@@ -64,7 +64,7 @@
     <fragment
         tools:layout="@layout/fragment_get__data"
         android:id="@+id/get_DataFragment"
-        android:name="com.example.myapplication.getData.Get_DataFragment"
+        android:name="com.example.myapplication.ui.authentication.profile.ProfileFragment"
         android:label="Get_DataFragment" >
         <action
             android:id="@+id/action_get_DataFragment_to_mainScreenFragment"
@@ -73,36 +73,36 @@
     <fragment
         tools:layout="@layout/fragment_settings"
         android:id="@+id/settingsFragment"
-        android:name="com.example.myapplication.settings.SettingsFragment"
+        android:name="com.example.myapplication.ui.home.settings.SettingsFragment"
         android:label="SettingsFragment" />
     <fragment
         tools:layout="@layout/fragment_row"
         android:id="@+id/rowFragment"
-        android:name="com.example.myapplication.listScreen.RowFragment"
+        android:name="com.example.myapplication.ui.home.listScreen.RowFragment"
         android:label="RowFragment" />
     <fragment
         tools:layout="@layout/fragment_result"
         android:id="@+id/resultFragment"
-        android:name="com.example.myapplication.result.ResultFragment"
+        android:name="com.example.myapplication.ui.home.result.ResultFragment"
         android:label="ResultFragment" />
     <fragment
         tools:layout="@layout/fragment_help"
         android:id="@+id/helpFragment"
-        android:name="com.example.myapplication.help.HelpFragment"
+        android:name="com.example.myapplication.ui.home.help.HelpFragment"
         android:label="HelpFragment" />
     <fragment
         tools:layout="@layout/fragment_taxi"
         android:id="@+id/taxiFragment"
-        android:name="com.example.myapplication.taxi.TaxiFragment"
+        android:name="com.example.myapplication.ui.home.taxi.TaxiFragment"
         android:label="TaxiFragment" />
     <fragment
         tools:layout="@layout/popup"
         android:id="@+id/popupFragment"
-        android:name="com.example.myapplication.result.PopupFragment"
+        android:name="com.example.myapplication.ui.home.result.PopupFragment"
         android:label="PopupFragment" />
     <fragment
         tools:layout="@layout/fragment_list_screen"
         android:id="@+id/listScreenFragment"
-        android:name="com.example.myapplication.listScreen.ListScreenFragment"
+        android:name="com.example.myapplication.ui.home.listScreen.ListScreenFragment"
         android:label="ListScreenFragment" />
 </navigation>
