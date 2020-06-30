@@ -7,6 +7,7 @@
     android:fillViewport="true"
     tools:context=".GetData">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/get_data"
         android:layout_width="match_parent"
@@ -68,12 +69,16 @@
 
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="162dp"
-            android:layout_height="42dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="200dp"
             android:spinnerMode="dropdown"
             android:textColor="#000000"
+            android:entries="@array/gender"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.036"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toBottomOf="@+id/gender" />
 

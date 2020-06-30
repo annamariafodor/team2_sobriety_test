@@ -1,16 +1,10 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.FrameLayout;
-
-import java.util.ArrayList;
-
-import butterknife.BindView;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
 
