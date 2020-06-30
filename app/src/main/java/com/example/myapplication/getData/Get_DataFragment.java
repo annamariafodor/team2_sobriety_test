@@ -1,4 +1,4 @@
-package com.example.myapplication.TaxiFragment;
+package com.example.myapplication.getData;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.myapplication.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link TaxiFragment#newInstance} factory method to
+ * Use the {@link Get_DataFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TaxiFragment extends Fragment {
+public class Get_DataFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class TaxiFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public TaxiFragment() {
+    public Get_DataFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class TaxiFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TaxiFragment.
+     * @return A new instance of fragment Get_DataFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TaxiFragment newInstance(String param1, String param2) {
-        TaxiFragment fragment = new TaxiFragment();
+    public static Get_DataFragment newInstance(String param1, String param2) {
+        Get_DataFragment fragment = new Get_DataFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class TaxiFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_taxi, container, false);
+        return inflater.inflate(R.layout.fragment_get__data, container, false);
     }
 }
