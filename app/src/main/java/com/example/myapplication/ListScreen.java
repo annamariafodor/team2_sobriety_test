@@ -17,7 +17,7 @@ public class ListScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_screen);
+        setContentView(R.layout.fragment_list_screen);
 
 
         myRecyclerView = findViewById(R.id.recyclerView);
