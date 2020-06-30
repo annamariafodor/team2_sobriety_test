@@ -14,7 +14,7 @@ public class ProfileActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get_data);
+        setContentView(R.layout.fragment_get__data);
         Spinner spinner = findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource
                 (this, R.array.gender, android.R.layout.simple_spinner_item);
