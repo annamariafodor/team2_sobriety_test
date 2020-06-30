@@ -24,11 +24,7 @@
         tools:layout="@layout/fragment_register"
         android:id="@+id/registerFragment"
         android:name="com.example.myapplication.register.RegisterFragment"
-        android:label="RegisterFragment" >
-        <action
-            android:id="@+id/action_registerFragment_to_getDataFragment"
-            app:destination="@id/getDataFragment" />
-    </fragment>
+        android:label="RegisterFragment" />
     <fragment
         tools:layout="@layout/fragment_password_reset"
         android:id="@+id/passwordResetFragment"
@@ -36,15 +32,6 @@
         android:label="PasswordResetFragment" >
         <action
             android:id="@+id/action_passwordResetFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
-    <fragment
-        tools:layout="@layout/fragment_get__data"
-        android:id="@+id/getDataFragment"
-        android:name="com.example.myapplication.getData.GetDataFragment"
-        android:label="GetDataFragment" >
-        <action
-            android:id="@+id/action_getDataFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
 </navigation>
