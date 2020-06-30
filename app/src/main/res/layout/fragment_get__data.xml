@@ -18,7 +18,7 @@
             android:id="@+id/heightInput"
             android:layout_width="340dp"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:ems="10"
