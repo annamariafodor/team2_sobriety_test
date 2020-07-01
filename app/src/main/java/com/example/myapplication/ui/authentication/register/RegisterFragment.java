@@ -6,12 +6,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.ButterKnife;
 
@@ -23,10 +30,24 @@ import butterknife.ButterKnife;
 
 public class RegisterFragment extends Fragment {
 
+    //register information
+    String email,password1,password2;
+
+    EditText emailInput;
+    EditText password1Input;
+    EditText password2Input;
+
+    Button submitButton;
+    // for firebase
+    private FirebaseAuth mAuth;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "RegisterFragment";
+
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,22 +83,90 @@ public class RegisterFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        emailInput = (EditText) getView().findViewById(R.id.email_input);
+        password1Input = (EditText) getView().findViewById(R.id.password1);
+        password2Input = (EditText) getView().findViewById(R.id.password2);
+
+
+        submitButton = (Button) getView().findViewById(R.id.registButton) ;
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                email = emailInput.getText().toString();
+                password1 = password1Input.getText().toString();
+                password2 =  password2Input.getText().toString();
+
+                showToast(email);
+                showToast(password1);
+                showToast(password2);
+
+                // Initialize Firebase Auth
+                mAuth = FirebaseAuth.getInstance();
+
+
+                // form validation
+                if (TextUtils.isEmpty(email)){
+                    //empty field
+                    emailInput.setError("Email is Required");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password1)){
+                    //empty field
+                    emailInput.setError("Password is Required");
+                    return;
+                }
+
+                if (TextUtils.isEmpty(password2)){
+                    //empty field
+                    emailInput.setError("Password is Required");
+                    return;
+                }
+
+                if (password1.length()  < 6 ){
+                    password1Input.setError("Password must be 6 character long");
+                    return;
+                }
+
+                if ( password2.length() < 6){
+                    password1Input.setError("Password must be 6 character long");
+                    return;
+                }
+
+                if (password1.equals(password2)) {
+                    password1Input.setError("Passwords must be the same");
+                    return;
+                }
+
+                // the data is valid here
+                // register into firebase
+
+                mAuth.createUserWithEmailAndPassword(email,password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    // let the user know that the registration was successful
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(RegisterFragment.this,"User created", Toast.LENGTH_SHORT).show();
+                        }else{
+
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private void showToast(String text) {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_register,container,false);
-        ButterKnife.bind(this,view);
-        initView();
-        return view;
-        //return inflater.inflate(R.layout.fragment_register, container, false);
+        return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
-    private void initView() {
-        registButton.setOnClickListener(new)
-    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
