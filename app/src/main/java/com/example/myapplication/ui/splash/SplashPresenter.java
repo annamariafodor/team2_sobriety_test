@@ -1,6 +1,11 @@
 package com.example.myapplication.ui.splash;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
+
+import com.example.myapplication.ui.authentication.login.LoginFragment;
+import com.example.myapplication.ui.authentication.profile.ProfileFragment;
+import com.example.myapplication.ui.authentication.register.RegisterFragment;
 
 public class SplashPresenter extends SplashContract.Presenter {
 

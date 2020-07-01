@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.authentication.login.LoginFragment;
+import com.example.myapplication.ui.authentication.profile.ProfileFragment;
 import com.example.myapplication.ui.home.mainScreen.MainScreenFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -157,7 +159,7 @@ public class RegisterFragment extends Fragment {
                             Toast.makeText(getActivity(),"User created", Toast.LENGTH_SHORT).show();
 
                             // to go to the other fragment
-                            Intent intent = new Intent(getActivity(), MainScreenFragment.class);
+                            Intent intent = new Intent(getActivity(), ProfileFragment.class);
                             startActivity(intent);
                         }else{
                             Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();

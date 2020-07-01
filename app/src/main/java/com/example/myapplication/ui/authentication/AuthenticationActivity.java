@@ -13,6 +13,8 @@ public class AuthenticationActivity  extends AppCompatActivity implements Authen
     @Override
     public void showLoading() {
 
+
+
     }
 
 
