@@ -1,7 +1,7 @@
 package com.example.myapplication.ui.authentication.register;
 
+import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.login.LoginFragment;
+import com.example.myapplication.ui.home.mainScreen.MainScreenFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -87,8 +89,14 @@ public class RegisterFragment extends Fragment {
         password1Input = (EditText) getView().findViewById(R.id.password1);
         password2Input = (EditText) getView().findViewById(R.id.password2);
 
-
         submitButton = (Button) getView().findViewById(R.id.registButton) ;
+
+        // check if the user is created or not
+//        if(mAuth.getCurrentUser() != null){
+//            Intent intent = new Intent(getActivity(), LoginFragment.class);
+//            startActivity(intent);
+//        }
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,9 +154,13 @@ public class RegisterFragment extends Fragment {
                     // let the user know that the registration was successful
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(RegisterFragment.this,"User created", Toast.LENGTH_SHORT).show();
-                        }else{
+                            Toast.makeText(getActivity(),"User created", Toast.LENGTH_SHORT).show();
 
+                            // to go to the other fragment
+                            Intent intent = new Intent(getActivity(), MainScreenFragment.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
