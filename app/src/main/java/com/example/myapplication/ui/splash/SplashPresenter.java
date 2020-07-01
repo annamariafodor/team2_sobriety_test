@@ -21,10 +21,14 @@ public class SplashPresenter extends SplashContract.Presenter {
                 if (view == null) {
                     return;
                 }
+                //TODO: if the user is not logged in
                 if (true) {
+                    //view.showLoginScreen();
+                    view.showRegistScreen();
+
+                } //TODO: if the user is  logged in
+                 else {
                     view.showMainScreen();
-                } else {
-                    view.showLoginScreen();
                 }
             }
         }.start();
