@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.myapplication.R;
 
@@ -15,6 +16,7 @@ import com.example.myapplication.R;
  * Use the {@link RegisterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class RegisterFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
@@ -55,6 +57,12 @@ public class RegisterFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        // here comes the button event
+
+        setContentView(R.layout.fragment_list_screen);
+        Button registerButton = findViewById(R.id.registButton);
+
     }
 
     @Override
