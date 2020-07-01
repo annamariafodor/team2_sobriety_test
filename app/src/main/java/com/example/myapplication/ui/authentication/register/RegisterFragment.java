@@ -2,6 +2,8 @@ package com.example.myapplication.ui.authentication.register;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -10,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.myapplication.R;
+
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -58,17 +62,25 @@ public class RegisterFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        // here comes the button event
-
-        setContentView(R.layout.fragment_list_screen);
-        Button registerButton = findViewById(R.id.registButton);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_register, container, false);
+        View view = inflater.inflate(R.layout.fragment_register,container,false);
+        ButterKnife.bind(this,view);
+        initView();
+        return view;
+        //return inflater.inflate(R.layout.fragment_register, container, false);
+    }
+
+    private void initView() {
+        registButton.setOnClickListener(new)
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
     }
 }
