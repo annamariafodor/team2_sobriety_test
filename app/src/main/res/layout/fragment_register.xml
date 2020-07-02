@@ -31,7 +31,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
 
     <EditText
@@ -76,7 +76,7 @@
         app:layout_constraintGuide_percent="0.04" />
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/emailInput"
         android:layout_width="336dp"
         android:layout_height="62dp"
         android:layout_marginStart="16dp"

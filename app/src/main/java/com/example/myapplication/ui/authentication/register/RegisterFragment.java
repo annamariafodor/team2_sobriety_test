@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,30 +18,35 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.authentication.login.LoginFragment;
 import com.example.myapplication.ui.authentication.profile.ProfileFragment;
-import com.example.myapplication.ui.home.mainScreen.MainScreenFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import butterknife.ButterKnife;
+import org.w3c.dom.Text;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RegisterFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.regex.Pattern;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class RegisterFragment extends Fragment {
 
-    //register information
-    String email, password1, password2;
+    @BindView(R.id.registButton)
+    Button submitButton;
 
-    EditText emailInput;
+    @BindView(R.id.password1)
     EditText password1Input;
+
+    @BindView(R.id.password2)
     EditText password2Input;
 
-    Button submitButton;
+    @BindView(R.id.emailInput)
+    EditText emailInput;
+
+    // these for getting the exact information
+    String email, password1, password2;
+
     // for firebase
     private FirebaseAuth mAuth;
 
@@ -69,6 +73,7 @@ public class RegisterFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment RegisterFragment.
      */
+
     // TODO: Rename and change types and number of parameters
     public static RegisterFragment newInstance(String param1, String param2) {
         RegisterFragment fragment = new RegisterFragment();
@@ -86,22 +91,34 @@ public class RegisterFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+    }
 
-        emailInput = (EditText) getView().findViewById(R.id.email_input);
-        password1Input = (EditText) getView().findViewById(R.id.password1);
-        password2Input = (EditText) getView().findViewById(R.id.password2);
+    private void showToast(String text) {
+    }
 
-        submitButton = (Button) getView().findViewById(R.id.registButton);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
+        ButterKnife.bind(this, view);
+        initView();
+        return view;
+    }
 
-        // check if the user is created or not
-//        if(mAuth.getCurrentUser() != null){
-//            Intent intent = new Intent(getActivity(), LoginFragment.class);
-//            startActivity(intent);
-//        }
-
+    private void initView() {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //check if the user is created or not
+
+
+//                if (mAuth.getCurrentUser() != null) {
+//                    Intent intent = new Intent(getActivity(), LoginFragment.class);
+//                    startActivity(intent);
+//                }
+
+
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
                 password2 = password2Input.getText().toString();
@@ -118,6 +135,11 @@ public class RegisterFragment extends Fragment {
                 if (TextUtils.isEmpty(email)) {
                     //empty field
                     emailInput.setError("Email is Required");
+                    return;
+                }
+
+                if (!isValid(email)) {
+                    emailInput.setError("Email is not valid");
                     return;
                 }
 
@@ -143,7 +165,7 @@ public class RegisterFragment extends Fragment {
                     return;
                 }
 
-                if (password1.equals(password2)) {
+                if (!password1.equals(password2)) {
                     password1Input.setError("Passwords must be the same");
                     return;
                 }
@@ -170,21 +192,14 @@ public class RegisterFragment extends Fragment {
         });
     }
 
-    private void showToast(String text) {
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
-
-        return inflater.inflate(R.layout.fragment_register, container, false);
-    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    public static boolean isValid(String email) {
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        return email.matches(regex);
     }
 }
