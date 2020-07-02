@@ -26,6 +26,7 @@ public class LoginFragment extends Fragment {
 
     @BindView(R.id.loginButton)
     Button loginButton;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,11 +73,10 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
 
 
-
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
 
-        Log.d("Test","LoginFragment OnCreateView");
+        Log.d("Test", "LoginFragment OnCreateView");
 
         initView();
         return view;
