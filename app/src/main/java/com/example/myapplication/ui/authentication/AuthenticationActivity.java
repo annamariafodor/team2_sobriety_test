@@ -22,7 +22,4 @@ public class AuthenticationActivity extends AppCompatActivity implements Authent
 
     }
 
-
-
-
 }

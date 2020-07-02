@@ -41,7 +41,8 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
     public void showLoginScreen() {
 
         Log.d("Test","Show login");
-        startActivity(new Intent(this, LoginFragment.class));
+        Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
+        startActivity(intent);
     }
 
     @Override

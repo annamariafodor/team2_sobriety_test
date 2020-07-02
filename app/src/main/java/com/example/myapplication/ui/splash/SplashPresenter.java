@@ -30,8 +30,8 @@ public class SplashPresenter extends SplashContract.Presenter {
                 }
                 //TODO: if the user is not logged in
                 if (true) {
-                    //view.showLoginScreen();
-                    view.showRegistScreen();
+                    view.showLoginScreen();
+                    //view.showRegistScreen();
 
                 } //TODO: if the user is  logged in
                  else {
