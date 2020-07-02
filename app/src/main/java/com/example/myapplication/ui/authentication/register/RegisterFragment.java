@@ -1,13 +1,15 @@
 package com.example.myapplication.ui.authentication.register;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +18,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ui.authentication.login.LoginFragment;
-import com.example.myapplication.ui.authentication.profile.ProfileFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import org.w3c.dom.Text;
-
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -106,9 +102,22 @@ public class RegisterFragment extends Fragment {
     }
 
     private void initView() {
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final NavController navController = Navigation.findNavController(view);
+
+        Log.w("Hej", "OnViewCreated");
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+
+                Log.w("Hej", "OnClickEvent");
 
                 //check if the user is created or not
 
@@ -117,7 +126,6 @@ public class RegisterFragment extends Fragment {
 //                    Intent intent = new Intent(getActivity(), LoginFragment.class);
 //                    startActivity(intent);
 //                }
-
 
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
@@ -145,13 +153,13 @@ public class RegisterFragment extends Fragment {
 
                 if (TextUtils.isEmpty(password1)) {
                     //empty field
-                    emailInput.setError("Password is Required");
+                    password1Input.setError("Password is Required");
                     return;
                 }
 
                 if (TextUtils.isEmpty(password2)) {
                     //empty field
-                    emailInput.setError("Password is Required");
+                    password2Input.setError("Password is Required");
                     return;
                 }
 
@@ -161,7 +169,7 @@ public class RegisterFragment extends Fragment {
                 }
 
                 if (password2.length() < 6) {
-                    password1Input.setError("Password must be 6 character long");
+                    password2Input.setError("Password must be 6 character long");
                     return;
                 }
 
@@ -174,28 +182,32 @@ public class RegisterFragment extends Fragment {
                 // register into firebase
 
                 mAuth.createUserWithEmailAndPassword(email, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
                     // let the user know that the registration was successful
+                    @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.w("Test","OnComplete Listener");
                         if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(), "User created", Toast.LENGTH_SHORT).show();
 
-                            // to go to the other fragment
-                            Intent intent = new Intent(getActivity(), ProfileFragment.class);
-                            startActivity(intent);
+                            Log.w("Hej","Task Successful");
+                            Toast.makeText(getActivity(), "User created", Toast.LENGTH_SHORT).show();
+                            Log.w("Hej","Message DOne");
+
+                            // to go to the profile fragment
+//                            Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+//                            startActivity(intent);
+
+                            navController.navigate(R.id.fragment_profile);
+
+
+                            Log.w("Hej","Gone to profile");
                         } else {
                             Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.w("Hej","Here you shouldn't be");
                         }
                     }
                 });
             }
         });
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 
     public static boolean isValid(String email) {
