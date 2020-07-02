@@ -111,21 +111,9 @@ public class RegisterFragment extends Fragment {
 
         final NavController navController = Navigation.findNavController(view);
 
-        Log.w("Hej", "OnViewCreated");
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Log.w("Hej", "OnClickEvent");
-
-                //check if the user is created or not
-
-
-//                if (mAuth.getCurrentUser() != null) {
-//                    Intent intent = new Intent(getActivity(), LoginFragment.class);
-//                    startActivity(intent);
-//                }
 
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
