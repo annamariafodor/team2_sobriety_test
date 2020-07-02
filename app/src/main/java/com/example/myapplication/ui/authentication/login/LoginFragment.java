@@ -5,13 +5,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.register.RegisterFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,9 +27,14 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class LoginFragment extends Fragment {
+    View view;
 
-    Button loginButton;
+    EditText email;
+    EditText password;
     @BindView(R.id.loginButton)
+    Button loginButton;
+    @BindView(R.id.registerButton)
+    Button registerButton;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,7 +43,7 @@ public class LoginFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    final NavController navControllerRegister = Navigation.findNavController(view);
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -76,9 +86,25 @@ public class LoginFragment extends Fragment {
     }
 
     private void initView() {
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navControllerRegister.navigate(R.id.registerFragment);
+            }
+        });
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String emailStr = email.getText().toString().trim();
+                String passwordStr = password.getText().toString().trim();
+                if (TextUtils.isEmpty(emailStr)){
+                    email.setError("Email required");
+                    return;
+                }
+                if (TextUtils.isEmpty(passwordStr)){
+                    password.setError("password required");
+                    return;
+                }
 
             }
         });
@@ -87,5 +113,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 }

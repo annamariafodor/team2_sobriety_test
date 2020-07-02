@@ -22,9 +22,9 @@ public class SplashPresenter extends SplashContract.Presenter {
                     return;
                 }
                 if (true) {
-                    view.showMainScreen();
-                } else {
                     view.showLoginScreen();
+                } else {
+                    view.showMainScreen();
                 }
             }
         }.start();
