@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.authentication;
 
-
 import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;

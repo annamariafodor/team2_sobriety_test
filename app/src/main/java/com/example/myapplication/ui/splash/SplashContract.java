@@ -10,9 +10,6 @@ public interface SplashContract {
         void showLoginScreen();
         void showRegistScreen();
 
-
-
-
     }
 
     abstract class Presenter extends BasePresenter<SplashContract.View> {

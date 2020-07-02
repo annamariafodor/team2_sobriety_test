@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.example.myapplication.MainActivity;
+import com.example.myapplication.ui.home.MainActivity;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.authentication.AuthenticationActivity;
 import com.example.myapplication.ui.authentication.login.LoginFragment;
-import com.example.myapplication.ui.authentication.register.RegisterFragment;
-import com.example.myapplication.ui.home.mainScreen.MainScreenFragment;
 
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
 

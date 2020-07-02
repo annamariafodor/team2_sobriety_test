@@ -16,6 +16,7 @@ public class SplashPresenter extends SplashContract.Presenter {
     @Override
     public void checkNextActivity() {
         new CountDownTimer(2000, 2000) {
+
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -23,6 +24,7 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             public void onFinish() {
+
                 if (view == null) {
                     return;
                 }
