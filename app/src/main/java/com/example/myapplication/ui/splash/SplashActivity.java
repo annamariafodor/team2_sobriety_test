@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
@@ -34,17 +35,22 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
     @Override
     public void showMainScreen() {
+        Log.d("Test","Show main");
         startActivity(new Intent(this, MainActivity.class));
     }
 
     @Override
     public void showLoginScreen() {
+
+        Log.d("Test","Show login");
         startActivity(new Intent(this, LoginFragment.class));
     }
 
     @Override
     public void showRegistScreen() {
-        Intent intent = new Intent(getApplicationContext(), RegisterFragment.class);
+
+        Log.d("Test","Show register");
+        Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
         startActivity(intent);
     }
 }

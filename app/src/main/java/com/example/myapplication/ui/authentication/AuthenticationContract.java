@@ -8,6 +8,7 @@ public interface AuthenticationContract {
 
     interface View extends BaseView {
 
+
     }
 
     abstract class Presenter extends BasePresenter<AuthenticationContract.View> {

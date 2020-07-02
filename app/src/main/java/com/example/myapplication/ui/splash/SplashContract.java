@@ -7,10 +7,10 @@ public interface SplashContract {
 
     interface View extends BaseView {
         void showMainScreen();
-
         void showLoginScreen();
-
         void showRegistScreen();
+
+
 
 
     }

@@ -2,6 +2,7 @@ package com.example.myapplication.ui.authentication.register;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -35,7 +36,7 @@ import butterknife.ButterKnife;
 public class RegisterFragment extends Fragment {
 
     //register information
-    String email,password1,password2;
+    String email, password1, password2;
 
     EditText emailInput;
     EditText password1Input;
@@ -50,7 +51,6 @@ public class RegisterFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "RegisterFragment";
-
 
 
     // TODO: Rename and change types of parameters
@@ -91,7 +91,7 @@ public class RegisterFragment extends Fragment {
         password1Input = (EditText) getView().findViewById(R.id.password1);
         password2Input = (EditText) getView().findViewById(R.id.password2);
 
-        submitButton = (Button) getView().findViewById(R.id.registButton) ;
+        submitButton = (Button) getView().findViewById(R.id.registButton);
 
         // check if the user is created or not
 //        if(mAuth.getCurrentUser() != null){
@@ -104,7 +104,7 @@ public class RegisterFragment extends Fragment {
             public void onClick(View v) {
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
-                password2 =  password2Input.getText().toString();
+                password2 = password2Input.getText().toString();
 
                 showToast(email);
                 showToast(password1);
@@ -115,30 +115,30 @@ public class RegisterFragment extends Fragment {
 
 
                 // form validation
-                if (TextUtils.isEmpty(email)){
+                if (TextUtils.isEmpty(email)) {
                     //empty field
                     emailInput.setError("Email is Required");
                     return;
                 }
 
-                if (TextUtils.isEmpty(password1)){
+                if (TextUtils.isEmpty(password1)) {
                     //empty field
                     emailInput.setError("Password is Required");
                     return;
                 }
 
-                if (TextUtils.isEmpty(password2)){
+                if (TextUtils.isEmpty(password2)) {
                     //empty field
                     emailInput.setError("Password is Required");
                     return;
                 }
 
-                if (password1.length()  < 6 ){
+                if (password1.length() < 6) {
                     password1Input.setError("Password must be 6 character long");
                     return;
                 }
 
-                if ( password2.length() < 6){
+                if (password2.length() < 6) {
                     password1Input.setError("Password must be 6 character long");
                     return;
                 }
@@ -151,18 +151,18 @@ public class RegisterFragment extends Fragment {
                 // the data is valid here
                 // register into firebase
 
-                mAuth.createUserWithEmailAndPassword(email,password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.createUserWithEmailAndPassword(email, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     // let the user know that the registration was successful
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(getActivity(),"User created", Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getActivity(), "User created", Toast.LENGTH_SHORT).show();
 
                             // to go to the other fragment
                             Intent intent = new Intent(getActivity(), ProfileFragment.class);
                             startActivity(intent);
-                        }else{
-                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -177,9 +177,10 @@ public class RegisterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
-
 
 
     @Override
