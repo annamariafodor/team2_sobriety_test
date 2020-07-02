@@ -185,24 +185,13 @@ public class RegisterFragment extends Fragment {
                     // let the user know that the registration was successful
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.w("Test","OnComplete Listener");
+                        Log.w("Test", "OnComplete Listener");
                         if (task.isSuccessful()) {
-
-                            Log.w("Hej","Task Successful");
                             Toast.makeText(getActivity(), "User created", Toast.LENGTH_SHORT).show();
-                            Log.w("Hej","Message DOne");
-
-                            // to go to the profile fragment
-//                            Intent intent = new Intent(getContext(), AuthenticationActivity.class);
-//                            startActivity(intent);
-
                             navController.navigate(R.id.fragment_profile);
 
-
-                            Log.w("Hej","Gone to profile");
                         } else {
                             Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                            Log.w("Hej","Here you shouldn't be");
                         }
                     }
                 });
