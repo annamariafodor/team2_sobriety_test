@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.authentication.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.AuthenticationActivity;
+import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -57,7 +60,7 @@ public class ProfileFragment extends Fragment {
     ImageButton toMainScreen;
 
     String gender;
-    Float height,weight;
+    Float height, weight;
     Integer age;
 
     FirebaseAuth fAuth;
@@ -77,14 +80,7 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Get_DataFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
@@ -109,7 +105,6 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        initView();
         return view;
     }
 
@@ -121,53 +116,43 @@ public class ProfileFragment extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        //        if(fAuth.getCurrentUser() != null){
-//            Toast.makeText(getActivity(), "User exists", Toast.LENGTH_SHORT).show();
-//            navController.navigate(R.id.loginFragment);
-//        }
-
         toMainScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(ageInp.getText().toString().trim().length() == 0){
+                if (ageInp.getText().toString().trim().length() == 0) {
                     ageInp.setError("Age is Required");
                     return;
                 }
 
-                if(heightInp.getText().toString().trim().length() == 0){
+                if (heightInp.getText().toString().trim().length() == 0) {
                     heightInp.setError("Height is Required");
                     return;
                 }
 
-
-                if(weightInp.getText().toString().trim().length() == 0){
+                if (weightInp.getText().toString().trim().length() == 0) {
                     weightInp.setError("Weight is Required");
                     return;
                 }
-
 
                 gender = genderInp.getSelectedItem().toString();
                 height = Float.parseFloat(heightInp.getText().toString());
                 weight = Float.parseFloat(weightInp.getText().toString());
                 age = Integer.parseInt(ageInp.getText().toString());
 
-
                 //form
-
-                if (weight < 10){
+                if (weight < 10) {
                     weightInp.setError("Weight is not valid");
                 }
 
-                if (height < 10){
+                if (height < 10) {
                     heightInp.setError("Height is not valid");
                 }
 
-                if (age<1 || age > 130){
+                if (age < 1 || age > 130) {
                     ageInp.setError("Age is not valid");
                     return;
                 }
-
 
                 // get The current user;
                 userID = fAuth.getCurrentUser().getUid();
@@ -175,7 +160,7 @@ public class ProfileFragment extends Fragment {
                 //create new document
                 DocumentReference documentReference = fStore.collection("users").document(userID);
 
-                Map<String,Object> user = new HashMap<>();
+                Map<String, Object> user = new HashMap<>();
                 user.put("gender", gender);
                 user.put("age", age);
                 user.put("weight", weight);
@@ -185,15 +170,11 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("Profile", "onSuccess: User profile is created" + userID);
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        startActivity(intent);
                     }
                 });
-
-
-
             }
         });
-    }
-
-    private void initView() {
     }
 }
