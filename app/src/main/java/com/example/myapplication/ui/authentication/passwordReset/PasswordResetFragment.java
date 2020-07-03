@@ -15,10 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,9 +35,6 @@ public class PasswordResetFragment extends Fragment {
 
     @BindView(R.id.resetButton)
     Button buttonReset;
-
-    @BindView(R.id.passwordReset)
-    TextView forgotText;
 
     String email;
 
@@ -80,14 +82,24 @@ public class PasswordResetFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
+        fAuth = FirebaseAuth.getInstance();
+
 
         buttonReset.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                EditText resetMail = new EditText(v.getContext());
-
-
-
+                email = Objects.requireNonNull(emailInput.getEditText()).getText().toString();
+                fAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getActivity(), "Reset link set to your email", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getActivity(), "Error! Mail not sent"+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
