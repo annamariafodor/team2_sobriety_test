@@ -185,7 +185,6 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d("Profile", "onSuccess: User profile is created" + userID);
-
                     }
                 });
 
