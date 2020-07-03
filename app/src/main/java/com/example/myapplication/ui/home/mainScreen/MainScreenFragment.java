@@ -1,14 +1,42 @@
 package com.example.myapplication.ui.home.mainScreen;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.myapplication.Model;
 import com.example.myapplication.R;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +44,36 @@ import com.example.myapplication.R;
  * create an instance of this fragment.
  */
 public class MainScreenFragment extends Fragment {
+
+    @BindView(R.id.showButton)
+    Button showButton;
+
+    @BindView(R.id.quantityInputLayout)
+    TextInputLayout inputQuantity;
+
+    @BindView(R.id.degreeInputLayout)
+    TextInputLayout inputDegree;
+
+    @BindView(R.id.hourInputLayout)
+    TextInputLayout inputHour;
+
+    @BindView(R.id.dateInputLayout)
+    TextInputLayout inputDate;
+
+    @BindView(R.id.dateTextLayout)
+    TextInputEditText dateText;
+
+    @BindView(R.id.timeInputLayout)
+    TextInputEditText timeText;
+
+    String quantity, degree, hour, date;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    FirebaseDatabase database;
+    DatabaseReference reff;
+    Model model;
+    String userID;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,12 +113,83 @@ public class MainScreenFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_screen, container, false);
+        View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
+        ButterKnife.bind(this, view);
+        initView();
+        return view;
     }
+
+    private void initView() {
+        timeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new SelectTimeFragment();
+                newFragment.show(getChildFragmentManager(),"TimePicker");
+            }
+        });
+
+        dateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               DialogFragment newFragment = new SelectDateFragment();
+               newFragment.show(getChildFragmentManager(),"DatePicker");
+
+            }
+        });
+
+        showButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fAuth = FirebaseAuth.getInstance();
+                fStore = FirebaseFirestore.getInstance();
+                //userID = fAuth.getCurrentUser().getUid();
+
+                //DocumentReference documentReference = fStore.collection("drinks").document(userID);
+
+                quantity = inputQuantity.getEditText().getText().toString();
+                degree = inputDegree.getEditText().getText().toString();
+                hour = inputHour.getEditText().getText().toString();
+                date = inputDate.getEditText().getText().toString();
+                database = FirebaseDatabase.getInstance();
+                reff = database.getReference("data");
+                model = new Model();
+
+
+                model.setQuantity(quantity);
+                model.setDegree(degree);
+                model.setTime(hour);
+                model.setDate(date);
+
+                System.out.println("adatok: " + model.getQuantity() + " " + model.getDegree() + " " + model.getTime() + " " + model.getDate());
+
+                Map<String, Object> drinks = new HashMap<>();
+                drinks.put("quantity", quantity);
+                drinks.put("degree", degree);
+                drinks.put("time", hour);
+                drinks.put("date", date);
+
+//                documentReference.set(drinks).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//
+//                    }
+//                })
+
+                reff.setValue("model");
+            }
+        });
+
+    }
+
+
+
 }
