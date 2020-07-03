@@ -83,9 +83,7 @@ public class PasswordResetFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
         fAuth = FirebaseAuth.getInstance();
-
-
-        buttonReset.setOnClickListener(new View.OnClickListener(){
+        buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = Objects.requireNonNull(emailInput.getEditText()).getText().toString();
@@ -98,7 +96,7 @@ public class PasswordResetFragment extends Fragment {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getActivity(), "Error! Mail not sent"+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Error! Mail not sent" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
             }
