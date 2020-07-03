@@ -18,8 +18,8 @@
         android:label="RegisterFragment"
         tools:layout="@layout/fragment_register">
         <action
-            android:id="@+id/action_registerFragment_to_nav_profile"
-            app:destination="@id/nav_profile" />
+            android:id="@+id/action_registerFragment_to_fragment_profile"
+            app:destination="@id/fragment_profile" />
     </fragment>
 
     <fragment
@@ -44,5 +44,7 @@
             android:id="@+id/action_passwordResetFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+
+
 
 </navigation>

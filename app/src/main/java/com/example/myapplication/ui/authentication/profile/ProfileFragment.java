@@ -20,9 +20,15 @@ import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +38,7 @@ import butterknife.ButterKnife;
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class ProfileFragment extends Fragment {
 
     @BindView(R.id.heightInput)
@@ -49,10 +56,13 @@ public class ProfileFragment extends Fragment {
     @BindView(R.id.imageButton)
     ImageButton toMainScreen;
 
-    String height,weight,gender;
+    String gender;
+    Float height,weight;
     Integer age;
 
-    private FirebaseAuth mAuth;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userID;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -106,34 +116,79 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         final NavController navController = Navigation.findNavController(view);
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        //        if(fAuth.getCurrentUser() != null){
+//            Toast.makeText(getActivity(), "User exists", Toast.LENGTH_SHORT).show();
+//            navController.navigate(R.id.loginFragment);
+//        }
 
         toMainScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                if(ageInp.getText().toString().trim().length() == 0){
+                    ageInp.setError("Age is Required");
+                    return;
+                }
+
+                if(heightInp.getText().toString().trim().length() == 0){
+                    heightInp.setError("Height is Required");
+                    return;
+                }
+
+
+                if(weightInp.getText().toString().trim().length() == 0){
+                    weightInp.setError("Weight is Required");
+                    return;
+                }
+
+
                 gender = genderInp.getSelectedItem().toString();
-                height = heightInp.getText().toString().trim();
-                weight = weightInp.getText().toString().trim();
+                height = Float.parseFloat(heightInp.getText().toString());
+                weight = Float.parseFloat(weightInp.getText().toString());
                 age = Integer.parseInt(ageInp.getText().toString());
 
-                mAuth = FirebaseAuth.getInstance();
 
-                //form validation
-                if (TextUtils.isEmpty(height)) {
-                    heightInp.setError("Email is Required");
+                //form
+
+                if (weight < 10){
+                    weightInp.setError("Weight is not valid");
+                }
+
+                if (height < 10){
+                    heightInp.setError("Height is not valid");
+                }
+
+                if (age<1 || age > 130){
+                    ageInp.setError("Age is not valid");
                     return;
                 }
-                if (TextUtils.isEmpty(weight)) {
-                    weightInp.setError("Email is Required");
-                    return;
-                }
-//                if (age <0 || age > 120 || ) {
-//                    //empty field
-//                    genderInp.setError("Email is Required");
-//                    return;
-//                }
+
+
+                // get The current user;
+                userID = fAuth.getCurrentUser().getUid();
+
+                //create new document
+                DocumentReference documentReference = fStore.collection("users").document(userID);
+
+                Map<String,Object> user = new HashMap<>();
+                user.put("gender", gender);
+                user.put("age", age);
+                user.put("weight", weight);
+                user.put("height", height);
+
+                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("Profile", "onSuccess: User profile is created" + userID);
+
+                    }
+                });
+
 
 
             }
