@@ -89,6 +89,7 @@ public class PasswordResetFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 email = Objects.requireNonNull(emailInput.getEditText()).getText().toString();
+
                 fAuth.sendPasswordResetEmail(email).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
