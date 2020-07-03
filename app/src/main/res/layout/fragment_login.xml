@@ -50,7 +50,7 @@
             android:layout_marginTop="83dp"
             android:layout_marginEnd="@dimen/global_horizontal_margin"
             android:ems="10"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
