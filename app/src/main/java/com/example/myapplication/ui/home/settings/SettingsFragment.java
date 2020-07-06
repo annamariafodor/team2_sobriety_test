@@ -112,18 +112,16 @@ public class SettingsFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
         //change the user's password
         passwordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 newPassword = passwordInput.getText().toString();
 
-                if  (newPassword.length() < 6) {
+                if (newPassword.length() < 6) {
                     passwordInput.setError("Password must be 6 character long");
                     return;
                 }
-
 
                 user.updatePassword(newPassword)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -131,7 +129,7 @@ public class SettingsFragment extends Fragment {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(getActivity(), "Password changed", Toast.LENGTH_SHORT).show();
-                                    Log.d("Password", "User password updated.");
+                                    Log.d("Change", "User password updated.");
                                 } else {
                                     Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -144,6 +142,18 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 newEmail = emailInput.getText().toString();
+                user.updateEmail(newEmail)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
+                                    Log.d("Change", "User email address updated.");
+                                }else {
+                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
     }
