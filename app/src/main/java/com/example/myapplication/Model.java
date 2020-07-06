@@ -3,6 +3,9 @@ package com.example.myapplication;
 public class Model {
     private String quantity,degree,date,time;
 
+    public Model() {
+    }
+
     public String getQuantity() {
         return quantity;
     }
