@@ -25,7 +25,7 @@ public class SelectTimeFragment extends AppCompatDialogFragment implements TimeP
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        TimePickerDialog dialog = new TimePickerDialog(getActivity(),android.R.style.Theme_DeviceDefault_Light_Dialog_Alert,this,hour,minute,true);
+        TimePickerDialog dialog = new TimePickerDialog(getActivity(),R.style.timepicker,this,hour,minute,true);
 
         return dialog;
     }

@@ -34,7 +34,7 @@ public class SelectDateFragment extends AppCompatDialogFragment implements DateP
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert, SelectDateFragment.this, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), R.style.datepicker, SelectDateFragment.this, year, month, day);
 
         return dialog;
     }
