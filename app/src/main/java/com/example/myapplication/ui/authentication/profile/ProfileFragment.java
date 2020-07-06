@@ -143,10 +143,12 @@ public class ProfileFragment extends Fragment {
                 //form
                 if (weight < 10) {
                     weightInp.setError("Weight is not valid");
+                    return;
                 }
 
                 if (height < 10) {
                     heightInp.setError("Height is not valid");
+                    return;
                 }
 
                 if (age < 1 || age > 130) {
