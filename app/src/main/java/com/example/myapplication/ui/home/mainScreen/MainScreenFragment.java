@@ -67,12 +67,7 @@ public class MainScreenFragment extends Fragment {
     TextInputEditText timeText;
 
     String quantity, degree, hour, date;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    FirebaseDatabase database;
-    DatabaseReference reff;
     Model model;
-    String userID;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -149,9 +144,6 @@ public class MainScreenFragment extends Fragment {
         showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fAuth = FirebaseAuth.getInstance();
-                fStore = FirebaseFirestore.getInstance();
-                //userID = fAuth.getCurrentUser().getUid();
 
                 //DocumentReference documentReference = fStore.collection("drinks").document(userID);
 
@@ -159,8 +151,6 @@ public class MainScreenFragment extends Fragment {
                 degree = inputDegree.getEditText().getText().toString();
                 hour = inputHour.getEditText().getText().toString();
                 date = inputDate.getEditText().getText().toString();
-                database = FirebaseDatabase.getInstance();
-                reff = database.getReference("data");
                 model = new Model();
 
 
@@ -169,22 +159,7 @@ public class MainScreenFragment extends Fragment {
                 model.setTime(hour);
                 model.setDate(date);
 
-                System.out.println("adatok: " + model.getQuantity() + " " + model.getDegree() + " " + model.getTime() + " " + model.getDate());
 
-                Map<String, Object> drinks = new HashMap<>();
-                drinks.put("quantity", quantity);
-                drinks.put("degree", degree);
-                drinks.put("time", hour);
-                drinks.put("date", date);
-
-//                documentReference.set(drinks).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void aVoid) {
-//
-//                    }
-//                })
-
-                reff.setValue("model");
             }
         });
 
