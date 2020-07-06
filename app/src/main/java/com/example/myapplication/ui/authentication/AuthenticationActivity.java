@@ -2,7 +2,9 @@ package com.example.myapplication.ui.authentication;
 
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.myapplication.R;
 
 public class AuthenticationActivity extends AppCompatActivity implements AuthenticationContract.View {
@@ -13,7 +15,7 @@ public class AuthenticationActivity extends AppCompatActivity implements Authent
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
-        Log.d("Test","Authentication Activity OnCreate");
+        Log.d("Test", "Authentication Activity OnCreate");
     }
 
     @Override

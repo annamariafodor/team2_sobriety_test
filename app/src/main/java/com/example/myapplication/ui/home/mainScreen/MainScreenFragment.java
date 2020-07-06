@@ -127,7 +127,7 @@ public class MainScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectTimeFragment();
-                newFragment.show(getChildFragmentManager(),"TimePicker");
+                newFragment.show(getChildFragmentManager(), "TimePicker");
             }
         });
 
@@ -135,8 +135,8 @@ public class MainScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-               DialogFragment newFragment = new SelectDateFragment();
-               newFragment.show(getChildFragmentManager(),"DatePicker");
+                DialogFragment newFragment = new SelectDateFragment();
+                newFragment.show(getChildFragmentManager(), "DatePicker");
 
             }
         });
@@ -164,7 +164,6 @@ public class MainScreenFragment extends Fragment {
         });
 
     }
-
 
 
 }
