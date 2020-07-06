@@ -25,6 +25,8 @@ import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,16 +47,16 @@ import butterknife.ButterKnife;
 public class ProfileFragment extends Fragment {
 
     @BindView(R.id.heightInput)
-    EditText heightInp;
+    TextInputLayout heightInp;
 
     @BindView(R.id.spinner)
     Spinner genderInp;
 
     @BindView(R.id.ageInput)
-    EditText ageInp;
+    TextInputLayout ageInp;
 
     @BindView(R.id.weightInput)
-    EditText weightInp;
+    TextInputLayout weightInp;
 
     @BindView(R.id.imageButton)
     ImageButton toMainScreen;
@@ -120,25 +122,25 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (ageInp.getText().toString().trim().length() == 0) {
+                if (ageInp.getEditText().getText().toString().trim().length() == 0) {
                     ageInp.setError("Age is Required");
                     return;
                 }
 
-                if (heightInp.getText().toString().trim().length() == 0) {
+                if (heightInp.getEditText().getText().toString().toString().trim().length() == 0) {
                     heightInp.setError("Height is Required");
                     return;
                 }
 
-                if (weightInp.getText().toString().trim().length() == 0) {
+                if (weightInp.getEditText().getText().toString().toString().trim().length() == 0) {
                     weightInp.setError("Weight is Required");
                     return;
                 }
 
                 gender = genderInp.getSelectedItem().toString();
-                height = Float.parseFloat(heightInp.getText().toString());
-                weight = Float.parseFloat(weightInp.getText().toString());
-                age = Integer.parseInt(ageInp.getText().toString());
+                height = Float.parseFloat(heightInp.getEditText().getText().toString().toString());
+                weight = Float.parseFloat(weightInp.getEditText().getText().toString().toString());
+                age = Integer.parseInt(ageInp.getEditText().getText().toString().toString());
 
                 //form
                 if (weight < 10) {
