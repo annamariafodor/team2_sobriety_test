@@ -89,8 +89,6 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-    private void showToast(String text) {
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,9 +117,6 @@ public class RegisterFragment extends Fragment {
                 password1 = password1Input.getText().toString();
                 password2 = password2Input.getText().toString();
 
-                showToast(email);
-                showToast(password1);
-                showToast(password2);
 
                 // Initialize Firebase Auth
                 mAuth = FirebaseAuth.getInstance();
