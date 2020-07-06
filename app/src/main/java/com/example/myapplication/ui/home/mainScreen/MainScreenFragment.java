@@ -1,16 +1,22 @@
 package com.example.myapplication.ui.home.mainScreen;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Model;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -68,6 +75,10 @@ public class MainScreenFragment extends Fragment {
 
     String quantity, degree, hour, date;
     Model model;
+
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userID;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -122,6 +133,48 @@ public class MainScreenFragment extends Fragment {
         return view;
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final NavController navController = Navigation.findNavController(view);
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        showButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                quantity = inputQuantity.getEditText().getText().toString();
+                degree = inputDegree.getEditText().getText().toString();
+                hour = inputHour.getEditText().getText().toString();
+                date = inputDate.getEditText().getText().toString();
+                model = new Model();
+
+                model.setQuantity(quantity);
+                model.setDegree(degree);
+                model.setTime(hour);
+                model.setDate(date);
+
+                userID = fAuth.getCurrentUser().getUid();
+                DocumentReference documentReference = fStore.collection("drinks").document(userID);
+                Map<String, Object> drink = new HashMap<>();
+                drink.put("quantity", quantity);
+                drink.put("degree", degree);
+                drink.put("hour", hour);
+                drink.put("date", date);
+
+                documentReference.set(drink).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getActivity(), "Drink added", Toast.LENGTH_SHORT).show();
+                        navController.navigate(R.id.list_screen);
+                    }
+                });
+            }
+        });
+    }
+
     private void initView() {
         timeText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,36 +187,9 @@ public class MainScreenFragment extends Fragment {
         dateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 DialogFragment newFragment = new SelectDateFragment();
                 newFragment.show(getChildFragmentManager(), "DatePicker");
-
             }
         });
-
-        showButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //DocumentReference documentReference = fStore.collection("drinks").document(userID);
-
-                quantity = inputQuantity.getEditText().getText().toString();
-                degree = inputDegree.getEditText().getText().toString();
-                hour = inputHour.getEditText().getText().toString();
-                date = inputDate.getEditText().getText().toString();
-                model = new Model();
-
-
-                model.setQuantity(quantity);
-                model.setDegree(degree);
-                model.setTime(hour);
-                model.setDate(date);
-
-
-            }
-        });
-
     }
-
-
 }
