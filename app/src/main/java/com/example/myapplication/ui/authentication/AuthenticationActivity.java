@@ -13,13 +13,11 @@ public class AuthenticationActivity extends AppCompatActivity implements Authent
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
-
         Log.d("Test","Authentication Activity OnCreate");
     }
 
     @Override
     public void showLoading() {
-
     }
 
 }

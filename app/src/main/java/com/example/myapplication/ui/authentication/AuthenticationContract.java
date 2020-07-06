@@ -2,14 +2,22 @@ package com.example.myapplication.ui.authentication;
 
 import com.example.myapplication.mvp.BasePresenter;
 import com.example.myapplication.mvp.BaseView;
+import com.example.myapplication.ui.splash.SplashContract;
 
 public interface AuthenticationContract {
-    public interface View extends BaseView {
+
+    interface View extends BaseView {
+
+
     }
 
-    public class Presenter extends BasePresenter<AuthenticationContract.View> {
+    abstract class Presenter extends BasePresenter<AuthenticationContract.View> {
+
         public Presenter(View view) {
             super(view);
         }
+
+        //public abstract void checkNextActivity();
+
     }
 }

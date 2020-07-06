@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.home;
 
 import com.example.myapplication.mvp.BasePresenter;
 import com.example.myapplication.mvp.BaseView;

@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.authentication.Login">
+        tools:context=".ui.authentication.login.LoginFragment">
 
         <TextView
             android:id="@+id/textView"
@@ -50,7 +50,7 @@
             android:layout_marginTop="83dp"
             android:layout_marginEnd="@dimen/global_horizontal_margin"
             android:ems="10"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -69,24 +69,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
+        <!--            android:background="@color/material_on_background_disabled"-->
+
         <ImageButton
-            android:id="@+id/imageButton5"
+            android:id="@+id/facebookButton"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginStart="80dp"
             android:layout_marginTop="98dp"
-            android:background="@color/material_on_background_disabled"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2"
             app:srcCompat="@mipmap/face_round" />
 
+
+        <!--            android:background="@color/colorAccent"-->
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/googleButton"
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:layout_marginTop="96dp"
             android:layout_marginEnd="80dp"
-            android:background="@color/colorAccent"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button2"
             app:srcCompat="@mipmap/google_foreground" />
@@ -106,7 +110,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <Button
-            android:id="@+id/button2"
+                android:id="@+id/button2"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="150dp"
@@ -117,7 +121,7 @@
             android:text="Register"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/imageButton5"
+            app:layout_constraintBottom_toTopOf="@+id/facebookButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintStart_toStartOf="parent"
