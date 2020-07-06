@@ -7,8 +7,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.myapplication.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import butterknife.BindView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +22,20 @@ import com.example.myapplication.R;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
+
+    @BindView(R.id.email_input)
+    TextInputEditText emailInput;
+
+    @BindView(R.id.passwordInput)
+    EditText passwordInput;
+
+    @BindView(R.id.changePaswordButton)
+    Button passwordButton;
+
+    @BindView(R.id.changeEmailButton)
+    Button emailButton;
+
+    String email,password;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
