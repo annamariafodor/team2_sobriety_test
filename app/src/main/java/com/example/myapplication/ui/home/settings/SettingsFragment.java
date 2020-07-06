@@ -8,14 +8,17 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,7 +37,7 @@ import butterknife.ButterKnife;
 public class SettingsFragment extends Fragment {
 
     @BindView(R.id.email_input)
-    TextInputLayout emailInput;
+    EditText emailInput;
 
     @BindView(R.id.passwordInput)
     EditText passwordInput;
@@ -45,7 +48,7 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.changeEmailButton)
     Button emailButton;
 
-    String email, password;
+    String newEmail, newPassword;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
@@ -107,22 +110,33 @@ public class SettingsFragment extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
 
-        email = Objects.requireNonNull(emailInput.getEditText()).getText().toString();
-        password = passwordInput.getText().toString();
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        passwordButton.setOnClickListener(new View.OnClickListener(){
+        passwordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                newPassword = passwordInput.getText().toString();
+
+                user.updatePassword(newPassword)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Password changed", Toast.LENGTH_SHORT).show();
+                                    Log.d("Password", "User password updated.");
+                                } else {
+                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
-        emailButton.setOnClickListener(new View.OnClickListener(){
+        emailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                newEmail = emailInput.getText().toString();
             }
         });
     }
