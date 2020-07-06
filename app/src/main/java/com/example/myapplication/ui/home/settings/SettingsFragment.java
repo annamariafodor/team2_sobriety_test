@@ -112,11 +112,18 @@ public class SettingsFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+
+        //change the user's password
         passwordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 newPassword = passwordInput.getText().toString();
+
+                if  (newPassword.length() < 6) {
+                    passwordInput.setError("Password must be 6 character long");
+                    return;
+                }
+
 
                 user.updatePassword(newPassword)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
