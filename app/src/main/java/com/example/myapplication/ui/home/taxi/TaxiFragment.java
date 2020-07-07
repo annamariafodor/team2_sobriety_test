@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.content.pm.PermissionGroupInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -13,17 +14,21 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.AttributeSet;
+import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.google.common.collect.ClassToInstanceMap;
 
 import java.util.List;
 import java.util.Locale;
@@ -31,18 +36,13 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static androidx.core.content.ContextCompat.createDeviceProtectedStorageContext;
-import static androidx.core.content.ContextCompat.getSystemService;
-import static androidx.core.content.ContextCompat.getSystemServiceName;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TaxiFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class TaxiFragment extends Fragment {
 
-    @BindView(R.id.searchBar)
+//    @BindView(R.id.searchBar)
+//    SearchView search;
+
+    @BindView(R.id.setLocation)
     TextView locationtxt;
 
     Double latitude = 0.0;
@@ -50,6 +50,10 @@ public class TaxiFragment extends Fragment {
 
     Location gps_loc = null, network_loc = null, final_loc = null;
 
+    private static final int REQUEST_PERMISSION = 10;
+
+    //it's like hashMap
+    private SparseIntArray mErrorString;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,19 +99,57 @@ public class TaxiFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_taxi, container, false);
         ButterKnife.bind(this, view);
-        Context context = null;
-        initView(context);
+        initView();
         return view;
     }
 
-    @SuppressLint("SetTextI18n")
-    private void initView(Context context) {
-        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    public void requestAppPermission(final String[] requestedPermissions, final int StringId, final int requestCode) {
+        mErrorString.put(requestCode, StringId);
+        int permissionCheck = PackageManager.PERMISSION_GRANTED;
+        boolean showRequestPermission = false;
+        for (String permission : requestedPermissions) {
+            permissionCheck = permissionCheck + ContextCompat.checkSelfPermission(getContext(), permission);
+            showRequestPermission = showRequestPermission || ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permission);
+        }
 
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            if (showRequestPermission) {
+                Log.d("msg", "Grant");
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),requestedPermissions,requestCode);
+            }
+        }else{
+            onPermissionGranted(requestCode);
+        }
+
+    }
+
+    private void onPermissionGranted(int requestCode) {
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        int permissionCheck = PackageManager.PERMISSION_GRANTED;
+        for(int permission:grantResults){
+            permissionCheck = permissionCheck + permission;
+        }
+        if(grantResults.length > 0  && PackageManager.PERMISSION_GRANTED == permissionCheck){
+            onPermissionGranted(requestCode);
+        }else{
+            Log.d("msg", "enable");
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void initView() {
+        mErrorString = new SparseIntArray();
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         try {
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(),
                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -141,6 +183,7 @@ public class TaxiFragment extends Fragment {
             if (addresses != null && addresses.size() > 0) {
                 String city = addresses.get(0).getLocality();
                 String country = addresses.get(0).getCountryCode();
+
 
                 locationtxt.setText("city" + city + "\n\n" +
                         "country:" + country);
