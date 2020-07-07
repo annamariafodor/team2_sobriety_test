@@ -2,13 +2,38 @@ package com.example.myapplication.ui.home.listScreen;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.myapplication.Model;
+import com.example.myapplication.MyAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.mainScreen.SelectDateFragment;
+import com.example.myapplication.ui.home.mainScreen.SelectTimeFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +41,11 @@ import com.example.myapplication.R;
  * create an instance of this fragment.
  */
 public class ListScreenFragment extends Fragment {
+
+
+    @BindView(R.id.recyclerView)
+    RecyclerView myRecyclerView;
+    MyAdapter myAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +91,35 @@ public class ListScreenFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_screen, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_screen, container, false);
+        ButterKnife.bind(this, view);
+
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        myAdapter = new MyAdapter(getContext(),getMyList());
+        myRecyclerView.setAdapter(myAdapter);
+        return view;
     }
+
+    private ArrayList<Model> getMyList(){
+
+        ArrayList<Model> models = new ArrayList<>();
+
+        Model m = new Model();
+        m.setQuantity("200 ml");
+        m.setDegree("5 %");
+        m.setDate("2020.06.20");
+        m.setTime("23:00");
+        models.add(m);
+
+        m = new Model();
+        m.setQuantity("500 ml");
+        m.setDegree("4 %");
+        m.setDate("2020.06.20");
+        m.setTime("23:15");
+        models.add(m);
+
+        return  models;
+    }
+
+
 }
