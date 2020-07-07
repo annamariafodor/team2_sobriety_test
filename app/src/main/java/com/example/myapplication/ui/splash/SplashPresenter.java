@@ -2,6 +2,12 @@ package com.example.myapplication.ui.splash;
 
 import android.os.CountDownTimer;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnCompleteListener;
+
 public class SplashPresenter extends SplashContract.Presenter {
 
     public SplashPresenter(SplashContract.View view) {
@@ -15,6 +21,8 @@ public class SplashPresenter extends SplashContract.Presenter {
             public void onTick(long millisUntilFinished) {
 
             }
+
+
 
             @Override
             public void onFinish() {

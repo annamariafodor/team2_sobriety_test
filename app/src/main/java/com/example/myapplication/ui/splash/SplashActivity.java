@@ -5,7 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.myapplication.MainActivity;
+import com.example.myapplication.ui.authentication.AuthenticationActivity;
+import com.example.myapplication.ui.home.MainActivity;
 import com.example.myapplication.R;
 
 public class SplashActivity extends AppCompatActivity implements SplashContract.View {
@@ -30,11 +31,12 @@ public class SplashActivity extends AppCompatActivity implements SplashContract.
 
     @Override
     public void showMainScreen() {
-        startActivity(new Intent(this, MainActivity.class));
+
     }
 
     @Override
     public void showLoginScreen() {
+        startActivity(new Intent(this, AuthenticationActivity.class));
 
     }
 }

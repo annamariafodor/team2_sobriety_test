@@ -1,14 +1,31 @@
 package com.example.myapplication.ui.home.help;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.regex.Pattern;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import com.example.myapplication.ui.home.help.HelpInformations;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +33,13 @@ import com.example.myapplication.R;
  * create an instance of this fragment.
  */
 public class HelpFragment extends Fragment {
+    private FirebaseDatabase database;
+    DatabaseReference myRef;
+    @BindView(R.id.sendButton)
+    Button send;
+    @BindView(R.id.textInputEditText)
+    TextInputEditText message;
+    HelpInformations info;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,12 +79,45 @@ public class HelpFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference().child("Messages");
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_help, container, false);
+        View view = inflater.inflate(R.layout.fragment_help, container, false);
+        ButterKnife.bind(this, view);
+        initView();
+        return view;
+    }
+
+    private void initView() {
+
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        info = new HelpInformations();
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
+                Account[] accounts = AccountManager.get(getContext()).getAccounts();
+                String email = accounts[0].name;
+                String messageStr = message.getText().toString();
+                info.setEmail(email);
+                info.setMessage(messageStr);
+                myRef.push().setValue(info);
+                message.getText().clear();
+                Toast.makeText(getActivity(),"Successfully sent",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
