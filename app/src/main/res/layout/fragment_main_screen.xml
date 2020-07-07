@@ -2,10 +2,9 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/main_screen"
     android:layout_height="match_parent">
-
 
     <Button
         android:id="@+id/resultButton"
@@ -65,7 +64,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/quantity_ml" />
+            android:hint="@string/quantity_ml"
+            android:inputType="number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +83,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/degree" />
+            android:hint="@string/degree"
+            android:inputType="number"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -98,9 +99,12 @@
         app:layout_constraintTop_toBottomOf="@+id/degreeInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/timeInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/when_did_you_drink_hour" />
+            android:hint="@string/when_did_you_drink_hour"
+            android:clickable="true"
+            android:focusableInTouchMode="false"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -115,9 +119,13 @@
         app:layout_constraintTop_toBottomOf="@+id/hourInputLayout">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dateTextLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/when_did_you_drink_date" />
+            android:hint="@string/when_did_you_drink_date"
+            android:clickable="true"
+            android:focusableInTouchMode="false"
+            />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.constraintlayout.widget.Guideline

@@ -1,7 +1,5 @@
 package com.example.myapplication.ui.home;
 
-import com.example.myapplication.ui.home.MainContract;
-
 /**
  * Class comment here
  *
