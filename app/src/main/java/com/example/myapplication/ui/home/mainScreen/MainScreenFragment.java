@@ -148,33 +148,7 @@ public class MainScreenFragment extends Fragment {
         showButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quantity = inputQuantity.getEditText().getText().toString();
-                degree = inputDegree.getEditText().getText().toString();
-                hour = inputHour.getEditText().getText().toString();
-                date = inputDate.getEditText().getText().toString();
-                model = new Model();
-
-                model.setQuantity(quantity);
-                model.setDegree(degree);
-                model.setTime(hour);
-                model.setDate(date);
-
-                userID = fAuth.getCurrentUser().getUid();
-                //DocumentReference documentReference = fStore.collection("drinks").document(userID);
-                DatabaseReference reff = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
-                Map<String, Object> drink = new HashMap<>();
-                drink.put("quantity", quantity);
-                drink.put("degree", degree);
-                drink.put("hour", hour);
-                drink.put("date", date);
-
-                reff.push().setValue(drink).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(getActivity(), "Drink added", Toast.LENGTH_SHORT).show();
-                        navController.navigate(R.id.nav_list);
-                    }
-                });
+                navController.navigate(R.id.nav_list);
             }
         });
 

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.myapplication.Model;
@@ -25,6 +26,11 @@ import com.example.myapplication.ui.home.mainScreen.SelectTimeFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -46,6 +52,12 @@ public class ListScreenFragment extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView myRecyclerView;
     MyAdapter myAdapter;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    DatabaseReference reference;
+    String userID;
+    ArrayList<Model> list;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -95,30 +107,36 @@ public class ListScreenFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        myAdapter = new MyAdapter(getContext(),getMyList());
-        myRecyclerView.setAdapter(myAdapter);
+        list = new ArrayList<Model>();
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
+
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot s : snapshot.getChildren()) {
+                    Model m = new Model();
+                    m.setTime(s.child("hour").getValue().toString());
+                    m.setDate(s.child("date").getValue().toString());
+                    m.setDegree(s.child("degree").getValue().toString());
+                    m.setQuantity(s.child("quantity").getValue().toString());
+                    list.add(m);
+                }
+                myAdapter=new MyAdapter(getContext(),list);
+                myRecyclerView.setAdapter(myAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         return view;
-    }
-
-    private ArrayList<Model> getMyList(){
-
-        ArrayList<Model> models = new ArrayList<>();
-
-        Model m = new Model();
-        m.setQuantity("200 ml");
-        m.setDegree("5 %");
-        m.setDate("2020.06.20");
-        m.setTime("23:00");
-        models.add(m);
-
-        m = new Model();
-        m.setQuantity("500 ml");
-        m.setDegree("4 %");
-        m.setDate("2020.06.20");
-        m.setTime("23:15");
-        models.add(m);
-
-        return  models;
     }
 
 

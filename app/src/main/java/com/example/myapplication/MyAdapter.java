@@ -6,10 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import com.example.myapplication.ui.home.MainContract;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
+import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
 
 
@@ -44,3 +51,5 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         return models.size();
     }
 }
+
+

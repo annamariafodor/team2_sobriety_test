@@ -6,6 +6,13 @@ public class Model {
     public Model() {
     }
 
+    public Model(String quantity, String degree, String date, String time) {
+        this.quantity = quantity;
+        this.degree = degree;
+        this.date = date;
+        this.time = time;
+    }
+
     public String getQuantity() {
         return quantity;
     }
@@ -28,6 +35,16 @@ public class Model {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" +
+                "quantity='" + quantity + '\'' +
+                ", degree='" + degree + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                '}';
     }
 
     public String getTime() {
