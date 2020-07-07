@@ -23,11 +23,6 @@ public class AuthenticationActivity extends AppCompatActivity implements Authent
     }
 
     @Override
-    public void onDataRequested() {
-
-    }
-
-    @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
