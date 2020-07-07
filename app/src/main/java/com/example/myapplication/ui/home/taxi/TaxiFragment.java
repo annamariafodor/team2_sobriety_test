@@ -1,14 +1,23 @@
 package com.example.myapplication.ui.home.taxi;
 
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +25,12 @@ import com.example.myapplication.R;
  * create an instance of this fragment.
  */
 public class TaxiFragment extends Fragment {
+
+    @BindView(R.id.searchBar)
+    TextView locationtxt;
+
+    Location gps_loc = null, network_loc = null,final_loc = null;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,12 +70,16 @@ public class TaxiFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+//        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//        if (ActivityCompat.checkSelfPermission(this,))
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_taxi, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 }
