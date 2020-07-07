@@ -2,12 +2,30 @@ package com.example.myapplication.ui.home.taxi;
 
 public class Taxi {
 
-    private String name,number;
+    private String city, name,number;
 
+    @Override
+    public String toString() {
+        return "Taxi{" +
+                "name='" + name + '\'' +
+                ", city='" + city + '\'' +
+                ", number='" + number + '\'' +
+                '}';
+    }
+
+    public Taxi(String city, String name, String number) {
+        this.city = city;
+        this.name = name;
+        this.number = number;
+    }
 
     public Taxi(String name, String number) {
         this.name = name;
         this.number = number;
+    }
+
+    public Taxi() {
+
     }
 
     public String getName() {
@@ -24,5 +42,13 @@ public class Taxi {
 
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
