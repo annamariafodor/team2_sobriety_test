@@ -127,6 +127,14 @@ public class ListScreenFragment extends Fragment {
                 }
                 myAdapter=new MyAdapter(getContext(),list);
                 myRecyclerView.setAdapter(myAdapter);
+
+                myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(Model model, long id) {
+                        System.out.println("------idd: "+ id + " "+model.getQuantity());
+                    }
+                });
+
             }
 
             @Override
