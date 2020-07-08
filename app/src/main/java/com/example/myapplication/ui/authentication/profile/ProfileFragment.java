@@ -102,7 +102,6 @@ public class ProfileFragment extends Fragment {
         toMainScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (ageInp.getText().toString().trim().length() == 0) {
                     ageInp.setError("Age is Required");
                     return;
@@ -141,6 +140,9 @@ public class ProfileFragment extends Fragment {
 
                 // get The current user;
                 userID = fAuth.getCurrentUser().getUid();
+
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
 
                 //create new document
                 DocumentReference documentReference = fStore.collection("users").document(userID);
