@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.home.listScreen;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -155,6 +156,8 @@ public class ListScreenFragment extends Fragment {
                     @Override
                     public void editItem(Model model, int position) {
                         System.out.println("------position: "+ position + " "+model.getQuantity());
+                        EditDataDialog dialog = new EditDataDialog();
+                        dialog.show(getFragmentManager(),"Edit data dialog");
                     }
 
                 });
