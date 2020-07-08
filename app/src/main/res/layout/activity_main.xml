@@ -6,23 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    tools:context="com.example.myapplication.ui.home.MainActivity">
-
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    tools:context="com.example.myapplication.ui.home.MainActivity"
+    tools:openDrawer="start">
 
 
     <fragment
@@ -40,6 +25,7 @@
         app:navGraph="@navigation/main_graph" />
 
 
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -47,6 +33,9 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer"
+        app:navigationIcon="@drawable/ic_menu_24dp" />
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    <include layout="@layout/app_bar_main"/>
+
+</androidx.drawerlayout.widget.DrawerLayout >

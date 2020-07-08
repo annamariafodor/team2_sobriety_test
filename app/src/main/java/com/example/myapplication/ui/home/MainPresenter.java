@@ -14,6 +14,7 @@ public class MainPresenter extends MainContract.Presenter {
         super(view);
     }
 
+
     @Override
     public void requestBackendData() {
         if (view != null) {

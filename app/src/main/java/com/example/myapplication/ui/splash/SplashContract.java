@@ -19,5 +19,6 @@ public interface SplashContract {
 
         public abstract void checkNextActivity();
 
+
     }
 }

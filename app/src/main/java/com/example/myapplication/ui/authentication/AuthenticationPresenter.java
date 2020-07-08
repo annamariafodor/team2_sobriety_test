@@ -7,6 +7,7 @@ public class AuthenticationPresenter extends AuthenticationContract.Presenter {
         super(view);
     }
 
+
     @Override
     public void requestBackendData() {
 
