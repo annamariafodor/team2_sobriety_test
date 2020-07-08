@@ -9,19 +9,23 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.HashMap;
 import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -141,12 +145,8 @@ public class ProfileFragment extends Fragment {
                 // get The current user;
                 userID = fAuth.getCurrentUser().getUid();
 
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
                 //create new document
                 DocumentReference documentReference = fStore.collection("users").document(userID);
-
-
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("gender", gender);
