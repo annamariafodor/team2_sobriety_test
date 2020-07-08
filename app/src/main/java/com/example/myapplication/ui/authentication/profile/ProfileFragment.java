@@ -143,9 +143,10 @@ public class ProfileFragment extends Fragment {
 
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-
                 //create new document
                 DocumentReference documentReference = fStore.collection("users").document(userID);
+
+
 
                 Map<String, Object> user = new HashMap<>();
                 user.put("gender", gender);
