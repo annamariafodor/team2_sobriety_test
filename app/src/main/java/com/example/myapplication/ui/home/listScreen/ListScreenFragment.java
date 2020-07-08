@@ -123,6 +123,7 @@ public class ListScreenFragment extends Fragment {
                     m.setDate(s.child("date").getValue().toString());
                     m.setDegree(s.child("degree").getValue().toString());
                     m.setQuantity(s.child("quantity").getValue().toString());
+                    m.setKey(s.getKey());
                     list.add(m);
                 }
                 myAdapter=new MyAdapter(getContext(),list);
@@ -130,9 +131,32 @@ public class ListScreenFragment extends Fragment {
 
                 myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(Model model, long id) {
-                        System.out.println("------idd: "+ id + " "+model.getQuantity());
+                    public void deleteItem(Model model, int position) {
+                        System.out.println("------position: "+ position + " "+model.getQuantity());
+                        reference.child(model.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                System.out.println("az ertek: " + snapshot.getValue());
+                                System.out.println("-lista merete: " + list.size());
+                                snapshot.getRef().removeValue();
+                                myAdapter.remove(position);
+                                myAdapter.notifyItemRemoved(position);
+
+                                System.out.println("lista merete: " + list.size());
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
+
+                    @Override
+                    public void editItem(Model model, int position) {
+                        System.out.println("------position: "+ position + " "+model.getQuantity());
+                    }
+
                 });
 
             }

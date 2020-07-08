@@ -52,14 +52,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(models.get(position),holder.getItemId());
+                listener.editItem(models.get(position),holder.getAdapterPosition());
+
+            }
+        });
+
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.deleteItem(models.get(position),position);
+
             }
         });
     }
 
 
     public interface OnItemClickListener {
-        void onItemClick(Model model, long id);
+        void deleteItem(Model model, int position);
+        void editItem(Model model, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener){
@@ -70,6 +80,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     public int getItemCount() {
         return models.size();
     }
+
+    public void remove(int position){
+        models.remove(models.get(position));
+    }
+
 }
 
 
