@@ -95,32 +95,36 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
         bottomSheetDialog = new BottomSheetDialog(requireActivity().getBaseContext());
         //View bottom_sheet_dialog = getLayoutInflater().inflate(R.layout.fragment_taxi_list,null);
 
-
         //initialize database
         taxiRef = FirebaseDatabase.getInstance().getReference("taxi");
 
         Log.d("Debug", "Taxiref" + taxiRef.toString());
+
         //init interface
         iFireBaseLoadDone = this;
 
         //get Data
-        //todo: lecci csinald meg jol holnap
         taxiRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 List<Taxi> taxis = new ArrayList<>();
+                List<String> cities = new ArrayList<>();
+
                 Log.d("Debug", "OnDataChange");
 
                 for (DataSnapshot taxiSnapShot : snapshot.getChildren()) {
                     Taxi taxi = new Taxi("", "");
-                    Log.d("Test", "here");
-                    Log.d("Test", taxiSnapShot.toString());
-//                        taxi.setName(taxiSnapShot.child("name").getValue().toString());
-//                        taxi.setNumber(taxiSnapShot.child("number").getValue().toString());
-//                        taxis.add(taxi);
-                    taxis.add(taxiSnapShot.getValue(Taxi.class));
+                    //Log.d("Debug", "here");
+                    Log.d("Debug", taxiSnapShot.toString());
+                    taxi.setName(taxiSnapShot.getChildren().toString());
+                    taxi.setNumber(taxiSnapShot.getChildren().toString());
+                    Log.d("Debug", taxi.toString1());
+
+                    taxis.add(taxi);
+                    cities.add(taxiSnapShot.getKey());
+
                 }
-                iFireBaseLoadDone.onFirebaseLoadSuccess(taxis);
+                iFireBaseLoadDone.onFirebaseLoadSuccess(taxis, cities);
             }
 
             @Override
@@ -132,35 +136,9 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     }
 
     @Override
-    public void onFirebaseLoadSuccess(List<Taxi> taxiList) {
+    public void onFirebaseLoadSuccess(List<Taxi> taxiList, List<String> cityList) {
         Log.d("Debug", "Success");
-
-        List<String> city_list = new ArrayList<>();
-        HashMap<String, ArrayList<Taxi>> taxisByCities = new HashMap<>();
-
-//        for (Taxi taxi : taxiList) {
-//
-//            // if the current city doesn't exists
-//            if (!taxisByCities.containsKey(taxi.getCity())) {
-//                Taxi newTaxi = new Taxi(taxi.getName(), taxi.getNumber());
-//                ArrayList<Taxi> newElement = new ArrayList<>();
-//                newElement.add(newTaxi);
-//                taxisByCities.put(taxi.getCity(), newElement);
-//            }
-//            // if the current key(city) exists
-//            else {
-//
-//                taxisByCities.put(taxi.getCity(), newElement);
-//            }
-//        }
-
-        for (Taxi taxi : taxiList) {
-            if (taxi != null) {
-                Log.d("Debug", taxi.toString());
-                city_list.add(taxi.getCity());
-            }
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, city_list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cityList);
         citySpinner.setAdapter(adapter);
     }
 

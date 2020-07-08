@@ -13,6 +13,14 @@ public class Taxi {
                 '}';
     }
 
+
+    public String toString1() {
+        return "Taxi{" +
+                "name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                '}';
+    }
+
     public Taxi(String city, String name, String number) {
         this.city = city;
         this.name = name;
