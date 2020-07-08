@@ -43,4 +43,6 @@
     <string name="profile">Profile</string>
 
     <string name="msg"> permission</string>
+    <string name="set_location">Set location</string>
+    <string name="taxi_numbers_in_your_area">Taxi numbers in your area:</string>
 </resources>

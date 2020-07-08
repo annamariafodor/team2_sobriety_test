@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,8 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     private DatabaseReference taxiRef;
     IFireBaseLoadDone iFireBaseLoadDone;
     List<Taxi> taxis;
+
+    boolean isFirstTimeClicked = true;
 
     @BindView(R.id.setLocation)
     TextView locationtxt;
@@ -83,7 +86,6 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_taxi, container, false);
         ButterKnife.bind(this, view);
-        Log.d("Debug", "OnCreateView");
         initView();
         return view;
     }
@@ -92,13 +94,8 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     @SuppressLint("SetTextI18n")
     private void initView() {
 
-        bottomSheetDialog = new BottomSheetDialog(requireActivity().getBaseContext());
-        //View bottom_sheet_dialog = getLayoutInflater().inflate(R.layout.fragment_taxi_list,null);
-
         //initialize database
         taxiRef = FirebaseDatabase.getInstance().getReference("taxi");
-
-        Log.d("Debug", "Taxiref" + taxiRef.toString());
 
         //init interface
         iFireBaseLoadDone = this;
@@ -107,22 +104,17 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
         taxiRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("Debug", "OnDataChange");
+
                 List<Taxi> taxis = new ArrayList<>();
                 List<String> cities = new ArrayList<>();
 
-                Log.d("Debug", "OnDataChange");
-
                 for (DataSnapshot taxiSnapShot : snapshot.getChildren()) {
                     Taxi taxi = new Taxi("", "");
-                    //Log.d("Debug", "here");
-                    Log.d("Debug", taxiSnapShot.toString());
                     taxi.setName(taxiSnapShot.getChildren().toString());
                     taxi.setNumber(taxiSnapShot.getChildren().toString());
-                    Log.d("Debug", taxi.toString1());
-
                     taxis.add(taxi);
                     cities.add(taxiSnapShot.getKey());
-
                 }
                 iFireBaseLoadDone.onFirebaseLoadSuccess(taxis, cities);
             }
@@ -130,9 +122,10 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("Debug", "Error");
-                iFireBaseLoadDone.onFirebaseLoadFailed("valami");
+                iFireBaseLoadDone.onFirebaseLoadFailed(error.getMessage());
             }
         });
+
     }
 
     @Override
@@ -140,10 +133,29 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
         Log.d("Debug", "Success");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cityList);
         citySpinner.setAdapter(adapter);
+
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // it shows the taxis only if it's not the first click
+                if (!isFirstTimeClicked) {
+                    Log.d("Debug", "Not first");
+                } else {
+                    Log.d("Debug", "First");
+                    isFirstTimeClicked = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
     public void onFirebaseLoadFailed(String message) {
-        Toast.makeText(getActivity(), "Naa", Toast.LENGTH_SHORT).show();
+        Log.d("Debug", "Database failed");
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }
