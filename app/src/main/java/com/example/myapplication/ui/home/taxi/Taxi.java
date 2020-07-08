@@ -6,11 +6,7 @@ public class Taxi {
 
     @Override
     public String toString() {
-        return "Taxi{" +
-                "name='" + name + '\'' +
-                ", city='" + city + '\'' +
-                ", number='" + number + '\'' +
-                '}';
+        return name + " - " + number ;
     }
 
 

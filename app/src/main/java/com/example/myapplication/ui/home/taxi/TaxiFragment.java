@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
 
     @BindView(R.id.taxiList)
-    ListView taxiList;
+    ListView taxiListItem;
 
     @BindView(R.id.citySpinner)
     SearchableSpinner citySpinner;
@@ -107,22 +107,20 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("Debug", "OnDataChange");
 
-                List<Taxi> taxis = new ArrayList<>();
                 List<City> cities = new ArrayList<>();
 
                 for (DataSnapshot citySnapShot : snapshot.getChildren()) {
-
-                    City city = new City(citySnapShot.getRef().toString());
+                    City city = new City(citySnapShot.getKey());
+                    Log.d("Debug", "Cityname; " + city.getName());
                     for (DataSnapshot snapShot : citySnapShot.getChildren()) {
                         Taxi taxi = new Taxi("", "");
-                        Log.d("Debug", snapShot.toString());
-                        taxi.setName(snapShot.getChildren().toString());
-                        taxi.setNumber(snapShot.getChildren().toString());
+                        taxi.setName(snapShot.child("name").getValue(String.class));
+                        taxi.setNumber(snapShot.child("number").getValue(String.class));
+                        ;
                         city.addTaxi(taxi);
                     }
                     cities.add(city);
                 }
-
                 iFireBaseLoadDone.onFirebaseLoadSuccess(cities);
             }
 
@@ -135,31 +133,45 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
 
     }
 
+
+
     @Override
-    public void onFirebaseLoadSuccess(List<City> cities){
+    public void onFirebaseLoadSuccess(List<City> cities) {
         Log.d("Debug", "Success");
-        ArrayAdapter<City> spinnerAdapter = new ArrayAdapter<City>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cities);
+        List<String> cityList = new ArrayList<>();
+        for (City city : cities) {
+            cityList.add(city.getName());
+        }
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cityList);
         citySpinner.setAdapter(spinnerAdapter);
 
-//        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//
-//                // it shows the taxis only if it's not the first click
-//                if (!isFirstTimeClicked) {
-//
-//
-//                } else {
-//                    isFirstTimeClicked = false;
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-//
-//            }
-//        });
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<Taxi> taxiAdapter;
+
+                List<Taxi> taxiList = new ArrayList<>();
+                // it shows the taxis only if it's not the first click
+                if (!isFirstTimeClicked) {
+                    String city = citySpinner.getSelectedItem().toString();
+                    for (City c : cities) {
+                        if (city.equals(c.getName())) {
+                            taxiList = c.getTaxiList();
+                            taxiAdapter = new ArrayAdapter<Taxi>(requireActivity().getBaseContext(), android.R.layout.simple_list_item_1, taxiList);
+                            taxiListItem.setAdapter(taxiAdapter);
+                        }
+                    }
+                } else {
+                    isFirstTimeClicked = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
