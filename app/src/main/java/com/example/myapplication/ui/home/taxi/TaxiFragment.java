@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -107,16 +108,22 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                 Log.d("Debug", "OnDataChange");
 
                 List<Taxi> taxis = new ArrayList<>();
-                List<String> cities = new ArrayList<>();
+                List<City> cities = new ArrayList<>();
 
-                for (DataSnapshot taxiSnapShot : snapshot.getChildren()) {
-                    Taxi taxi = new Taxi("", "");
-                    taxi.setName(taxiSnapShot.getChildren().toString());
-                    taxi.setNumber(taxiSnapShot.getChildren().toString());
-                    taxis.add(taxi);
-                    cities.add(taxiSnapShot.getKey());
+                for (DataSnapshot citySnapShot : snapshot.getChildren()) {
+
+                    City city = new City(citySnapShot.getRef().toString());
+                    for (DataSnapshot snapShot : citySnapShot.getChildren()) {
+                        Taxi taxi = new Taxi("", "");
+                        Log.d("Debug", snapShot.toString());
+                        taxi.setName(snapShot.getChildren().toString());
+                        taxi.setNumber(snapShot.getChildren().toString());
+                        city.addTaxi(taxi);
+                    }
+                    cities.add(city);
                 }
-                iFireBaseLoadDone.onFirebaseLoadSuccess(taxis, cities);
+
+                iFireBaseLoadDone.onFirebaseLoadSuccess(cities);
             }
 
             @Override
@@ -129,29 +136,30 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     }
 
     @Override
-    public void onFirebaseLoadSuccess(List<Taxi> taxiList, List<String> cityList) {
+    public void onFirebaseLoadSuccess(List<City> cities){
         Log.d("Debug", "Success");
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cityList);
+        ArrayAdapter<City> spinnerAdapter = new ArrayAdapter<City>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cities);
         citySpinner.setAdapter(spinnerAdapter);
 
-        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // it shows the taxis only if it's not the first click
-                if (!isFirstTimeClicked) {
-
-
-
-                } else {
-                    isFirstTimeClicked = false;
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+//        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//
+//                // it shows the taxis only if it's not the first click
+//                if (!isFirstTimeClicked) {
+//
+//
+//                } else {
+//                    isFirstTimeClicked = false;
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
     }
 
     @Override
