@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,10 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +32,9 @@ import butterknife.ButterKnife;
 
 
 public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
+
+    @BindView(R.id.taxiList)
+    ListView taxiList;
 
     @BindView(R.id.citySpinner)
     SearchableSpinner citySpinner;
@@ -131,17 +131,18 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     @Override
     public void onFirebaseLoadSuccess(List<Taxi> taxiList, List<String> cityList) {
         Log.d("Debug", "Success");
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cityList);
-        citySpinner.setAdapter(adapter);
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cityList);
+        citySpinner.setAdapter(spinnerAdapter);
 
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 // it shows the taxis only if it's not the first click
                 if (!isFirstTimeClicked) {
-                    Log.d("Debug", "Not first");
+
+
+
                 } else {
-                    Log.d("Debug", "First");
                     isFirstTimeClicked = false;
                 }
             }
