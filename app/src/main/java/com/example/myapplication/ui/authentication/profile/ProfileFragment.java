@@ -120,6 +120,7 @@ public class ProfileFragment extends Fragment {
                 height = Float.parseFloat(heightInp.getEditText().getText().toString());
                 weight = Float.parseFloat(weightInp.getEditText().getText().toString());
                 age = Integer.parseInt(ageInp.getEditText().getText().toString());
+
                 if(!isValidForm(age, weight, height, weightInp, heightInp)) {
                     return;
                 }
@@ -165,12 +166,12 @@ public class ProfileFragment extends Fragment {
         }
 
 
-        if (weight < 10) {
+        if (weight < 10 || weight > 600 ){
             weightInp.setError("Weight is not valid");
             return false;
         }
 
-        if (height < 10) {
+        if (height < 10 || height > 280) {
             heightInp.setError("Height is not valid");
             return false;
         }
