@@ -3,6 +3,7 @@ package com.example.myapplication.ui.home.mainScreen;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.listScreen.EditDataDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -28,6 +30,8 @@ import butterknife.ButterKnife;
 public class SelectDateFragment extends AppCompatDialogFragment implements DatePickerDialog.OnDateSetListener {
 
     TextInputEditText editDate;
+
+    public onDateSelected onDateSelected;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar calendar = Calendar.getInstance();
@@ -46,10 +50,18 @@ public class SelectDateFragment extends AppCompatDialogFragment implements DateP
         String m = String.valueOf(month);
         String d = String.valueOf(day);
 
-        editDate = (TextInputEditText) getActivity().findViewById(R.id.dateTextLayout);
-        editDate.setText(y+"/"+m+"/"+d);
+//        editDate = (TextInputEditText) getActivity().findViewById(R.id.dateTextLayout);
+//        editDate.setText(y+"/"+m+"/"+d);
+
+        onDateSelected.sendInputDate(y,m,d);
 
     }
 
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try {
+            onDateSelected = (onDateSelected) getTargetFragment();
+        }catch (ClassCastException e){}
+    }
 
 }

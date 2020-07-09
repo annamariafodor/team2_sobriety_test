@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.example.myapplication.Model;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.MainActivity;
+import com.example.myapplication.ui.home.listScreen.ListScreenFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -50,7 +51,7 @@ import butterknife.ButterKnife;
  * Use the {@link MainScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MainScreenFragment extends Fragment {
+public class MainScreenFragment extends Fragment implements onDateSelected {
 
     @BindView(R.id.showButton)
     Button showButton;
@@ -196,7 +197,8 @@ public class MainScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectTimeFragment();
-                newFragment.show(getChildFragmentManager(), "TimePicker");
+                newFragment.setTargetFragment(MainScreenFragment.this,1);;
+                newFragment.show(getFragmentManager(), "TimePicker");
             }
         });
 
@@ -204,8 +206,22 @@ public class MainScreenFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectDateFragment();
-                newFragment.show(getChildFragmentManager(), "DatePicker");
+                newFragment.setTargetFragment(MainScreenFragment.this,1);
+                newFragment.show(getFragmentManager(), "DatePicker");
+
             }
         });
     }
+
+    @Override
+    public void sendInputDate(String year, String month, String day) {
+        dateText.setText(year+"/"+month+"/"+day);
+    }
+
+    @Override
+    public void sendInputHour(String hour, String minute) {
+        timeText.setText(hour+":"+minute);
+    }
+
+
 }

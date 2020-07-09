@@ -13,8 +13,10 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.mainScreen.MainScreenFragment;
 import com.example.myapplication.ui.home.mainScreen.SelectDateFragment;
 import com.example.myapplication.ui.home.mainScreen.SelectTimeFragment;
+import com.example.myapplication.ui.home.mainScreen.onDateSelected;
 import com.google.android.gms.common.util.JsonUtils;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,7 +24,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class EditDataDialog extends DialogFragment {
+public class EditDataDialog extends DialogFragment implements onDateSelected {
 
     @BindView(R.id.quantityInput)
     TextInputLayout quantity;
@@ -36,6 +38,16 @@ public class EditDataDialog extends DialogFragment {
     Button cancel;
     @BindView(R.id.saveButton)
     Button save;
+
+    @Override
+    public void sendInputDate(String year, String month, String day) {
+        date.setText(year+"/"+month+"/"+day);
+    }
+
+    @Override
+    public void sendInputHour(String hour, String minute) {
+        this.hour.setText(hour+":"+minute);
+    }
 
 
     public interface  onDataSelected{
@@ -62,7 +74,8 @@ public class EditDataDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectTimeFragment();
-                newFragment.show(getChildFragmentManager(), "TimePicker");
+                newFragment.setTargetFragment(EditDataDialog.this,1);
+                newFragment.show(getFragmentManager(), "TimePicker");
             }
         });
 
@@ -70,7 +83,8 @@ public class EditDataDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectDateFragment();
-                newFragment.show(getChildFragmentManager(), "DatePicker");
+                newFragment.setTargetFragment(EditDataDialog.this,1);
+                newFragment.show(getFragmentManager(), "DatePicker");
             }
         });
 

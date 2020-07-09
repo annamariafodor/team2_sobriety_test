@@ -51,7 +51,7 @@ import butterknife.ButterKnife;
  * Use the {@link ListScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListScreenFragment extends Fragment implements EditDataDialog.onDataSelected{
+public class ListScreenFragment extends Fragment implements EditDataDialog.onDataSelected {
 
 
     @BindView(R.id.recyclerView)
@@ -131,7 +131,6 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
                     m.setQuantity(s.child("quantity").getValue().toString());
                     m.setKey(s.getKey());
                     list.add(m);
-                    System.out.println("meret: " + list.size());
 
                 }
                 myAdapter=new MyAdapter(getContext(),list);
@@ -143,10 +142,13 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
                          reference.child(model.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().removeValue();
-                                System.out.println("Elottmeret: " + position);
+                                snapshot.getRef().removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(getContext(), "Drink deleted", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                                 myAdapter.remove(position);
-                                System.out.println("Utanmeret: " + position);
                                 myAdapter.notifyItemRemoved(position);
                             }
 
@@ -196,5 +198,6 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
         reference.child(m.getKey()).child("degree").setValue(degree);
         reference.child(m.getKey()).child("quantity").setValue(quantity);
         myAdapter.notifyDataSetChanged();
+        Toast.makeText(getContext(), "Drink modified", Toast.LENGTH_SHORT).show();
     }
 }

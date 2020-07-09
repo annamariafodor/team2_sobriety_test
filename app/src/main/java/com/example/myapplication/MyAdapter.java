@@ -52,7 +52,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.editItem(models.get(position),holder.getAdapterPosition());
+                listener.editItem(models.get(holder.getAdapterPosition()),holder.getAdapterPosition());
 
             }
         });
@@ -60,7 +60,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.deleteItem(models.get(position),position);
+                listener.deleteItem(models.get(holder.getAdapterPosition()),holder.getAdapterPosition());
 
             }
         });
