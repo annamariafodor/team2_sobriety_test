@@ -6,19 +6,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,19 +27,25 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link ProfileFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+
 public class ProfileFragment extends Fragment {
 
     @BindView(R.id.heightInput)
-    EditText heightInp;
+    TextInputLayout heightInp;
 
     @BindView(R.id.spinner)
     Spinner genderInp;
 
     @BindView(R.id.ageInput)
-    EditText ageInp;
+    TextInputLayout ageInp;
 
     @BindView(R.id.weightInput)
-    EditText weightInp;
+    TextInputLayout weightInp;
 
     @BindView(R.id.imageButton)
     ImageButton toMainScreen;
@@ -106,25 +110,26 @@ public class ProfileFragment extends Fragment {
         toMainScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ageInp.getText().toString().trim().length() == 0) {
+
+                if (ageInp.getEditText().getText().toString().trim().length() == 0) {
                     ageInp.setError("Age is Required");
                     return;
                 }
 
-                if (heightInp.getText().toString().trim().length() == 0) {
+                if (heightInp.getEditText().getText().toString().toString().trim().length() == 0) {
                     heightInp.setError("Height is Required");
                     return;
                 }
 
-                if (weightInp.getText().toString().trim().length() == 0) {
+                if (weightInp.getEditText().getText().toString().toString().trim().length() == 0) {
                     weightInp.setError("Weight is Required");
                     return;
                 }
 
                 gender = genderInp.getSelectedItem().toString();
-                height = Float.parseFloat(heightInp.getText().toString());
-                weight = Float.parseFloat(weightInp.getText().toString());
-                age = Integer.parseInt(ageInp.getText().toString());
+                height = Float.parseFloat(heightInp.getEditText().getText().toString());
+                weight = Float.parseFloat(weightInp.getEditText().getText().toString());
+                age = Integer.parseInt(ageInp.getEditText().getText().toString());
 
                 //form
                 if (weight < 10) {
