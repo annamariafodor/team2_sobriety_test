@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import com.example.myapplication.ListScreen;
 import com.example.myapplication.Model;
 import com.example.myapplication.MyAdapter;
 import com.example.myapplication.R;
@@ -26,6 +27,7 @@ import com.example.myapplication.ui.home.mainScreen.SelectDateFragment;
 import com.example.myapplication.ui.home.mainScreen.SelectTimeFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +36,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.xml.sax.helpers.AttributesImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +51,7 @@ import butterknife.ButterKnife;
  * Use the {@link ListScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListScreenFragment extends Fragment {
+public class ListScreenFragment extends Fragment implements EditDataDialog.onDataSelected{
 
 
     @BindView(R.id.recyclerView)
@@ -58,6 +62,7 @@ public class ListScreenFragment extends Fragment {
     DatabaseReference reference;
     String userID;
     ArrayList<Model> list;
+    Model m;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -115,7 +120,7 @@ public class ListScreenFragment extends Fragment {
         userID = fAuth.getCurrentUser().getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
 
-        reference.addValueEventListener(new ValueEventListener() {
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot s : snapshot.getChildren()) {
@@ -133,17 +138,12 @@ public class ListScreenFragment extends Fragment {
                 myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
                     @Override
                     public void deleteItem(Model model, int position) {
-                        System.out.println("------position: "+ position + " "+model.getQuantity());
-                        reference.child(model.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                         reference.child(model.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                System.out.println("az ertek: " + snapshot.getValue());
-                                System.out.println("-lista merete: " + list.size());
                                 snapshot.getRef().removeValue();
                                 myAdapter.remove(position);
                                 myAdapter.notifyItemRemoved(position);
-
-                                System.out.println("lista merete: " + list.size());
                             }
 
                             @Override
@@ -155,9 +155,10 @@ public class ListScreenFragment extends Fragment {
 
                     @Override
                     public void editItem(Model model, int position) {
-                        System.out.println("------position: "+ position + " "+model.getQuantity());
                         EditDataDialog dialog = new EditDataDialog();
+                        dialog.setTargetFragment(ListScreenFragment.this,1);
                         dialog.show(getFragmentManager(),"Edit data dialog");
+                        m = model;
                     }
 
                 });
@@ -175,4 +176,21 @@ public class ListScreenFragment extends Fragment {
     }
 
 
+    @Override
+    public void sendInput(String quantity, String degree, String date, String hour) {
+        m.setQuantity(quantity);
+        m.setDegree(degree);
+        m.setDate(date);
+        m.setTime(hour);
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
+
+        reference.child(m.getKey()).child("date").setValue(date);
+        reference.child(m.getKey()).child("hour").setValue(hour);
+        reference.child(m.getKey()).child("degree").setValue(degree);
+        reference.child(m.getKey()).child("quantity").setValue(quantity);
+        myAdapter.notifyDataSetChanged();
+    }
 }
