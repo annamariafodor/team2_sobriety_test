@@ -23,12 +23,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.auth.oauth2.GoogleCredentials;
 
 
 import java.util.HashMap;
@@ -77,7 +74,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
-    Database database;
+    FirebaseDatabase database;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -117,7 +114,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        Database database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance();
 
     }
 
@@ -188,7 +185,8 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
         resultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                DatabaseReference myRef = database.getReference("Drinks");
+                
 
 
                 navController.navigate(R.id.nav_result);
