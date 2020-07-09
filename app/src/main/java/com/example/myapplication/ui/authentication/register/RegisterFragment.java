@@ -170,7 +170,7 @@ public class RegisterFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.w("Test", "OnComplete Listener");
                         if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(), "User created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireActivity().getBaseContext(), "User created", Toast.LENGTH_SHORT).show();
                             navController.navigate(R.id.fragment_profile);
                         } else {
                             Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
