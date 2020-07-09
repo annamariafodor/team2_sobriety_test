@@ -1,14 +1,28 @@
 package com.example.myapplication.ui.home.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.AuthenticationActivity;
+import com.example.myapplication.ui.home.MainActivity;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +30,18 @@ import com.example.myapplication.R;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
+    @BindView(R.id.email_input)
+    TextInputEditText email;
+    @BindView(R.id.passwordInput)
+    EditText password;
+    @BindView(R.id.signOutButton)
+    Button signOutButton;
+    @BindView(R.id.changeEmailButton)
+    Button changeEmailButton;
+    @BindView(R.id.changePaswordButton)
+    Button changePasswordButton;
 
+    FirebaseAuth mAuth;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -55,12 +80,61 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_settings,container,false);
+        ButterKnife.bind(this, view);
+        initView();
+        return view;
+        
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        String emailStr = email.getText().toString().trim();
+        String passwordStr = password.getText().toString().trim();
+        signOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+                startActivity(intent);
+            }
+        });
+        changeEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emailStr = email.getText().toString().trim();
+                if (TextUtils.isEmpty(emailStr)) {
+                    email.setError("Email required");
+                    return;
+                }
+                FirebaseUser user = mAuth.getCurrentUser();
+                user.updateEmail(emailStr);
+                email.getText().clear();
+            }
+        });
+        changePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String passwordStr = password.getText().toString().trim();
+                if (TextUtils.isEmpty(passwordStr)) {
+                    email.setError("Email required");
+                    return;
+                }
+                FirebaseUser user = mAuth.getCurrentUser();
+                user.updatePassword(passwordStr);
+                password.getText().clear();
+            }
+        });
+    }
+
+    private void initView() {
     }
 }
