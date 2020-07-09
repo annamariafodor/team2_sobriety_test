@@ -1,45 +1,34 @@
 package com.example.myapplication.ui.home.mainScreen;
 
-import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDialogFragment;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.myapplication.Model;
 import com.example.myapplication.R;
-import com.example.myapplication.ui.home.MainActivity;
-import com.example.myapplication.ui.home.listScreen.ListScreenFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.firestore.Firestore;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
