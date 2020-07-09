@@ -105,12 +105,14 @@ public class RegisterFragment extends Fragment {
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
                 password2 = password2Input.getText().toString();
-               if (!isValidForm(email, password1, password2)){
-                   return;
-               }
+                if (!isValidForm(email, password1, password2)) {
+                    return;
+                }
+
 
                 // create a new user in the database
                 mAuth.createUserWithEmailAndPassword(email, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
                     // let the user know that the registration was successful
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -120,7 +122,7 @@ public class RegisterFragment extends Fragment {
                             navController.navigate(R.id.fragment_profile);
                         } else {
                             Toast.makeText(requireActivity().getBaseContext(), "Error !" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                    }
                     }
                 });
             }
@@ -164,12 +166,11 @@ public class RegisterFragment extends Fragment {
             password1Input.setError("Passwords must be the same");
             return false;
         }
-
         return true;
     }
 
     public static boolean isValid(String email) {
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        String regex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
         return email.matches(regex);
     }
 }

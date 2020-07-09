@@ -116,7 +116,6 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                         Taxi taxi = new Taxi("", "");
                         taxi.setName(snapShot.child("name").getValue(String.class));
                         taxi.setNumber(snapShot.child("number").getValue(String.class));
-                        ;
                         city.addTaxi(taxi);
                     }
                     cities.add(city);
@@ -147,6 +146,7 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
         citySpinner.setAdapter(spinnerAdapter);
 
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ArrayAdapter<Taxi> taxiAdapter;
