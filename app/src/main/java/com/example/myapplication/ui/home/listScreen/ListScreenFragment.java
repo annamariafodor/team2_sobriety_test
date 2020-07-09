@@ -131,6 +131,8 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
                     m.setQuantity(s.child("quantity").getValue().toString());
                     m.setKey(s.getKey());
                     list.add(m);
+                    System.out.println("meret: " + list.size());
+
                 }
                 myAdapter=new MyAdapter(getContext(),list);
                 myRecyclerView.setAdapter(myAdapter);
@@ -142,7 +144,9 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 snapshot.getRef().removeValue();
+                                System.out.println("Elottmeret: " + position);
                                 myAdapter.remove(position);
+                                System.out.println("Utanmeret: " + position);
                                 myAdapter.notifyItemRemoved(position);
                             }
 

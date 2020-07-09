@@ -61,7 +61,6 @@ public class EditDataDialog extends DialogFragment {
         hour.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("itt");
                 DialogFragment newFragment = new SelectTimeFragment();
                 newFragment.show(getChildFragmentManager(), "TimePicker");
             }
