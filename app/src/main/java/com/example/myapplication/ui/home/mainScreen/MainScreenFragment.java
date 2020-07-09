@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -39,7 +40,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -156,6 +159,9 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validateInputs(inputDegree, inputQuantity, inputDate, inputHour)) {
+                    return;
+                }
                 quantity = inputQuantity.getEditText().getText().toString();
                 degree = inputDegree.getEditText().getText().toString();
                 hour = inputHour.getEditText().getText().toString();
@@ -197,7 +203,8 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectTimeFragment();
-                newFragment.setTargetFragment(MainScreenFragment.this,1);;
+                newFragment.setTargetFragment(MainScreenFragment.this, 1);
+                ;
                 newFragment.show(getFragmentManager(), "TimePicker");
             }
         });
@@ -206,7 +213,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectDateFragment();
-                newFragment.setTargetFragment(MainScreenFragment.this,1);
+                newFragment.setTargetFragment(MainScreenFragment.this, 1);
                 newFragment.show(getFragmentManager(), "DatePicker");
 
             }
@@ -215,12 +222,76 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
 
     @Override
     public void sendInputDate(String year, String month, String day) {
-        dateText.setText(year+"/"+month+"/"+day);
+        dateText.setText(year + "/" + month + "/" + day);
     }
 
     @Override
     public void sendInputHour(String hour, String minute) {
-        timeText.setText(hour+":"+minute);
+        timeText.setText(hour + ":" + minute);
+    }
+
+    private Boolean validateInputs(TextInputLayout degree, TextInputLayout quantity, TextInputLayout date, TextInputLayout hour) {
+        String textDegree = degree.getEditText().getText().toString();
+        String textQuantity = quantity.getEditText().getText().toString();
+        String textDate = date.getEditText().getText().toString();
+        String textHour = hour.getEditText().getText().toString();
+        Boolean valid = true;
+
+
+        if (TextUtils.isEmpty(textDegree) || (Integer.parseInt(textDegree)<=0)) {
+            degree.setError("Enter a valid value for degree!");
+            valid = false;
+        } else {
+            degree.setError(null);
+        }
+
+        if (TextUtils.isEmpty(textQuantity) || (Integer.parseInt(textQuantity)<=0)) {
+            quantity.setError("Enter a valid value for quantity!");
+            valid = false;
+        } else {
+            quantity.setError(null);
+        }
+
+        Date date1 = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        try {
+            date1=formatter.parse(textDate.concat(" ").concat(textHour));
+        }catch (Exception e){
+            Toast.makeText(getActivity(), "Invalid inputs", Toast.LENGTH_SHORT).show();
+
+        }
+
+        if (TextUtils.isEmpty(textDate)) {
+            date.setError("Enter value for date!");
+            valid = false;
+        } else {
+            date.setError(null);
+        }
+
+        if (TextUtils.isEmpty(textHour)) {
+            hour.setError("Enter value for hour!");
+            valid = false;
+        } else {
+            hour.setError(null);
+        }
+
+        if(!TextUtils.isEmpty(textDate) && !TextUtils.isEmpty(textHour)){
+            Date currentDate = new Date(System.currentTimeMillis());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(calendar.HOUR_OF_DAY, -24);
+            if(calendar.getTime().before(date1) && currentDate.after(date1)){ // check if input date is earlier than 24 hours or later than the current date
+                hour.setError(null);
+                date.setError(null);
+            }else {
+                valid = false;
+                hour.setError("Enter valid value for hour!");
+                date.setError("Enter valid value for date!");
+                Toast.makeText(getActivity(), "The date and time can't be earlier than 24 hours or later than the current time!", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        return valid;
     }
 
 
