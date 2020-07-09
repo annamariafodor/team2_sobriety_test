@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -99,6 +101,42 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    public void formValidation(Integer age, Float weight, Float height, TextInputLayout weightInp, TextInputLayout heightInp) {
+
+        if (ageInp.getEditText().getText().toString().trim().length() == 0) {
+            ageInp.setError("Age is Required");
+            return;
+        }
+
+        if (heightInp.getEditText().getText().toString().trim().length() == 0) {
+            heightInp.setError("Height is Required");
+            return;
+        }
+
+        if (weightInp.getEditText().getText().toString().trim().length() == 0) {
+            weightInp.setError("Weight is Required");
+            return;
+        }
+
+
+        if (weight < 10) {
+            weightInp.setError("Weight is not valid");
+            return;
+        }
+
+        if (height < 10) {
+            heightInp.setError("Height is not valid");
+            return;
+        }
+
+        if (age < 1 || age > 130) {
+            ageInp.setError("Age is not valid");
+            return;
+        }
+
+    }
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -111,48 +149,17 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (ageInp.getEditText().getText().toString().trim().length() == 0) {
-                    ageInp.setError("Age is Required");
-                    return;
-                }
-
-                if (heightInp.getEditText().getText().toString().toString().trim().length() == 0) {
-                    heightInp.setError("Height is Required");
-                    return;
-                }
-
-                if (weightInp.getEditText().getText().toString().toString().trim().length() == 0) {
-                    weightInp.setError("Weight is Required");
-                    return;
-                }
-
                 gender = genderInp.getSelectedItem().toString();
                 height = Float.parseFloat(heightInp.getEditText().getText().toString());
                 weight = Float.parseFloat(weightInp.getEditText().getText().toString());
                 age = Integer.parseInt(ageInp.getEditText().getText().toString());
-
-                //form
-                if (weight < 10) {
-                    weightInp.setError("Weight is not valid");
-                    return;
-                }
-
-                if (height < 10) {
-                    heightInp.setError("Height is not valid");
-                    return;
-                }
-
-                if (age < 1 || age > 130) {
-                    ageInp.setError("Age is not valid");
-                    return;
-                }
+                formValidation(age, weight, height, weightInp, heightInp);
 
                 // get The current user;
                 userID = fAuth.getCurrentUser().getUid();
 
                 //create new document
                 DocumentReference documentReference = fStore.collection("users").document(userID);
-
                 Map<String, Object> user = new HashMap<>();
                 user.put("gender", gender);
                 user.put("age", age);
