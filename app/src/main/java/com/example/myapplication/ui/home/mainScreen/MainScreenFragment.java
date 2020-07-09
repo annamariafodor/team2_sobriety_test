@@ -66,6 +66,9 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
     @BindView(R.id.addButton)
     Button addButton;
 
+    @BindView(R.id.resultButton)
+    Button resultButton;
+
     String quantity, degree, hour, date;
     Model model;
 
@@ -179,6 +182,19 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
 
             }
         });
+
+        resultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Database database = FirebaseDatabase.getInstance();
+
+                navController.navigate(R.id.nav_result);
+            }
+        });
+
+
+
     }
 
     private void initView() {
