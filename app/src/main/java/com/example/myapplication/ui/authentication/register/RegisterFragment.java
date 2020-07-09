@@ -105,7 +105,9 @@ public class RegisterFragment extends Fragment {
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
                 password2 = password2Input.getText().toString();
-                formValidation(email, password1, password2);
+               if (!isValidForm(email, password1, password2)){
+                   return;
+               }
 
                 // create a new user in the database
                 mAuth.createUserWithEmailAndPassword(email, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -126,45 +128,44 @@ public class RegisterFragment extends Fragment {
     }
 
 
-    public void formValidation(String email, String password1, String password2) {
+    public boolean isValidForm(String email, String password1, String password2) {
         // form validation
         if (TextUtils.isEmpty(email)) {
-            //empty field
             emailInput.setError("Email is Required");
-            return;
+            return false;
         }
 
         if (!isValid(email)) {
             emailInput.setError("Email is not valid");
-            return;
+            return false;
         }
 
         if (TextUtils.isEmpty(password1)) {
-            //empty field
             password1Input.setError("Password is Required");
-            return;
+            return false;
         }
 
         if (TextUtils.isEmpty(password2)) {
-            //empty field
             password2Input.setError("Password is Required");
-            return;
+            return false;
         }
 
         if (password1.length() < 6) {
             password1Input.setError("Password must be 6 character long");
-            return;
+            return false;
         }
 
         if (password2.length() < 6) {
             password2Input.setError("Password must be 6 character long");
-            return;
+            return false;
         }
 
         if (!password1.equals(password2)) {
             password1Input.setError("Passwords must be the same");
+            return false;
         }
 
+        return true;
     }
 
     public static boolean isValid(String email) {

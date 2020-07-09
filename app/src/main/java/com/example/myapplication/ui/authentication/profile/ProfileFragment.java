@@ -101,40 +101,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    public void formValidation(Integer age, Float weight, Float height, TextInputLayout weightInp, TextInputLayout heightInp) {
 
-        if (ageInp.getEditText().getText().toString().trim().length() == 0) {
-            ageInp.setError("Age is Required");
-            return;
-        }
-
-        if (heightInp.getEditText().getText().toString().trim().length() == 0) {
-            heightInp.setError("Height is Required");
-            return;
-        }
-
-        if (weightInp.getEditText().getText().toString().trim().length() == 0) {
-            weightInp.setError("Weight is Required");
-            return;
-        }
-
-
-        if (weight < 10) {
-            weightInp.setError("Weight is not valid");
-            return;
-        }
-
-        if (height < 10) {
-            heightInp.setError("Height is not valid");
-            return;
-        }
-
-        if (age < 1 || age > 130) {
-            ageInp.setError("Age is not valid");
-            return;
-        }
-
-    }
 
 
     @Override
@@ -153,7 +120,9 @@ public class ProfileFragment extends Fragment {
                 height = Float.parseFloat(heightInp.getEditText().getText().toString());
                 weight = Float.parseFloat(weightInp.getEditText().getText().toString());
                 age = Integer.parseInt(ageInp.getEditText().getText().toString());
-                formValidation(age, weight, height, weightInp, heightInp);
+                if(!isValidForm(age, weight, height, weightInp, heightInp)) {
+                    return;
+                }
 
                 // get The current user;
                 userID = fAuth.getCurrentUser().getUid();
@@ -176,5 +145,40 @@ public class ProfileFragment extends Fragment {
                 });
             }
         });
+    }
+
+    public boolean isValidForm(Integer age, Float weight, Float height, TextInputLayout weightInp, TextInputLayout heightInp) {
+
+        if (ageInp.getEditText().getText().toString().trim().length() == 0) {
+            ageInp.setError("Age is Required");
+            return false;
+        }
+
+        if (heightInp.getEditText().getText().toString().trim().length() == 0) {
+            heightInp.setError("Height is Required");
+            return false;
+        }
+
+        if (weightInp.getEditText().getText().toString().trim().length() == 0) {
+            weightInp.setError("Weight is Required");
+            return false;
+        }
+
+
+        if (weight < 10) {
+            weightInp.setError("Weight is not valid");
+            return false;
+        }
+
+        if (height < 10) {
+            heightInp.setError("Height is not valid");
+            return false;
+        }
+
+        if (age < 1 || age > 130) {
+            ageInp.setError("Age is not valid");
+            return false;
+        }
+        return true;
     }
 }
