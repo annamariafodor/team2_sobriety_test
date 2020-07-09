@@ -17,6 +17,7 @@ public class AuthenticationActivity extends AppCompatActivity implements Authent
         Log.d("Test","Authentication Activity OnCreate");
     }
 
+
     @Override
     public void showLoading() {
 

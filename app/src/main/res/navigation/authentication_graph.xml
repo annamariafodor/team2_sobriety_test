@@ -8,19 +8,20 @@
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.myapplication.ui.authentication.profile.ProfileFragment"
-        android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+    android:id="@+id/authentication_graph"
+    app:startDestination="@id/registerFragment"
+    tools:ignore="UnusedNavigation">
 
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.example.myapplication.ui.authentication.register.RegisterFragment"
         android:label="RegisterFragment"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
-            android:id="@+id/action_registerFragment_to_nav_profile"
-            app:destination="@id/nav_profile" />
-    </fragment>/>
+            android:id="@+id/action_registerFragment_to_fragment_profile"
+            app:destination="@id/fragment_profile" />
+    </fragment>
+
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.myapplication.ui.authentication.login.LoginFragment"
@@ -32,15 +33,19 @@
         <action
             android:id="@+id/action_loginFragment_to_passwordResetFragment"
             app:destination="@id/passwordResetFragment" />
-    </fragment>/>
+    </fragment>
+
     <fragment
         android:id="@+id/passwordResetFragment"
         android:name="com.example.myapplication.ui.authentication.passwordReset.PasswordResetFragment"
         android:label="PasswordResetFragment"
-        tools:layout="@layout/fragment_password_reset" >
+        tools:layout="@layout/fragment_password_reset">
         <action
             android:id="@+id/action_passwordResetFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-    </fragment>/>
+    </fragment>
+
+
+
 
 </navigation>

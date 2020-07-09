@@ -7,8 +7,9 @@ public interface SplashContract {
 
     interface View extends BaseView {
         void showMainScreen();
-
         void showLoginScreen();
+        void showRegistScreen();
+
     }
 
     abstract class Presenter extends BasePresenter<SplashContract.View> {

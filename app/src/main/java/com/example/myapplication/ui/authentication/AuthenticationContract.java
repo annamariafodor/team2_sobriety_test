@@ -19,4 +19,9 @@ public interface AuthenticationContract {
 
         public abstract void requestBackendData();
     }
-}
+
+    interface View extends BaseView {
+
+
+    }
+

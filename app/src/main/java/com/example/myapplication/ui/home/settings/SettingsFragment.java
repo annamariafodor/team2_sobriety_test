@@ -6,20 +6,26 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
-import com.example.myapplication.ui.authentication.AuthenticationActivity;
-import com.example.myapplication.ui.home.MainActivity;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,7 +97,7 @@ public class SettingsFragment extends Fragment {
         ButterKnife.bind(this, view);
         initView();
         return view;
-        
+
     }
 
     @Override
@@ -116,7 +122,18 @@ public class SettingsFragment extends Fragment {
                     return;
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
-                user.updateEmail(emailStr);
+                user.updateEmail(emailStr)
+                ddOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
+                            Log.d("Change", "User email address updated.");
+                        }else {
+                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 email.getText().clear();
             }
         });
@@ -124,12 +141,27 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String passwordStr = password.getText().toString().trim();
+                if (passwordStr.length() < 6) {
+                    passwordInput.setError("Password must be 6 character long");
+                    return;
+                }
                 if (TextUtils.isEmpty(passwordStr)) {
                     email.setError("Email required");
                     return;
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
-                user.updatePassword(passwordStr);
+                user.updatePassword(passwordStr)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Password changed", Toast.LENGTH_SHORT).show();
+                                    Log.d("Change", "User password updated.");
+                                } else {
+                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 password.getText().clear();
             }
         });

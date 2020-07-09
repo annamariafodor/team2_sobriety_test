@@ -1,21 +1,73 @@
 package com.example.myapplication.ui.authentication.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.AuthenticationActivity;
+import com.example.myapplication.ui.home.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ProfileFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class ProfileFragment extends Fragment {
+
+    @BindView(R.id.heightInput)
+    TextInputLayout heightInp;
+
+    @BindView(R.id.spinner)
+    Spinner genderInp;
+
+    @BindView(R.id.ageInput)
+    TextInputLayout ageInp;
+
+    @BindView(R.id.weightInput)
+    TextInputLayout weightInp;
+
+    @BindView(R.id.imageButton)
+    ImageButton toMainScreen;
+
+    String gender;
+    Float height, weight;
+    Integer age;
+
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    String userID;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,14 +82,7 @@ public class ProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Get_DataFragment.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
@@ -60,7 +105,80 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final NavController navController = Navigation.findNavController(view);
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        toMainScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (ageInp.getEditText().getText().toString().trim().length() == 0) {
+                    ageInp.setError("Age is Required");
+                    return;
+                }
+
+                if (heightInp.getEditText().getText().toString().toString().trim().length() == 0) {
+                    heightInp.setError("Height is Required");
+                    return;
+                }
+
+                if (weightInp.getEditText().getText().toString().toString().trim().length() == 0) {
+                    weightInp.setError("Weight is Required");
+                    return;
+                }
+
+                gender = genderInp.getSelectedItem().toString();
+                height = Float.parseFloat(heightInp.getEditText().getText().toString().toString());
+                weight = Float.parseFloat(weightInp.getEditText().getText().toString().toString());
+                age = Integer.parseInt(ageInp.getEditText().getText().toString().toString());
+
+                //form
+                if (weight < 10) {
+                    weightInp.setError("Weight is not valid");
+                    return;
+                }
+
+                if (height < 10) {
+                    heightInp.setError("Height is not valid");
+                    return;
+                }
+
+                if (age < 1 || age > 130) {
+                    ageInp.setError("Age is not valid");
+                    return;
+                }
+
+                // get The current user;
+                userID = fAuth.getCurrentUser().getUid();
+
+                //create new document
+                DocumentReference documentReference = fStore.collection("users").document(userID);
+
+                Map<String, Object> user = new HashMap<>();
+                user.put("gender", gender);
+                user.put("age", age);
+                user.put("weight", weight);
+                user.put("height", height);
+
+                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("Profile", "onSuccess: User profile is created" + userID);
+                        Intent intent = new Intent(getContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
     }
 }
