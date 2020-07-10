@@ -35,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,6 +46,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -136,6 +138,11 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
         ButterKnife.bind(this, view);
+
+        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+        assert currentFirebaseUser != null;
+        Log.d("Debug", Objects.requireNonNull(currentFirebaseUser.getEmail()));
+
         initView();
         return view;
     }
@@ -278,7 +285,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             Date currentDate = new Date(System.currentTimeMillis());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);
-            calendar.add(calendar.HOUR_OF_DAY, -24);
+            calendar.add(Calendar.HOUR_OF_DAY, -24);
             if(calendar.getTime().before(date1) && currentDate.after(date1)){ // check if input date is earlier than 24 hours or later than the current date
                 hour.getEditText().setError(null);
                 date.getEditText().setError(null);

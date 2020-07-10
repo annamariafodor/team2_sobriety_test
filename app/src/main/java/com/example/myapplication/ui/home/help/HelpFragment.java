@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +19,16 @@ import android.widget.Toast;
 import com.example.myapplication.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.example.myapplication.ui.home.help.HelpInformations;
 
 /**
@@ -107,15 +111,16 @@ public class HelpFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-                Account[] accounts = AccountManager.get(getContext()).getAccounts();
-                String email = accounts[0].name;
-                String messageStr = message.getText().toString();
+                FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                assert currentFirebaseUser != null;
+                String email = Objects.requireNonNull(currentFirebaseUser.getEmail());
+                String messageStr = Objects.requireNonNull(message.getText()).toString();
                 info.setEmail(email);
                 info.setMessage(messageStr);
                 myRef.push().setValue(info);
                 message.getText().clear();
-                Toast.makeText(getActivity(),"Successfully sent",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Successfully sent", Toast.LENGTH_SHORT).show();
+                Log.d("Debug", Objects.requireNonNull(currentFirebaseUser.getEmail()));
             }
         });
 
