@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 
 public class RegisterFragment extends Fragment {
 
-    @BindView(R.id.registbutton)
+    @BindView(R.id.registButton)
     Button submitButton;
 
     @BindView(R.id.password1)
@@ -39,7 +39,7 @@ public class RegisterFragment extends Fragment {
     @BindView(R.id.password2)
     EditText password2Input;
 
-    @BindView(R.id.editTextTextEmailAddress2)
+    @BindView(R.id.emailInput)
     EditText emailInput;
 
     // these for getting the exact information
