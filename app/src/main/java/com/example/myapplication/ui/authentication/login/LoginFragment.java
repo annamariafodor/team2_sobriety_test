@@ -202,6 +202,7 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
             public void onClick(View view) {
                 Log.d("SignInBegins", "It begins");
                 signIn();
+                navController.navigate(R.id.fragment_profile);
             }
         });
 
@@ -214,16 +215,14 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
         Log.d("SignIn", "Successful sign in");
         startActivityForResult(intent, RC_SIGN_IN);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                startActivity(new Intent(getActivity(), MainActivity.class));
+                //startActivity(new Intent(getActivity(), MainActivity.class));
             }
         }
     }
