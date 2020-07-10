@@ -2,13 +2,6 @@ package com.example.myapplication.ui.home.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,17 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.myapplication.R;
 import com.example.myapplication.ui.authentication.AuthenticationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -42,7 +35,7 @@ import butterknife.ButterKnife;
  */
 public class SettingsFragment extends Fragment {
     @BindView(R.id.email_input)
-    TextInputEditText email;
+    EditText email;
     @BindView(R.id.passwordInput)
     EditText password;
     @BindView(R.id.signOutButton)
@@ -108,7 +101,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String passwordStr = password.getText().toString().trim();
+
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,52 +110,50 @@ public class SettingsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+
         changeEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String emailStr = email.getText().toString().trim();
-                if (TextUtils.isEmpty(emailStr)) {
-                    email.setError("Email required");
-                    return;
-                }
-                FirebaseUser user = mAuth.getCurrentUser();
-
-                AuthCredential credential = EmailAuthProvider.getCredential(emailStr, passwordStr);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
-                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        user.updateEmail(emailStr)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
-                                            Log.d("Change", "User email address updated.");
-                                        } else {
-                                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
-                    }
-                });
-                email.getText().clear();
+                String emailStr = email.getText().toString().trim();
+                Log.d("Debug", emailStr);
+                user.updateEmail(emailStr)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Email updated", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getActivity(), "Error occurred", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
+
+
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String passwordStr = password.getText().toString().trim();
+
                 if (passwordStr.length() < 6) {
                     password.setError("Password must be 6 character long");
                     return;
                 }
+
                 if (TextUtils.isEmpty(passwordStr)) {
                     email.setError("Email required");
                     return;
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
                 assert user != null;
+
                 user.updatePassword(passwordStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
