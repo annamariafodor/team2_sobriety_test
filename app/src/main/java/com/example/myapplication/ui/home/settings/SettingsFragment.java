@@ -119,18 +119,20 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-
+                Log.d("debug", "sign out");
                 mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                updateUI(null);
-                            }
-                        });
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        updateUI(null);
+                    }
+
+                });
                 mGoogleSignInClient.revokeAccess()
-                        .addOnCompleteListener( new OnCompleteListener<Void>() {
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 // ...
+                                Log.d("debug", "revoke access");
                             }
                         });
                 Intent intent = new Intent(getContext(), AuthenticationActivity.class);
@@ -140,11 +142,13 @@ public class SettingsFragment extends Fragment {
         changeEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String emailStr = email.getText().toString().trim();
+
+                String emailStr = Objects.requireNonNull(email.getText()).toString().trim();
                 if (TextUtils.isEmpty(emailStr)) {
                     email.setError("Email required");
                     return;
                 }
+
                 FirebaseUser user = mAuth.getCurrentUser();
                 user.updateEmail(emailStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
