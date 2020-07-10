@@ -9,48 +9,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <com.toptoche.searchablespinnerlibrary.SearchableSpinner
             android:id="@+id/citySpinner"
-            android:layout_width="239dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="156dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/setLocation" />
 
         <TextView
             android:id="@+id/setLocation"
-            android:layout_width="180dp"
-            android:layout_height="38dp"
-            android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="23dp"
+            android:layout_width="123dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="112dp"
+            android:layout_marginEnd="119dp"
             android:text="@string/set_location"
             android:textSize="@dimen/subtitle_size"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2" />
-
-
-        <TextView
-            android:id="@+id/setLocation2"
-            android:layout_width="285dp"
-            android:layout_height="37dp"
-            android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="64dp"
-            android:text="@string/taxi_numbers_in_your_area"
-            android:textSize="@dimen/subtitle_size"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/citySpinner" />
 
         <ListView
             android:id="@+id/taxiList"
             android:layout_width="370dp"
             android:layout_height="372dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="48dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/setLocation2"
+            app:layout_constraintTop_toBottomOf="@+id/citySpinner"
             tools:ignore="NestedScrolling" />
 
         <androidx.constraintlayout.widget.Guideline
