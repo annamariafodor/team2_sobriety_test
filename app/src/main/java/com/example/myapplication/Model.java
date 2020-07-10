@@ -4,6 +4,7 @@ public class Model {
     private String quantity,degree,date,time,key;
 
     public Model() {
+
     }
 
     public String getKey() {

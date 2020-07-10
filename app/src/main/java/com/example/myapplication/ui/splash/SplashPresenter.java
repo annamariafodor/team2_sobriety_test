@@ -1,22 +1,21 @@
 package com.example.myapplication.ui.splash;
 
-import android.content.Intent;
 import android.os.CountDownTimer;
+import android.util.Log;
 
-import com.example.myapplication.ui.authentication.login.LoginFragment;
-import com.example.myapplication.ui.authentication.profile.ProfileFragment;
-import com.example.myapplication.ui.authentication.register.RegisterFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SplashPresenter extends SplashContract.Presenter {
-
     public SplashPresenter(SplashContract.View view) {
         super(view);
     }
+    public FirebaseAuth mAuth;
 
     @Override
     public void checkNextActivity() {
+        mAuth = FirebaseAuth.getInstance();
         new CountDownTimer(2000, 2000) {
-
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -28,14 +27,17 @@ public class SplashPresenter extends SplashContract.Presenter {
                 if (view == null) {
                     return;
                 }
-                //TODO: if the user is not logged in
-                if (true) {
-                    view.showLoginScreen();
-                } //TODO: if the user is  logged in
-                 else {
+                FirebaseUser mUser = mAuth.getCurrentUser();
+                if (mUser != null) {
+                    Log.d("RETURN", "showMainScreen");
                     view.showMainScreen();
+                } else {
+                    Log.d("RETURN", "showLoginScreen");
+                    view.showLoginScreen();
                 }
+
             }
         }.start();
     }
+
 }

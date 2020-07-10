@@ -36,7 +36,7 @@ public class SidebarFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SideBarFragment.
+     * @return A new instance of fragment ResultFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static SidebarFragment newInstance(String param1, String param2) {
