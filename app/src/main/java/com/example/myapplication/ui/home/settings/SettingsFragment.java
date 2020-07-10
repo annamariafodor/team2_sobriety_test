@@ -118,7 +118,6 @@ public class SettingsFragment extends Fragment {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
                 String emailStr = email.getText().toString().trim();
-                Log.d("Debug", emailStr);
                 user.updateEmail(emailStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -128,7 +127,7 @@ public class SettingsFragment extends Fragment {
                                     Intent intent = new Intent(getContext(), AuthenticationActivity.class);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(getActivity(), "Error occurred", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "The email is used by other user", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
