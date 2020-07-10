@@ -138,11 +138,6 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_screen, container, false);
         ButterKnife.bind(this, view);
-
-        FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
-        assert currentFirebaseUser != null;
-        Log.d("Debug", Objects.requireNonNull(currentFirebaseUser.getEmail()));
-
         initView();
         return view;
     }
