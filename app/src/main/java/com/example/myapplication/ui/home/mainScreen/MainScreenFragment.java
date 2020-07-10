@@ -200,8 +200,8 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
                         for ( DataSnapshot snap : snapshot.getChildren() ){
                             modelList.add(snap.getValue(Model.class));
                             Log.d(Tag,snap.getValue(Model.class).getDegree().toString());
-
                         }
+
                         //Log.d(Tag,value.getDegree().toString());
                     }
 
