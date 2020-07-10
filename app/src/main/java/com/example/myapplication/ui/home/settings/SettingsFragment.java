@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +19,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.AuthenticationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -123,7 +126,7 @@ public class SettingsFragment extends Fragment {
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
                 user.updateEmail(emailStr)
-                ddOnCompleteListener(new OnCompleteListener<Void>() {
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
@@ -142,7 +145,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
                 String passwordStr = password.getText().toString().trim();
                 if (passwordStr.length() < 6) {
-                    passwordInput.setError("Password must be 6 character long");
+                    password.setError("Password must be 6 character long");
                     return;
                 }
                 if (TextUtils.isEmpty(passwordStr)) {

@@ -8,7 +8,6 @@ public interface SplashContract {
     interface View extends BaseView {
         void showMainScreen();
         void showLoginScreen();
-        void showRegistScreen();
 
     }
 
@@ -19,7 +18,6 @@ public interface SplashContract {
         }
 
         public abstract void checkNextActivity();
-
-
+        
     }
 }

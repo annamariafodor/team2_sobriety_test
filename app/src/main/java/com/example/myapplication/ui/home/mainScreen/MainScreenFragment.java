@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.home.mainScreen;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +45,8 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class MainScreenFragment extends Fragment implements onDateSelected {
+
+    String Tag = "Model";
 
     @BindView(R.id.showButton)
     Button showButton;
@@ -186,9 +193,23 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             @Override
             public void onClick(View view) {
                 DatabaseReference myRef = database.getReference("Drinks");
-                
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ArrayList<Model> modelList= new ArrayList<Model>();
+                        for ( DataSnapshot snap : snapshot.getChildren() ){
+                            modelList.add(snap.getValue(Model.class));
+                            Log.d(Tag,snap.getValue(Model.class).getDegree().toString());
 
+                        }
+                        //Log.d(Tag,value.getDegree().toString());
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.w(Tag, "Failed to read value.", error.toException());
+                    }
+                });
                 navController.navigate(R.id.nav_result);
             }
         });
