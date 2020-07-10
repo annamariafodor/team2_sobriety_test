@@ -8,4 +8,8 @@ public class AuthenticationPresenter extends AuthenticationContract.Presenter {
     }
 
 
+    @Override
+    public void requestBackendData() {
+
+    }
 }

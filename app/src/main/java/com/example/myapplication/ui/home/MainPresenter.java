@@ -1,4 +1,5 @@
 package com.example.myapplication.ui.home;
+import com.example.myapplication.ui.home.MainContract;
 
 /**
  * Class comment here
@@ -11,6 +12,7 @@ public class MainPresenter extends MainContract.Presenter {
     public MainPresenter(MainContract.View view) {
         super(view);
     }
+
 
     @Override
     public void requestBackendData() {

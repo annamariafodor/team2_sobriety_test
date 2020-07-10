@@ -2,6 +2,12 @@ package com.example.myapplication.ui.authentication.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,25 +15,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.Toast;
-
 import com.example.myapplication.R;
-import com.example.myapplication.ui.authentication.AuthenticationActivity;
 import com.example.myapplication.ui.home.MainActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -110,6 +101,9 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+
+
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -122,39 +116,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if (ageInp.getEditText().getText().toString().trim().length() == 0) {
-                    ageInp.setError("Age is Required");
-                    return;
-                }
-
-                if (heightInp.getEditText().getText().toString().toString().trim().length() == 0) {
-                    heightInp.setError("Height is Required");
-                    return;
-                }
-
-                if (weightInp.getEditText().getText().toString().toString().trim().length() == 0) {
-                    weightInp.setError("Weight is Required");
-                    return;
-                }
-
                 gender = genderInp.getSelectedItem().toString();
-                height = Float.parseFloat(heightInp.getEditText().getText().toString().toString());
-                weight = Float.parseFloat(weightInp.getEditText().getText().toString().toString());
-                age = Integer.parseInt(ageInp.getEditText().getText().toString().toString());
+                height = Float.parseFloat(heightInp.getEditText().getText().toString());
+                weight = Float.parseFloat(weightInp.getEditText().getText().toString());
+                age = Integer.parseInt(ageInp.getEditText().getText().toString());
 
-                //form
-                if (weight < 10) {
-                    weightInp.setError("Weight is not valid");
-                    return;
-                }
-
-                if (height < 10) {
-                    heightInp.setError("Height is not valid");
-                    return;
-                }
-
-                if (age < 1 || age > 130) {
-                    ageInp.setError("Age is not valid");
+                if(!isValidForm(age, weight, height, weightInp, heightInp)) {
                     return;
                 }
 
@@ -163,7 +130,6 @@ public class ProfileFragment extends Fragment {
 
                 //create new document
                 DocumentReference documentReference = fStore.collection("users").document(userID);
-
                 Map<String, Object> user = new HashMap<>();
                 user.put("gender", gender);
                 user.put("age", age);
@@ -180,5 +146,40 @@ public class ProfileFragment extends Fragment {
                 });
             }
         });
+    }
+
+    public boolean isValidForm(Integer age, Float weight, Float height, TextInputLayout weightInp, TextInputLayout heightInp) {
+
+        if (ageInp.getEditText().getText().toString().trim().length() == 0) {
+            ageInp.setError("Age is Required");
+            return false;
+        }
+
+        if (heightInp.getEditText().getText().toString().trim().length() == 0) {
+            heightInp.setError("Height is Required");
+            return false;
+        }
+
+        if (weightInp.getEditText().getText().toString().trim().length() == 0) {
+            weightInp.setError("Weight is Required");
+            return false;
+        }
+
+
+        if (weight < 10 || weight > 600 ){
+            weightInp.setError("Weight is not valid");
+            return false;
+        }
+
+        if (height < 10 || height > 280) {
+            heightInp.setError("Height is not valid");
+            return false;
+        }
+
+        if (age < 1 || age > 130) {
+            ageInp.setError("Age is not valid");
+            return false;
+        }
+        return true;
     }
 }

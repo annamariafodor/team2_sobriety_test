@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_graph"
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/nav_main">
 
@@ -9,39 +8,55 @@
         android:id="@+id/nav_profile"
         android:name="com.example.myapplication.ui.authentication.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_sidebarFragment"
+            app:destination="@id/sidebarFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.myapplication.ui.home.settings.SettingsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_nav_settings_to_sidebarFragment"
+            app:destination="@id/sidebarFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_taxi"
         android:name="com.example.myapplication.ui.home.taxi.TaxiFragment"
         android:label="Taxi"
-        tools:layout="@layout/fragment_taxi" />
+        tools:layout="@layout/fragment_taxi" >
+        <action
+            android:id="@+id/action_nav_taxi_to_sidebarFragment"
+            app:destination="@id/sidebarFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_help"
         android:name="com.example.myapplication.ui.home.help.HelpFragment"
         android:label="Help"
-        tools:layout="@layout/fragment_help" />
+        tools:layout="@layout/fragment_help" >
+        <action
+            android:id="@+id/action_nav_help_to_sidebarFragment"
+            app:destination="@id/sidebarFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_main"
         android:name="com.example.myapplication.ui.home.mainScreen.MainScreenFragment"
         tools:layout="@layout/fragment_main_screen" >
         <action
-            android:id="@+id/action_nav_main_to_sidebarFragment"
-            app:destination="@id/sidebarFragment" />
-        <action
             android:id="@+id/action_nav_main_to_nav_result"
             app:destination="@id/nav_result" />
         <action
             android:id="@+id/action_nav_main_to_nav_list"
             app:destination="@id/nav_list" />
+        <action
+            android:id="@+id/action_nav_main_to_sidebarFragment"
+            app:destination="@id/sidebarFragment" />
     </fragment>
 
     <fragment
@@ -62,27 +77,6 @@
             app:destination="@id/rowFragment" />
     </fragment>
     <fragment
-        android:id="@+id/sidebarFragment"
-        android:name="com.example.myapplication.ui.home.sidebar.SidebarFragment"
-        android:label="SidebarFragment"
-        tools:layout="@layout/fragment_sidebar">
-        <action
-            android:id="@+id/action_sidebarFragment_to_nav_main"
-            app:destination="@id/nav_main" />
-        <action
-            android:id="@+id/action_sidebarFragment_to_nav_help"
-            app:destination="@id/nav_help" />
-        <action
-            android:id="@+id/action_sidebarFragment_to_nav_profile"
-            app:destination="@id/nav_profile" />
-        <action
-            android:id="@+id/action_sidebarFragment_to_nav_taxi"
-            app:destination="@id/nav_taxi" />
-        <action
-            android:id="@+id/action_sidebarFragment_to_nav_settings"
-            app:destination="@id/nav_settings" />
-    </fragment>
-    <fragment
         android:id="@+id/popupFragment"
         android:name="com.example.myapplication.ui.home.result.PopupFragment"
         android:label="PopupFragment"
@@ -99,6 +93,27 @@
         android:name="com.example.myapplication.ui.home.listScreen.RowFragment"
         android:label="RowFragment"
         tools:layout="@layout/fragment_row"/>
+    <fragment
+        android:id="@+id/sidebarFragment"
+        android:name="com.example.myapplication.ui.home.sidebar.SidebarFragment"
+        android:label="SidebarFragment"
+        tools:layout="@layout/fragment_sidebar" >
+        <action
+            android:id="@+id/action_sidebarFragment_to_nav_main"
+            app:destination="@id/nav_main" />
+        <action
+            android:id="@+id/action_sidebarFragment_to_nav_settings"
+            app:destination="@id/nav_settings" />
+        <action
+            android:id="@+id/action_sidebarFragment_to_nav_profile"
+            app:destination="@id/nav_profile" />
+        <action
+            android:id="@+id/action_sidebarFragment_to_nav_help"
+            app:destination="@id/nav_help" />
+        <action
+            android:id="@+id/action_sidebarFragment_to_nav_taxi"
+            app:destination="@id/nav_taxi" />
+    </fragment>/>
 
 
 </navigation>

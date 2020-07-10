@@ -23,6 +23,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -46,29 +48,17 @@ public class RegisterFragment extends Fragment {
     // for firebase
     private FirebaseAuth mAuth;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String TAG = "RegisterFragment";
 
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public RegisterFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment RegisterFragment.
-     */
 
     // TODO: Rename and change types and number of parameters
     public static RegisterFragment newInstance(String param1, String param2) {
@@ -95,20 +85,19 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         ButterKnife.bind(this, view);
-        initView();
         return view;
-    }
-
-    private void initView() {
     }
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         final NavController navController = Navigation.findNavController(view);
 
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
+
+        // clickEvent to go Profile fragment
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,73 +105,72 @@ public class RegisterFragment extends Fragment {
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
                 password2 = password2Input.getText().toString();
-
-
-                // Initialize Firebase Auth
-                mAuth = FirebaseAuth.getInstance();
-
-
-                // form validation
-                if (TextUtils.isEmpty(email)) {
-                    //empty field
-                    emailInput.setError("Email is Required");
+                if (!isValidForm(email, password1, password2)) {
                     return;
                 }
 
-                if (!isValid(email)) {
-                    emailInput.setError("Email is not valid");
-                    return;
-                }
 
-                if (TextUtils.isEmpty(password1)) {
-                    //empty field
-                    password1Input.setError("Password is Required");
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password2)) {
-                    //empty field
-                    password2Input.setError("Password is Required");
-                    return;
-                }
-
-                if (password1.length() < 6) {
-                    password1Input.setError("Password must be 6 character long");
-                    return;
-                }
-
-                if (password2.length() < 6) {
-                    password2Input.setError("Password must be 6 character long");
-                    return;
-                }
-
-                if (!password1.equals(password2)) {
-                    password1Input.setError("Passwords must be the same");
-                    return;
-                }
-
-                // the data is valid here
-                // register into firebase
-
+                // create a new user in the database
                 mAuth.createUserWithEmailAndPassword(email, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
                     // let the user know that the registration was successful
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.w("Test", "OnComplete Listener");
                         if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(), "User created", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(requireActivity().getBaseContext(), "User created", Toast.LENGTH_SHORT).show();
                             navController.navigate(R.id.fragment_profile);
                         } else {
-                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                            Toast.makeText(requireActivity().getBaseContext(), "Error !" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                     }
                 });
             }
         });
     }
 
+
+    public boolean isValidForm(String email, String password1, String password2) {
+        // form validation
+        if (TextUtils.isEmpty(email)) {
+            emailInput.setError("Email is Required");
+            return false;
+        }
+
+        if (!isValid(email)) {
+            emailInput.setError("Email is not valid");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password1)) {
+            password1Input.setError("Password is Required");
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password2)) {
+            password2Input.setError("Password is Required");
+            return false;
+        }
+
+        if (password1.length() < 6) {
+            password1Input.setError("Password must be 6 character long");
+            return false;
+        }
+
+        if (password2.length() < 6) {
+            password2Input.setError("Password must be 6 character long");
+            return false;
+        }
+
+        if (!password1.equals(password2)) {
+            password1Input.setError("Passwords must be the same");
+            return false;
+        }
+        return true;
+    }
+
     public static boolean isValid(String email) {
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        String regex = "^[\\w-_.+]*[\\w-_.]@([\\w]+\\.)+[\\w]+[\\w]$";
         return email.matches(regex);
     }
 }

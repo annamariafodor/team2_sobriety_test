@@ -12,20 +12,6 @@
         android:layout_height="match_parent"
         tools:context=".Settings">
 
-        <Button
-            android:id="@+id/changePaswordButton"
-            android:layout_width="125dp"
-            android:layout_height="39dp"
-            android:layout_marginStart="140dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="146dp"
-            android:background="@drawable/mybutton"
-            android:text="Change"
-            android:textColor="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
-
         <TextView
             android:id="@+id/change_email_text"
             android:layout_width="180dp"
@@ -38,13 +24,13 @@
             app:layout_constraintTop_toTopOf="@+id/guideline" />
 
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email_input"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/global_horizontal_margin"
+            android:layout_marginTop="10dp"
             android:hint="New email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.596"
@@ -53,7 +39,7 @@
 
         <Button
             android:id="@+id/changeEmailButton"
-            android:layout_width="125dp"
+            android:layout_width="119dp"
             android:layout_height="39dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/mybutton"
@@ -69,25 +55,25 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/global_horizontal_margin"
             android:layout_marginEnd="@dimen/global_horizontal_margin"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="70dp"
             android:text="Change Password"
             android:textSize="@dimen/subtitle_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/changeEmailButton" />
 
-        <EditText
-            android:id="@+id/passwordInput"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/global_horizontal_margin"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="@dimen/global_horizontal_margin"
-            android:ems="10"
-            android:hint="New password"
-            android:inputType="textPassword"
+        <Button
+            android:id="@+id/changePaswordButton"
+            android:layout_width="119dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/mybutton"
+            android:text="Change"
+            android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/change_pass_text" />
+            app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
+
+
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -96,7 +82,32 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.06" />
 
+        <EditText
+            android:id="@+id/passwordInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/global_horizontal_margin"
+            android:layout_marginEnd="@dimen/global_horizontal_margin"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="New password"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/change_pass_text" />
 
+
+        <Button
+            android:id="@+id/signOutButton"
+            android:layout_width="183dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="84dp"
+            android:background="@drawable/mybutton2"
+            android:text="Sign Out"
+            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/changePaswordButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

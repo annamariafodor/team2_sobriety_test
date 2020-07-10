@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.home.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.AuthenticationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,26 +39,18 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class SettingsFragment extends Fragment {
-
     @BindView(R.id.email_input)
-    EditText emailInput;
-
+    TextInputEditText email;
     @BindView(R.id.passwordInput)
-    EditText passwordInput;
-
-    @BindView(R.id.changePaswordButton)
-    Button passwordButton;
-
+    EditText password;
+    @BindView(R.id.signOutButton)
+    Button signOutButton;
     @BindView(R.id.changeEmailButton)
-    Button emailButton;
+    Button changeEmailButton;
+    @BindView(R.id.changePaswordButton)
+    Button changePasswordButton;
 
-    String newEmail, newPassword;
-
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    String userID;
-
-
+    FirebaseAuth mAuth;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -93,37 +89,71 @@ public class SettingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
+        initView();
         return view;
+
     }
 
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final NavController navController = Navigation.findNavController(view);
-
-        fAuth = FirebaseAuth.getInstance();
-        fStore = FirebaseFirestore.getInstance();
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //change the user's password
-        passwordButton.setOnClickListener(new View.OnClickListener() {
+        String emailStr = email.getText().toString().trim();
+        String passwordStr = password.getText().toString().trim();
+        signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newPassword = passwordInput.getText().toString();
-
-                if (newPassword.length() < 6) {
-                    passwordInput.setError("Password must be 6 character long");
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+                startActivity(intent);
+            }
+        });
+        changeEmailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emailStr = email.getText().toString().trim();
+                if (TextUtils.isEmpty(emailStr)) {
+                    email.setError("Email required");
                     return;
                 }
-
-                user.updatePassword(newPassword)
+                FirebaseUser user = mAuth.getCurrentUser();
+                user.updateEmail(emailStr)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
+                                    Log.d("Change", "User email address updated.");
+                                } else {
+                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                email.getText().clear();
+            }
+        });
+        changePasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String passwordStr = password.getText().toString().trim();
+                if (passwordStr.length() < 6) {
+                    password.setError("Password must be 6 character long");
+                    return;
+                }
+                if (TextUtils.isEmpty(passwordStr)) {
+                    email.setError("Email required");
+                    return;
+                }
+                FirebaseUser user = mAuth.getCurrentUser();
+                user.updatePassword(passwordStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -135,27 +165,11 @@ public class SettingsFragment extends Fragment {
                                 }
                             }
                         });
-            }
-        });
-
-        emailButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                newEmail = emailInput.getText().toString();
-                user.updateEmail(newEmail)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
-                                    Log.d("Change", "User email address updated.");
-                                }else {
-                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                password.getText().clear();
             }
         });
     }
 
+    private void initView() {
+    }
 }

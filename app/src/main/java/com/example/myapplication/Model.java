@@ -1,9 +1,26 @@
 package com.example.myapplication;
 
 public class Model {
-    private String quantity,degree,date,time;
+    private String quantity,degree,date,time,key;
 
     public Model() {
+
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public Model(String quantity, String degree, String date, String time, String key) {
+        this.quantity = quantity;
+        this.degree = degree;
+        this.date = date;
+        this.time = time;
+        this.key = key;
     }
 
     public String getQuantity() {
@@ -28,6 +45,16 @@ public class Model {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Model{" +
+                "quantity='" + quantity + '\'' +
+                ", degree='" + degree + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                '}';
     }
 
     public String getTime() {
