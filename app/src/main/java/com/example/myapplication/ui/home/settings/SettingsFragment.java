@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -106,7 +108,6 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        String emailStr = email.getText().toString().trim();
         String passwordStr = password.getText().toString().trim();
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,18 +126,26 @@ public class SettingsFragment extends Fragment {
                     return;
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
-                user.updateEmail(emailStr)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
-                                    Log.d("Change", "User email address updated.");
-                                } else {
-                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+
+                AuthCredential credential = EmailAuthProvider.getCredential(emailStr, passwordStr);
+                assert user != null;
+                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        user.updateEmail(emailStr)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
+                                            Log.d("Change", "User email address updated.");
+                                        } else {
+                                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                    }
+                });
                 email.getText().clear();
             }
         });
@@ -153,6 +162,7 @@ public class SettingsFragment extends Fragment {
                     return;
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
+                assert user != null;
                 user.updatePassword(passwordStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
