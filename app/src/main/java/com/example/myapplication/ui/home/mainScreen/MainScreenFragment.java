@@ -1,40 +1,52 @@
 package com.example.myapplication.ui.home.mainScreen;
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.example.myapplication.Model;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.MainActivity;
+import com.example.myapplication.ui.home.listScreen.ListScreenFragment;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,8 +57,6 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class MainScreenFragment extends Fragment implements onDateSelected {
-
-    String Tag = "Model";
 
     @BindView(R.id.showButton)
     Button showButton;
@@ -72,16 +82,13 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
     @BindView(R.id.addButton)
     Button addButton;
 
-    @BindView(R.id.resultButton)
-    Button resultButton;
-
     String quantity, degree, hour, date;
     Model model;
 
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userID;
-    FirebaseDatabase database;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -121,7 +128,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        database = FirebaseDatabase.getInstance();
+
 
     }
 
@@ -154,6 +161,9 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validateInputs(inputDegree, inputQuantity, inputDate, inputHour)) {
+                    return;
+                }
                 quantity = inputQuantity.getEditText().getText().toString();
                 degree = inputDegree.getEditText().getText().toString();
                 hour = inputHour.getEditText().getText().toString();
@@ -188,34 +198,6 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
 
             }
         });
-
-        resultButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatabaseReference myRef = database.getReference("Drinks");
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        ArrayList<Model> modelList= new ArrayList<Model>();
-                        for ( DataSnapshot snap : snapshot.getChildren() ){
-                            modelList.add(snap.getValue(Model.class));
-                            Log.d(Tag,snap.getValue(Model.class).getDegree().toString());
-                        }
-
-                        //Log.d(Tag,value.getDegree().toString());
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.w(Tag, "Failed to read value.", error.toException());
-                    }
-                });
-                navController.navigate(R.id.nav_result);
-            }
-        });
-
-
-
     }
 
     private void initView() {
@@ -223,7 +205,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectTimeFragment();
-                newFragment.setTargetFragment(MainScreenFragment.this,1);;
+                newFragment.setTargetFragment(MainScreenFragment.this, 1);
                 newFragment.show(getFragmentManager(), "TimePicker");
             }
         });
@@ -232,7 +214,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new SelectDateFragment();
-                newFragment.setTargetFragment(MainScreenFragment.this,1);
+                newFragment.setTargetFragment(MainScreenFragment.this, 1);
                 newFragment.show(getFragmentManager(), "DatePicker");
 
             }
@@ -241,12 +223,76 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
 
     @Override
     public void sendInputDate(String year, String month, String day) {
-        dateText.setText(year+"/"+month+"/"+day);
+        dateText.setText(year + "/" + month + "/" + day);
     }
 
     @Override
     public void sendInputHour(String hour, String minute) {
-        timeText.setText(hour+":"+minute);
+        timeText.setText(hour + ":" + minute);
+    }
+
+    private Boolean validateInputs(TextInputLayout degree, TextInputLayout quantity, TextInputLayout date, TextInputLayout hour) {
+        String textDegree = degree.getEditText().getText().toString();
+        String textQuantity = quantity.getEditText().getText().toString();
+        String textDate = date.getEditText().getText().toString();
+        String textHour = hour.getEditText().getText().toString();
+        Boolean valid = true;
+
+
+        if (TextUtils.isEmpty(textDegree) || (Double.parseDouble(textDegree)<=0)) {
+            degree.getEditText().setError("Enter a valid value for degree");
+            valid = false;
+        } else {
+            degree.getEditText().setError(null);
+        }
+
+        if (TextUtils.isEmpty(textQuantity) || (Double.parseDouble(textQuantity)<=0)) {
+            quantity.getEditText().setError("Enter a valid value for quantity!");
+            valid = false;
+        } else {
+            quantity.getEditText().setError(null);
+        }
+
+        Date date1 = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        try {
+            date1=formatter.parse(textDate.concat(" ").concat(textHour));
+        }catch (Exception e){
+            Toast.makeText(getActivity(), "Invalid inputs", Toast.LENGTH_SHORT).show();
+
+        }
+
+        if (TextUtils.isEmpty(textDate)) {
+            date.getEditText().setError("Enter value for date!");
+            valid = false;
+        } else {
+            date.getEditText().setError(null);
+        }
+
+        if (TextUtils.isEmpty(textHour)) {
+            hour.getEditText().setError("Enter value for hour!");
+            valid = false;
+        } else {
+            hour.getEditText().setError(null);
+        }
+
+        if(!TextUtils.isEmpty(textDate) && !TextUtils.isEmpty(textHour)){
+            Date currentDate = new Date(System.currentTimeMillis());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.add(Calendar.HOUR_OF_DAY, -24);
+            if(calendar.getTime().before(date1) && currentDate.after(date1)){ // check if input date is earlier than 24 hours or later than the current date
+                hour.getEditText().setError(null);
+                date.getEditText().setError(null);
+            }else {
+                valid = false;
+                hour.getEditText().setError("Enter valid value for hour!");
+                date.getEditText().setError("Enter valid value for date!");
+                Toast.makeText(getActivity(), "The date and time can't be earlier than 24 hours or later than the current time!", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        return valid;
     }
 
 

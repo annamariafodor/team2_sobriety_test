@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.auth.api.Auth;
@@ -37,7 +38,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 
 
 import butterknife.BindView;
@@ -169,25 +169,16 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
                                     Toast.makeText(getContext(), "Authentication succeed.",
                                             Toast.LENGTH_SHORT).show();
                                     // Sign in success, update UI with the signed-in user's information
-                                    Log.d("success", "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    //startActivity(new Intent(getContext(), MainActivity.class));
                                     Intent intent = new Intent(getContext(), MainActivity.class);
                                     startActivity(intent);
-                                    Log.d("ELLO", "elindult");
-
                                 } else {
                                     Toast.makeText(getContext(), "Authentication failed.",
                                             Toast.LENGTH_SHORT).show();
                                     // If sign in fails, display a message to the user.
-                                    Log.w("fail", "signInWithEmail:failure", task.getException());
                                     //updateUI(null);
-                                    // ...
                                 }
-                                // ...
                             }
                         });
-
             }
         });
         forgot.setOnClickListener(new View.OnClickListener() {

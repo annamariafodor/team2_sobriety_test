@@ -2,13 +2,6 @@ package com.example.myapplication.ui.home.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,18 +11,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.myapplication.R;
 import com.example.myapplication.ui.authentication.AuthenticationActivity;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Objects;
 
@@ -43,7 +35,7 @@ import butterknife.ButterKnife;
  */
 public class SettingsFragment extends Fragment {
     @BindView(R.id.email_input)
-    TextInputEditText email;
+    EditText email;
     @BindView(R.id.passwordInput)
     EditText password;
     @BindView(R.id.signOutButton)
@@ -53,7 +45,6 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.changePaswordButton)
     Button changePasswordButton;
 
-    private GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth mAuth;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,11 +85,6 @@ public class SettingsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("924938152543-t3vkang2l3rdrjq4jpf9h3rhrh6jlkb2.apps.googleusercontent.com")
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
     }
 
     @Override
@@ -115,69 +101,58 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         signOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Log.d("debug", "sign out");
-                mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        updateUI(null);
-                    }
-
-                });
-                mGoogleSignInClient.revokeAccess()
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                // ...
-                                Log.d("debug", "revoke access");
-                            }
-                        });
                 Intent intent = new Intent(getContext(), AuthenticationActivity.class);
                 startActivity(intent);
             }
         });
+
+
         changeEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String emailStr = Objects.requireNonNull(email.getText()).toString().trim();
-                if (TextUtils.isEmpty(emailStr)) {
-                    email.setError("Email required");
-                    return;
-                }
-
-                FirebaseUser user = mAuth.getCurrentUser();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                assert user != null;
+                String emailStr = email.getText().toString().trim();
                 user.updateEmail(emailStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
-                                    Log.d("Change", "User email address updated.");
+                                    Toast.makeText(getActivity(), "Email updated", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getContext(), AuthenticationActivity.class);
+                                    startActivity(intent);
                                 } else {
-                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), "The email is used by other user", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-                email.getText().clear();
             }
         });
+
+
         changePasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String passwordStr = password.getText().toString().trim();
+
                 if (passwordStr.length() < 6) {
                     password.setError("Password must be 6 character long");
                     return;
                 }
+
                 if (TextUtils.isEmpty(passwordStr)) {
                     email.setError("Email required");
                     return;
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
+                assert user != null;
+
                 user.updatePassword(passwordStr)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -193,9 +168,6 @@ public class SettingsFragment extends Fragment {
                 password.getText().clear();
             }
         });
-    }
-
-    private void updateUI(Object o) {
     }
 
     private void initView() {
