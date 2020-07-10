@@ -96,7 +96,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_settings,container,false);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
         initView();
         return view;
@@ -126,17 +126,17 @@ public class SettingsFragment extends Fragment {
                 }
                 FirebaseUser user = mAuth.getCurrentUser();
                 user.updateEmail(emailStr)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
-                            Log.d("Change", "User email address updated.");
-                        }else {
-                            Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(getActivity(), "Email changed", Toast.LENGTH_SHORT).show();
+                                    Log.d("Change", "User email address updated.");
+                                } else {
+                                    Toast.makeText(getActivity(), "Error !" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 email.getText().clear();
             }
         });
