@@ -3,6 +3,7 @@ package com.example.myapplication.ui.home.mainScreen;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.listScreen.EditDataDialog;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -29,12 +31,14 @@ public class SelectDateFragment extends AppCompatDialogFragment implements DateP
 
     TextInputEditText editDate;
 
+    public onDateSelected onDateSelected;
+
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog dialog = new DatePickerDialog(getActivity(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert, SelectDateFragment.this, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(), R.style.datepicker, SelectDateFragment.this, year, month, day);
 
         return dialog;
     }
@@ -46,10 +50,18 @@ public class SelectDateFragment extends AppCompatDialogFragment implements DateP
         String m = String.valueOf(month);
         String d = String.valueOf(day);
 
-        editDate = (TextInputEditText) getActivity().findViewById(R.id.dateTextLayout);
-        editDate.setText(y+"/"+m+"/"+d);
+//        editDate = (TextInputEditText) getActivity().findViewById(R.id.dateTextLayout);
+//        editDate.setText(y+"/"+m+"/"+d);
+
+        onDateSelected.sendInputDate(y,m,d);
 
     }
 
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try {
+            onDateSelected = (onDateSelected) getTargetFragment();
+        }catch (ClassCastException e){}
+    }
 
 }

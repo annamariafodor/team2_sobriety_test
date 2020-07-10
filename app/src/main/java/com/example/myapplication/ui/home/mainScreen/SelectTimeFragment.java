@@ -3,6 +3,7 @@ package com.example.myapplication.ui.home.mainScreen;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
@@ -19,13 +20,14 @@ import java.util.Calendar;
 public class SelectTimeFragment extends AppCompatDialogFragment implements TimePickerDialog.OnTimeSetListener {
 
     TextInputEditText editTime;
+    public onDateSelected onDateSelected;
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        TimePickerDialog dialog = new TimePickerDialog(getActivity(),android.R.style.Theme_DeviceDefault_Light_Dialog_Alert,this,hour,minute,true);
+        TimePickerDialog dialog = new TimePickerDialog(getActivity(),R.style.timepicker,this,hour,minute,true);
 
         return dialog;
     }
@@ -36,7 +38,16 @@ public class SelectTimeFragment extends AppCompatDialogFragment implements TimeP
         String h = String.valueOf(hour);
         String m = String.valueOf(minute);
 
-        editTime = (TextInputEditText) getActivity().findViewById(R.id.timeInputLayout);
-        editTime.setText(h+":"+m);
+//        editTime = (TextInputEditText) getActivity().findViewById(R.id.timeInputLayout);
+//        editTime.setText(h+":"+m);
+        onDateSelected.sendInputHour(h,m);
     }
+
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try {
+            onDateSelected = (onDateSelected) getTargetFragment();
+        }catch (ClassCastException e){}
+    }
+
 }
