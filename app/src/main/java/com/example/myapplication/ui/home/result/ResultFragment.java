@@ -37,6 +37,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -130,8 +131,9 @@ public class ResultFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    assert document != null;
                     if (document.exists()) {
-                        gender = document.get("gender").toString();
+                        gender = Objects.requireNonNull(document.get("gender")).toString();
                     } else {
                         System.out.println("Error");
                     }
@@ -146,8 +148,9 @@ public class ResultFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
+                    assert document != null;
                     if (document.exists()) {
-                        weight = document.get("weight").toString();
+                        weight = Objects.requireNonNull(document.get("weight")).toString();
                     } else {
                         System.out.println("Error");
                     }
