@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.authentication.login;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +13,7 @@ import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.gms.auth.api.Auth;
@@ -32,13 +36,17 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 
+import java.util.Objects;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,6 +59,7 @@ import butterknife.ButterKnife;
  */
 public class LoginFragment<AccessTokenTracker> extends Fragment {
     private static final int RC_SIGN_IN = 9001;
+    private static final String TAG = "Login";
     private FirebaseAuth mAuth;
     @BindView(R.id.textView3)
     TextView forgot;
@@ -114,6 +123,7 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //.requestIdToken(String.valueOf(R.string.default_web_client_id))
                 .requestIdToken("924938152543-t3vkang2l3rdrjq4jpf9h3rhrh6jlkb2.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
@@ -203,42 +213,57 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
                 Log.d("SignInBegins", "It begins");
                 signIn();
                 navController.navigate(R.id.fragment_profile);
+
+
             }
         });
-
-
     }
 
-    public void signIn() {
 
+    public void signIn() {
         Intent intent = mGoogleSignInClient.getSignInIntent();
         Log.d("SignIn", "Successful sign in");
         startActivityForResult(intent, RC_SIGN_IN);
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            if (result.isSuccess()) {
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                //startActivity(new Intent(getActivity(), MainActivity.class));
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e);
+                // ...
             }
         }
     }
 
-    private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String idToken = account.getIdToken();
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            Snackbar.make(getView(), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                        }
 
-            // TODO(developer): send ID Token to server and validate
-
-            ///updateUI(account);
-        } catch (ApiException e) {
-            Log.w("SignInFailed", "handleSignInResult:error", e);
-            //updateUI(null);
-        }
+                        // ...
+                    }
+                });
     }
+
 
 }
