@@ -64,6 +64,7 @@ public class ResultFragment extends Fragment {
     Double A;
 
 
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -152,7 +153,9 @@ public class ResultFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
-                        weight = document.get("weight").toString();
+                        weight = Objects.requireNonNull(document.get("weight")).toString();
+                        //weight = document.getString("weight");
+
                     } else {
                         Log.d(TAG, "No such document");
                     }
@@ -167,12 +170,12 @@ public class ResultFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                A = Double.valueOf(0);
+                A = (double) 0;
                 for (DataSnapshot s : snapshot.getChildren()) {
-                    Double drink = Double.parseDouble(s.child("quantity").getValue().toString());
+                    double drink = Double.parseDouble(s.child("quantity").getValue().toString());
                     drink *= 0.033814; // converting mL to Unica
-                    Double degree = Double.parseDouble(s.child("degree").getValue().toString());
-                    drink *= (degree / 100);
+                    double degree = Double.parseDouble(s.child("degree").getValue().toString());
+                    drink *= (degree/100);
                     A += drink;
                 }
 
