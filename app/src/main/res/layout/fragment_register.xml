@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/registerFragment"
+    android:id="@+id/regist_button"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.myapplication.ui.authentication.register.RegisterFragment">
+    tools:context="ui.authentication.register.RegisterFragment">
 
     <TextView
         android:id="@+id/register"
@@ -20,39 +20,39 @@
 
     <EditText
         android:id="@+id/password1"
-        android:layout_width="344dp"
-        android:layout_height="59dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/global_horizontal_margin"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="@dimen/global_horizontal_margin"
         android:autofillHints="Password"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailInput" />
 
 
     <EditText
         android:id="@+id/password2"
-        android:layout_width="342dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/global_horizontal_margin"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="@dimen/global_horizontal_margin"
         android:autofillHints="Password again"
         android:ems="10"
         android:hint="Password again"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password1" />
 
     <Button
-        android:id="@+id/registbutton"
-        android:layout_width="217dp"
-        android:layout_height="51dp"
+        android:id="@+id/registButton"
+        android:layout_width="115dp"
+        android:layout_height="39dp"
         android:layout_marginTop="68dp"
         android:background="@drawable/mybutton"
         android:text="Register"
@@ -68,25 +68,18 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.06" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.04" />
-
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
-        android:layout_width="336dp"
-        android:layout_height="62dp"
-        android:layout_marginStart="16dp"
+        android:id="@+id/emailInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/global_horizontal_margin"
         android:layout_marginTop="58dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="@dimen/global_horizontal_margin"
         android:ems="10"
         android:hint="Email Address"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register" />
 
 

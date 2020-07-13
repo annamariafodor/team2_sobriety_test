@@ -3,12 +3,6 @@ package com.example.myapplication.ui.splash;
 import android.os.CountDownTimer;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -29,9 +23,8 @@ public class SplashPresenter extends SplashContract.Presenter {
 
             @Override
             public void onFinish() {
-                Log.d("Return","onfinish");
+
                 if (view == null) {
-                    Log.d("RETURN","return");
                     return;
                 }
                 FirebaseUser mUser = mAuth.getCurrentUser();

@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.example.myapplication.ui.home.help.HelpInformations;
 
 /**

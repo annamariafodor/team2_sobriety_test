@@ -10,7 +10,7 @@
     <string name="result">Result</string>
     <string name="when_did_you_drink_hour">When did you drink? (hour)</string>
     <string name="when_did_you_drink_date">When did you drink? (date)</string>
-    <string name="degree">Degree</string>
+    <string name="degree">Degree (%)</string>
     <string name="quantity_ml">Quantity (mL)</string>
     <string name="show">Show</string>
     <string name="login">Login</string>
@@ -43,4 +43,8 @@
     <string name="profile">Profile</string>
     <string name="facebook_app_id">2772813582961315</string>
     <string name="fb_login_protocol_scheme">fb2772813582961315</string>
+
+    <string name="msg"> permission</string>
+    <string name="set_location">Set location</string>
+    <string name="taxi_numbers_in_your_area">Taxi numbers in your area:</string>
 </resources>
