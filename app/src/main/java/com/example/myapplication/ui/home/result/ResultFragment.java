@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +38,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -55,6 +61,8 @@ public class ResultFragment extends Fragment {
 
     @BindView(R.id.resultText)
     TextView resultText;
+    @BindView(R.id.seekBar2)
+    SeekBar seekBar;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     DatabaseReference reference;
@@ -62,7 +70,7 @@ public class ResultFragment extends Fragment {
     String gender;
     String weight;
     Double A;
-
+    Double res;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -118,7 +126,6 @@ public class ResultFragment extends Fragment {
         return view;
     }
 
-    Double res;
 
     private void calculateResult() {
 
@@ -175,7 +182,7 @@ public class ResultFragment extends Fragment {
                     double drink = Double.parseDouble(s.child("quantity").getValue().toString());
                     drink *= 0.033814; // converting mL to Unica
                     double degree = Double.parseDouble(s.child("degree").getValue().toString());
-                    drink *= (degree/100);
+                    drink *= (degree / 100);
                     A += drink;
                 }
 
@@ -191,11 +198,80 @@ public class ResultFragment extends Fragment {
                 res = (A * 5.14) / (w * r);
 
                 NumberFormat formatter = new DecimalFormat("#0.000");
-                resultText.setText(formatter.format(res)+" %");
+                resultText.setText(formatter.format(res) + " %");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                ArrayList<Date> date = new ArrayList<Date>();
+
+                fAuth = FirebaseAuth.getInstance();
+                fStore = FirebaseFirestore.getInstance();
+                userID = fAuth.getCurrentUser().getUid();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
+
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot s : snapshot.getChildren()) {
+                            String textHour = s.child("hour").getValue().toString();
+                            String textDate = s.child("date").getValue().toString();
+                            Date date1 = null;
+                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                            try {
+                                date1 = formatter.parse(textDate.concat(" ").concat(textHour));
+                            } catch (Exception e) {
+                                Toast.makeText(getActivity(), "Invalid inputs", Toast.LENGTH_SHORT).show();
+                            }
+
+                            date.add(date1);
+                        }
+
+                        Collections.sort(date);
+
+                        Date elsoDatum = date.get(0);
+                        Date currentDate = new Date(System.currentTimeMillis());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(currentDate);
+                        calendar.add(calendar.HOUR_OF_DAY, +i);
+
+                        int h=0; // kulonbseg elsoDatum es calendar.getTime() kozott
+
+                        Double result = res - 0.015 * h;
+                        NumberFormat formatter = new DecimalFormat("#0.000");
+                        if (result < 0) {
+                            resultText.setText(formatter.format(result) + " %");
+                        } else {
+                            resultText.setText("0 %");
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
         });
