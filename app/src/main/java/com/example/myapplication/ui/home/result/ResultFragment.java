@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +54,8 @@ import static android.content.ContentValues.TAG;
  */
 public class ResultFragment extends Fragment {
 
+    @BindView(R.id.xButton)
+    ImageButton backButton;
 
     @BindView(R.id.resultText)
     TextView resultText;
@@ -111,6 +116,15 @@ public class ResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_result, container, false);
         ButterKnife.bind(this, view);
         calculateResult();
+
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.fragment_no_popup);
+            }
+        });
         return view;
     }
 
