@@ -51,11 +51,6 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MainScreenFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MainScreenFragment extends Fragment implements onDateSelected {
 
     @BindView(R.id.showButton)
