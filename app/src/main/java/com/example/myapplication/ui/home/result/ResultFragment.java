@@ -42,6 +42,8 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ResultFragment#newInstance} factory method to
@@ -57,9 +59,8 @@ public class ResultFragment extends Fragment {
     DatabaseReference reference;
     String userID;
     String gender;
-    String  weight;
+    String weight;
     Double A;
-
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -133,12 +134,12 @@ public class ResultFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
-                        gender = Objects.requireNonNull(document.get("gender")).toString();
+                        gender = document.get("gender").toString();
                     } else {
-                        System.out.println("Error");
+                        Log.d(TAG, "No such document");
                     }
                 } else {
-                    System.out.println("Error");
+                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
@@ -150,12 +151,12 @@ public class ResultFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
-                        weight = Objects.requireNonNull(document.get("weight")).toString();
+                        weight = document.get("weight").toString();
                     } else {
-                        System.out.println("Error");
+                        Log.d(TAG, "No such document");
                     }
                 } else {
-                    System.out.println("Error");
+                    Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
@@ -169,7 +170,7 @@ public class ResultFragment extends Fragment {
                     Double drink = Double.parseDouble(s.child("quantity").getValue().toString());
                     drink *= 0.033814; // converting mL to Unica
                     Double degree = Double.parseDouble(s.child("degree").getValue().toString());
-                    drink *= (degree/100);
+                    drink *= (degree / 100);
                     A += drink;
                 }
 
@@ -177,12 +178,12 @@ public class ResultFragment extends Fragment {
 
                 Double r = null;
                 // initialize gender constant
-                if(gender.equals("Male")){
+                if (gender.equals("Male")) {
                     r = 0.73;
                 } else {
                     r = 0.66;
                 }
-                res = (A * 5.14)/(w*r);
+                res = (A * 5.14) / (w * r);
 
                 NumberFormat formatter = new DecimalFormat("#0.000");
                 resultText.setText(String.valueOf(formatter.format(res)));
