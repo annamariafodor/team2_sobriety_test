@@ -180,6 +180,8 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                                     //I need to take the second 0 from the number
                                     number = number.substring(1);
                                     number = countryCode.concat(number);
+
+                                    //CHECKING FOR PERMISSIONS
                                     if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                                         ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
                                     } else {
