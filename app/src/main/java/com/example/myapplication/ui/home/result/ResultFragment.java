@@ -110,10 +110,7 @@ public class ResultFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_result, container, false);
         ButterKnife.bind(this, view);
-
-
         calculateResult();
-
         return view;
     }
 
@@ -135,31 +132,14 @@ public class ResultFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
+                        Log.d("Debug", document.get("weight").toString());
                         gender = document.get("gender").toString();
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    assert document != null;
-                    if (document.exists()) {
                         weight = Objects.requireNonNull(document.get("weight")).toString();
-                        //weight = document.getString("weight");
-
                     } else {
-                        Log.d(TAG, "No such document");
+                        Log.d("Debug", "No such document");
                     }
                 } else {
-                    Log.d(TAG, "get failed with ", task.getException());
+                    Log.d("Debug", "get failed with ", task.getException());
                 }
             }
         });
