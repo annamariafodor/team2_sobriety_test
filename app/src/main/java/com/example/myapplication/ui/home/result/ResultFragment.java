@@ -151,11 +151,13 @@ public class ResultFragment extends Fragment {
                     assert document != null;
                     if (document.exists()) {
                         weight = Objects.requireNonNull(document.get("weight")).toString();
+                        //weight = document.getString("weight");
+
                     } else {
-                        System.out.println("Error");
+                        Log.d("Debug", "Error ");
                     }
                 } else {
-                    System.out.println("Error");
+                    Log.d("Debug", "get failed with ", task.getException());
                 }
             }
         });
@@ -164,15 +166,17 @@ public class ResultFragment extends Fragment {
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                A = Double.valueOf(0);
+                A = (double) 0;
                 for (DataSnapshot s : snapshot.getChildren()) {
-                    Double drink = Double.parseDouble(s.child("quantity").getValue().toString());
+                    double drink = Double.parseDouble(s.child("quantity").getValue().toString());
                     drink *= 0.033814; // converting mL to Unica
-                    Double degree = Double.parseDouble(s.child("degree").getValue().toString());
+                    double degree = Double.parseDouble(s.child("degree").getValue().toString());
                     drink *= (degree/100);
                     A += drink;
                 }
 
+
+                Log.d("Debug", weight);
                 Double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
 
                 Double r = null;
