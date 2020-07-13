@@ -82,6 +82,9 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
     @BindView(R.id.addButton)
     Button addButton;
 
+    @BindView(R.id.resultButton)
+    Button resultButton;
+
     String quantity, degree, hour, date;
     Model model;
 
@@ -196,6 +199,13 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
                 inputDate.getEditText().setText(null);
                 inputHour.getEditText().setText(null);
 
+            }
+        });
+
+        resultButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navController.navigate(R.id.nav_result);
             }
         });
     }

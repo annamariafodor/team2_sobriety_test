@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/includedLayout" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/resultText"
         android:layout_width="150dp"
         android:layout_height="75dp"
         android:layout_marginTop="16dp"
@@ -76,7 +76,7 @@
         android:layout_marginTop="19dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
