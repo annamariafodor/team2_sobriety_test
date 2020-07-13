@@ -145,15 +145,18 @@ public class ResultFragment extends Fragment {
                 }
             }
         });
-
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Log.d(TAG,"calculate");
                 if (task.isSuccessful()) {
+
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
                         weight = Objects.requireNonNull(document.get("weight")).toString();
+                        Log.d("WEIGHT",weight);
+
                         //weight = document.getString("weight");
 
                     } else {
@@ -178,8 +181,9 @@ public class ResultFragment extends Fragment {
                     drink *= (degree/100);
                     A += drink;
                 }
+                Double w = Double.valueOf(weight)*2.2;
+                //Double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
 
-                Double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
 
                 Double r = null;
                 // initialize gender constant
