@@ -10,7 +10,7 @@
     <string name="result">Result</string>
     <string name="when_did_you_drink_hour">When did you drink? (hour)</string>
     <string name="when_did_you_drink_date">When did you drink? (date)</string>
-    <string name="degree">Degree</string>
+    <string name="degree">Degree (%)</string>
     <string name="quantity_ml">Quantity (mL)</string>
     <string name="show">Show</string>
     <string name="login">Login</string>
