@@ -1,6 +1,11 @@
 package com.example.myapplication.ui.home.taxi;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.MainActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,7 +57,7 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     @BindView(R.id.setLocation)
     TextView locationtxt;
     TextView taxiName, taxiNumber;
-    BottomSheetDialog bottomSheetDialog;
+    private static final int REQUEST_CALL = 1;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -133,7 +141,6 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     }
 
 
-
     @Override
     public void onFirebaseLoadSuccess(List<City> cities) {
         Log.d("Debug", "Success");
@@ -160,6 +167,28 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                             taxiList = c.getTaxiList();
                             taxiAdapter = new ArrayAdapter<Taxi>(requireActivity().getBaseContext(), android.R.layout.simple_list_item_1, taxiList);
                             taxiListItem.setAdapter(taxiAdapter);
+
+                            //Handling Click Events in ListView
+                            List<Taxi> finalTaxiList = taxiList;
+                            taxiListItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                    Taxi taxi = finalTaxiList.get(i);
+                                    String number = taxi.getNumber();
+                                    String countryCode = "tel:+40";
+                                    //I need to take the second 0 from the number
+                                    number = number.substring(1);
+                                    number = countryCode.concat(number);
+                                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+                                    } else {
+                                        Intent intent = new Intent(Intent.ACTION_CALL);
+                                        intent.setData(Uri.parse(number));
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
                         }
                     }
                 } else {
@@ -179,4 +208,5 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
         Log.d("Debug", "Database failed");
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
 }
