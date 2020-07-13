@@ -2,13 +2,45 @@ package com.example.myapplication.ui.home.result;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.myapplication.Model;
+import com.example.myapplication.MyAdapter;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.home.listScreen.EditDataDialog;
+import com.example.myapplication.ui.home.listScreen.ListScreenFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +48,19 @@ import com.example.myapplication.R;
  * create an instance of this fragment.
  */
 public class ResultFragment extends Fragment {
+
+
+    @BindView(R.id.resultText)
+    TextView resultText;
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
+    DatabaseReference reference;
+    String userID;
+    String gender;
+    String  weight;
+    Double A;
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +106,95 @@ public class ResultFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_result, container, false);
+        View view = inflater.inflate(R.layout.fragment_result, container, false);
+        ButterKnife.bind(this, view);
+
+
+        calculateResult();
+
+        return view;
     }
+
+    Double res;
+
+    private void calculateResult() {
+
+        fAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        DocumentReference docRef = db.collection("users").document(userID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    assert document != null;
+                    if (document.exists()) {
+                        gender = Objects.requireNonNull(document.get("gender")).toString();
+                    } else {
+                        System.out.println("Error");
+                    }
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        });
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    assert document != null;
+                    if (document.exists()) {
+                        weight = Objects.requireNonNull(document.get("weight")).toString();
+                    } else {
+                        System.out.println("Error");
+                    }
+                } else {
+                    System.out.println("Error");
+                }
+            }
+        });
+
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                A = Double.valueOf(0);
+                for (DataSnapshot s : snapshot.getChildren()) {
+                    Double drink = Double.parseDouble(s.child("quantity").getValue().toString());
+                    drink *= 0.033814; // converting mL to Unica
+                    Double degree = Double.parseDouble(s.child("degree").getValue().toString());
+                    drink *= (degree/100);
+                    A += drink;
+                }
+
+                Double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
+
+                Double r = null;
+                // initialize gender constant
+                if(gender.equals("Male")){
+                    r = 0.73;
+                } else {
+                    r = 0.66;
+                }
+                res = (A * 5.14)/(w*r);
+
+                NumberFormat formatter = new DecimalFormat("#0.000");
+                resultText.setText(String.valueOf(formatter.format(res)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
 }
