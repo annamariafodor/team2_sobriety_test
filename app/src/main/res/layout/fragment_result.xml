@@ -81,7 +81,7 @@
 
         <include
             android:id="@+id/includedLayout"
-            layout="@layout/popup"
+            layout="@layout/fragment_popup"
             android:layout_width="234dp"
             android:layout_height="149dp"
             android:layout_marginStart="16dp"

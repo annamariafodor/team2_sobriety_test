@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 
 import com.example.myapplication.R;
 
+import butterknife.ButterKnife;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link PopupFragment#newInstance} factory method to
@@ -60,7 +62,8 @@ public class PopupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_popup, container, false);
+        View view = inflater.inflate(R.layout.fragment_result, container, false);
+        ButterKnife.bind(this, view);
+        return view;
     }
 }
