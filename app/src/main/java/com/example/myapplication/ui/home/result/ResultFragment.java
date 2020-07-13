@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.home.result;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -166,6 +167,7 @@ public class ResultFragment extends Fragment {
 
 
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 A = (double) 0;
@@ -189,7 +191,7 @@ public class ResultFragment extends Fragment {
                 res = (A * 5.14) / (w * r);
 
                 NumberFormat formatter = new DecimalFormat("#0.000");
-                resultText.setText(String.valueOf(formatter.format(res)));
+                resultText.setText(formatter.format(res)+" %");
             }
 
             @Override
