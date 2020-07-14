@@ -7,17 +7,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+
 import com.example.myapplication.R;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
-public class ResultFragment extends Fragment implements  ResultContract.View{
+public class ResultFragment extends Fragment implements ResultContract.View {
 
     @BindView(R.id.xButton)
     ImageButton backButton;
@@ -66,7 +69,7 @@ public class ResultFragment extends Fragment implements  ResultContract.View{
     }
 
     @Override
-    public void showResult(double res){
+    public void showResult(double res) {
         NumberFormat formatter = new DecimalFormat("#0.000");
         resultText.setText(formatter.format(res));
     }
