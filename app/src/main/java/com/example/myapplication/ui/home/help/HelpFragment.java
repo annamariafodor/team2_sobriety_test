@@ -44,7 +44,7 @@ public class HelpFragment extends Fragment {
     @BindView(R.id.sendButton)
     Button send;
     @BindView(R.id.textInputEditText)
-    private TextInputEditText message;
+    TextInputEditText message;
     private HelpInformations info;
 
     // TODO: Rename parameter arguments, choose names that match

@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.home.result.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -35,7 +37,7 @@ public class ResultPresenter extends ResultContract.Presenter {
         super(view);
     }
 
-    public void getPersonalInformation() {
+    public double getPersonalInformation() {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
@@ -61,7 +63,7 @@ public class ResultPresenter extends ResultContract.Presenter {
                 }
             }
         });
-
+    return res;
 
     }
 
@@ -90,10 +92,10 @@ public class ResultPresenter extends ResultContract.Presenter {
                     r = 0.66;
                 }
                 res = (A * 5.14) / (w * r);
-
                 if (view != null){
                     view.showResult(res);
                 }
+
             }
 
             @Override
@@ -103,6 +105,7 @@ public class ResultPresenter extends ResultContract.Presenter {
         });
 
     }
+
 
 
 

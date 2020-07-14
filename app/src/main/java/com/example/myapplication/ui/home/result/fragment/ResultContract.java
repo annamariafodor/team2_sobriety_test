@@ -9,6 +9,7 @@ public interface ResultContract{
 
 
         void showResult(double res);
+
     }
 
     abstract class Presenter extends BasePresenter<ResultContract.View> {
@@ -18,7 +19,7 @@ public interface ResultContract{
         }
 
 
-        public abstract void getPersonalInformation();
+        public abstract double getPersonalInformation();
 
         public abstract void getDrinks();
     }
