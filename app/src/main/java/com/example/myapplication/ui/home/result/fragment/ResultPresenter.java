@@ -48,8 +48,6 @@ public class ResultPresenter extends ResultContract.Presenter {
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
-                        //Log.d("Debug", document.get("weight").toString());
-                        Log.d("Debug", "Elso");
                         gender = document.get("gender").toString();
                         weight = Objects.requireNonNull(document.get("weight")).toString();
                         getDrinks();
@@ -80,9 +78,8 @@ public class ResultPresenter extends ResultContract.Presenter {
                 }
 
                 Log.d("Debug", "Masodik");
-                //Double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
-                Double w = 1.1;
-                Double r = null;
+                double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
+                double r;
                 // initialize gender constant
                 if (gender.equals("Male")) {
                     r = 0.73;
