@@ -39,9 +39,7 @@ public class ResultPresenter extends ResultContract.Presenter {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         DocumentReference docRef = db.collection("users").document(userID);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -68,6 +66,7 @@ public class ResultPresenter extends ResultContract.Presenter {
     }
 
     public void getDrinks() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -95,7 +94,6 @@ public class ResultPresenter extends ResultContract.Presenter {
                 if (view != null){
                     view.showResult(res);
                 }
-
             }
 
             @Override
