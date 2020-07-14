@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,14 +112,17 @@ public class ResultFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_result, container, false);
+        final NavController navController = Navigation.findNavController(view);
         ButterKnife.bind(this, view);
-        calculateResult();
+        if (calculateResult()){
+            navController.navigate(R.id.popupFragment);
+        }
         return view;
     }
 
     Double res;
 
-    private void calculateResult() {
+    private boolean calculateResult() {
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -170,8 +175,10 @@ public class ResultFragment extends Fragment {
                 }
                 res = (A * 5.14) / (w * r);
 
+
                 NumberFormat formatter = new DecimalFormat("#0.000");
                 resultText.setText(formatter.format(res)+" %");
+
             }
 
             @Override
@@ -179,6 +186,12 @@ public class ResultFragment extends Fragment {
 
             }
         });
+
+        if ( res > 0 ){
+            return true;
+        }else{
+            return false;
+        }
 
     }
 

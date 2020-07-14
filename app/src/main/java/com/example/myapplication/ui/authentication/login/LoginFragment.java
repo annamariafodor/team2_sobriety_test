@@ -213,8 +213,6 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
                 Log.d("SignInBegins", "It begins");
                 signIn();
                 navController.navigate(R.id.fragment_profile);
-
-
             }
         });
     }
