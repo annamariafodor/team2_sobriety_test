@@ -39,12 +39,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,6 +75,7 @@ public class ResultFragment extends Fragment {
     String weight;
     Double A;
     Double res;
+    Date elsoDatum;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -172,7 +177,7 @@ public class ResultFragment extends Fragment {
             }
         });
 
-
+        ArrayList<Date> date = new ArrayList<Date>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -184,7 +189,27 @@ public class ResultFragment extends Fragment {
                     double degree = Double.parseDouble(s.child("degree").getValue().toString());
                     drink *= (degree / 100);
                     A += drink;
+
+
+                    String textHour = s.child("hour").getValue().toString();
+                    String textDate = s.child("date").getValue().toString();
+                    Date date1 = null;
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                    try {
+                        date1 = formatter.parse(textDate.concat(" ").concat(textHour));
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), "Invalid inputs", Toast.LENGTH_SHORT).show();
+                    }
+
+                    date.add(date1);
                 }
+
+                Collections.sort(date);
+                elsoDatum = date.get(0);
+                Date currentDate = new Date(System.currentTimeMillis());
+                long secs = (currentDate.getTime() - elsoDatum.getTime()) / 1000;
+                long hours = (secs / 3600);
+                System.out.println("hours: " + hours);
 
                 Double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
 
@@ -196,9 +221,14 @@ public class ResultFragment extends Fragment {
                     r = 0.66;
                 }
                 res = (A * 5.14) / (w * r);
+                res -= 0.015 * hours;
 
                 NumberFormat formatter = new DecimalFormat("#0.000");
-                resultText.setText(formatter.format(res) + " %");
+                if (res > 0) {
+                    resultText.setText(formatter.format(res) + " %");
+                } else {
+                    resultText.setText("0 %");
+                }
             }
 
             @Override
@@ -210,57 +240,26 @@ public class ResultFragment extends Fragment {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                ArrayList<Date> date = new ArrayList<Date>();
 
-                fAuth = FirebaseAuth.getInstance();
-                fStore = FirebaseFirestore.getInstance();
-                userID = fAuth.getCurrentUser().getUid();
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
+                Date currentDate = new Date(System.currentTimeMillis());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(currentDate);
+                calendar.add(calendar.HOUR_OF_DAY, +i);
 
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @SuppressLint("SetTextI18n")
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot s : snapshot.getChildren()) {
-                            String textHour = s.child("hour").getValue().toString();
-                            String textDate = s.child("date").getValue().toString();
-                            Date date1 = null;
-                            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-                            try {
-                                date1 = formatter.parse(textDate.concat(" ").concat(textHour));
-                            } catch (Exception e) {
-                                Toast.makeText(getActivity(), "Invalid inputs", Toast.LENGTH_SHORT).show();
-                            }
+                long secs = (calendar.getTime().getTime() - elsoDatum.getTime()) / 1000;
+                long hours = (secs / 3600);
 
-                            date.add(date1);
-                        }
+                System.out.println("elso datum: " + elsoDatum + " calendar.gettime: " + calendar.getTime());
+                System.out.println(hours + "  ------- ");
 
-                        Collections.sort(date);
-
-                        Date elsoDatum = date.get(0);
-                        Date currentDate = new Date(System.currentTimeMillis());
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTime(currentDate);
-                        calendar.add(calendar.HOUR_OF_DAY, +i);
-
-                        int h=0; // kulonbseg elsoDatum es calendar.getTime() kozott
-
-                        Double result = res - 0.015 * h;
-                        NumberFormat formatter = new DecimalFormat("#0.000");
-                        if (result < 0) {
-                            resultText.setText(formatter.format(result) + " %");
-                        } else {
-                            resultText.setText("0 %");
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
+                Double result = res - 0.015 * hours;
+                System.out.println("result: " + result + " res: " + res);
+                NumberFormat formatter = new DecimalFormat("#0.000");
+                if (result > 0) {
+                    resultText.setText(formatter.format(result) + " %");
+                } else {
+                    resultText.setText("0 %");
+                }
 
 
             }
