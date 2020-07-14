@@ -1,3 +1,4 @@
+
 package com.example.myapplication.ui.home.result;
 
 import android.annotation.SuppressLint;
@@ -79,7 +80,6 @@ public class ResultFragment extends Fragment {
     public ResultFragment() {
         // Required empty public constructor
     }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
