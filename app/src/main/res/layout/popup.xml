@@ -28,7 +28,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/facebookButton"
+        android:id="@+id/taxiButton"
         android:layout_width="63dp"
         android:layout_height="58dp"
         android:layout_centerHorizontal="true"
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/xButton"
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_marginTop="17dp"
