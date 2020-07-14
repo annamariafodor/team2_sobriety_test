@@ -68,11 +68,14 @@
 
     <fragment
         android:id="@+id/nav_result"
-        android:name="com.example.myapplication.ui.home.result.ResultFragment"
+        android:name="com.example.myapplication.ui.home.result.fragment.ResultFragment"
         tools:layout="@layout/fragment_result">
         <action
             android:id="@+id/action_nav_result_to_popupFragment"
             app:destination="@id/popupFragment" />
+        <action
+            android:id="@+id/action_nav_result_to_fragment_no_popup"
+            app:destination="@id/fragment_no_popup" />
     </fragment>
 
     <fragment
