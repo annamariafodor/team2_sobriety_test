@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.myapplication.R;
@@ -29,13 +30,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class ResultFragment extends Fragment implements  ResultContract.View{
+public class ResultFragment extends Fragment implements ResultContract.View {
 
     @BindView(R.id.xButton)
     ImageButton backButton;
@@ -43,6 +46,8 @@ public class ResultFragment extends Fragment implements  ResultContract.View{
     ImageButton taxiButton;
     @BindView(R.id.resultText)
     TextView resultText;
+    @BindView(R.id.seekBar2)
+    SeekBar seekBar;
     private ResultContract.Presenter presenter = new ResultPresenter(this);
 
     public ResultFragment() {
@@ -86,10 +91,44 @@ public class ResultFragment extends Fragment implements  ResultContract.View{
     }
 
     @Override
-    public void showResult(double res){
+    public void showResult(double res) {
         NumberFormat formatter = new DecimalFormat("#0.000");
-        resultText.setText(formatter.format(res));
+        if (res > 0) {
+            resultText.setText(formatter.format(res) + " %");
+        } else {
+            resultText.setText("0 %");
+        }
     }
+
+    @Override
+    public void initializeSeekBar(Date elsoDatum, long hours, double res) {
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                Date currentDate = new Date(System.currentTimeMillis());
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(currentDate);
+                calendar.add(calendar.HOUR_OF_DAY, +i);
+
+                long secs = (calendar.getTime().getTime() - elsoDatum.getTime()) / 1000;
+                long h = (secs / 3600);
+
+                double result = res - 0.015 * (h - hours);
+                showResult(result);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
 
     @Override
     public void showLoading() {
