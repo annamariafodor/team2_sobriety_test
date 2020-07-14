@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_no_popup"
     android:layout_width="match_parent"
     android:fillViewport="true"
     android:layout_height="match_parent">
@@ -34,15 +35,13 @@
         <SeekBar
             android:id="@+id/seekBar2"
             style="@android:style/Widget.Material.SeekBar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="350dp"
+            android:layout_height="60dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:scrollbarSize="200sp"
             android:scrollbarStyle="outsideInset"
-            android:max="6"
-            android:progress="0"
             app:layout_constraintEnd_toStartOf="@+id/guideline7"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
@@ -52,47 +51,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="149dp"
             android:background="@color/design_default_color_background"
             android:text="Now"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toBottomOf="@+id/includedLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="149dp"
             android:layout_marginEnd="16dp"
             android:text="6 hours"
             android:textSize="24sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline7"
-            app:layout_constraintTop_toBottomOf="@+id/includedLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
         <TextView
             android:id="@+id/resultText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_width="85dp"
+            android:layout_height="57dp"
+            android:layout_marginTop="88dp"
             android:gravity="center"
             android:text="Result"
             android:textSize="30sp"
             app:layout_constraintEnd_toStartOf="@+id/guideline7"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-        <include
-            android:id="@+id/includedLayout"
-            layout="@layout/fragment_popup"
-            android:layout_width="234dp"
-            android:layout_height="149dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline7"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="@+id/guideline5"
-            app:layout_constraintTop_toBottomOf="@+id/resultText" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
