@@ -3,6 +3,7 @@ package com.example.myapplication.ui.home.result.fragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +21,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Objects;
 
 public class ResultPresenter extends ResultContract.Presenter {
@@ -32,6 +37,7 @@ public class ResultPresenter extends ResultContract.Presenter {
     private double A;
     private DatabaseReference reference;
     private double res;
+    private  ArrayList<Date> date;
 
     public ResultPresenter(ResultContract.View view) {
         super(view);
@@ -50,8 +56,6 @@ public class ResultPresenter extends ResultContract.Presenter {
                     DocumentSnapshot document = task.getResult();
                     assert document != null;
                     if (document.exists()) {
-                        //Log.d("Debug", document.get("weight").toString());
-                        Log.d("Debug", "Elso");
                         gender = document.get("gender").toString();
                         weight = Objects.requireNonNull(document.get("weight")).toString();
                         getDrinks();
@@ -68,6 +72,7 @@ public class ResultPresenter extends ResultContract.Presenter {
     }
 
     public void getDrinks() {
+        date = new ArrayList<Date>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -79,12 +84,34 @@ public class ResultPresenter extends ResultContract.Presenter {
                     double degree = Double.parseDouble(s.child("degree").getValue().toString());
                     drink *= (degree / 100);
                     A += drink;
+
+                    String textHour = s.child("hour").getValue().toString();
+                    String textDate = s.child("date").getValue().toString();
+                    Date date1 = null;
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+                    try {
+                        date1 = formatter.parse(textDate.concat(" ").concat(textHour));
+                    } catch (Exception e) {
+
+                    }
+                    date.add(date1);
                 }
 
-                Log.d("Debug", "Masodik");
-                //Double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
-                Double w = 1.1;
-                Double r = null;
+                Collections.sort(date);
+                Date elsoDatum;
+                if(date.size() > 0){
+                    elsoDatum = date.get(0);
+                } else {
+                    view.showResult(0);
+                    return;
+                }
+
+                Date currentDate = new Date(System.currentTimeMillis());
+                long secs = (currentDate.getTime() - elsoDatum.getTime()) / 1000;
+                long hours = (secs / 3600);
+
+                double w = Double.parseDouble(weight) * 2.2; // converting kg to pounds
+                double r;
                 // initialize gender constant
                 if (gender.equals("Male")) {
                     r = 0.73;
@@ -92,10 +119,11 @@ public class ResultPresenter extends ResultContract.Presenter {
                     r = 0.66;
                 }
                 res = (A * 5.14) / (w * r);
+                res -= 0.015 * hours;
                 if (view != null){
                     view.showResult(res);
+                    view.initializeSeekBar(elsoDatum,hours,res);
                 }
-
             }
 
             @Override
@@ -105,7 +133,6 @@ public class ResultPresenter extends ResultContract.Presenter {
         });
 
     }
-
 
 
 
