@@ -43,7 +43,7 @@ public class ResultPresenter extends ResultContract.Presenter {
         super(view);
     }
 
-    public double getPersonalInformation() {
+    public void getPersonalInformation() {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
@@ -67,7 +67,6 @@ public class ResultPresenter extends ResultContract.Presenter {
                 }
             }
         });
-    return res;
 
     }
 
