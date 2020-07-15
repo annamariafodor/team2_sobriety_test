@@ -176,6 +176,8 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
 
                                     Taxi taxi = finalTaxiList.get(i);
                                     String number = taxi.getNumber();
+
+                                    //TODO: IT'S ONLY WORKING IN ROMANIA
                                     String countryCode = "tel:+40";
                                     //I need to take the second 0 from the number
                                     number = number.substring(1);
