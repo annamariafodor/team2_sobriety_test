@@ -43,7 +43,7 @@ public class ResultPresenter extends ResultContract.Presenter {
         super(view);
     }
 
-    public double getPersonalInformation() {
+    public void getPersonalInformation() {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
@@ -58,7 +58,7 @@ public class ResultPresenter extends ResultContract.Presenter {
                     if (document.exists()) {
                         gender = document.get("gender").toString();
                         weight = Objects.requireNonNull(document.get("weight")).toString();
-                        res = getDrinks();
+                        getDrinks();
                     } else {
                         Log.d("Debug", "No such document");
                     }
@@ -67,10 +67,9 @@ public class ResultPresenter extends ResultContract.Presenter {
                 }
             }
         });
-        return res;
     }
 
-    public double getDrinks() {
+    public void getDrinks() {
         date = new ArrayList<Date>();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -132,7 +131,6 @@ public class ResultPresenter extends ResultContract.Presenter {
             }
         });
         Log.d("Dialog",String.valueOf(res)+"presenter");
-        return res;
     }
 
     @Override

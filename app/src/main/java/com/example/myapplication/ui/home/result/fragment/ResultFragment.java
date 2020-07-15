@@ -67,7 +67,6 @@ public class ResultFragment extends Fragment implements ResultContract.View {
         View view = inflater.inflate(R.layout.fragment_result, container, false);
         ButterKnife.bind(this, view);
         calculateResult();
-
         return view;
     }
 
