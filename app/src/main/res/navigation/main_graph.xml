@@ -72,9 +72,6 @@
         android:name="com.example.myapplication.ui.home.result.fragment.ResultFragment"
         tools:layout="@layout/fragment_result">
         <action
-            android:id="@+id/action_nav_result_to_popupFragment"
-            app:destination="@id/popupFragment" />
-        <action
             android:id="@+id/action_nav_result_to_fragment_no_popup"
             app:destination="@id/fragment_no_popup" />
     </fragment>
@@ -90,21 +87,6 @@
         <action
             android:id="@+id/action_nav_list_self"
             app:destination="@id/nav_list" />
-    </fragment>
-    <fragment
-        android:id="@+id/popupFragment"
-        android:name="com.example.myapplication.ui.home.result.PopupFragment"
-        android:label="PopupFragment"
-        tools:layout="@layout/fragment_popup">
-        <action
-            android:id="@+id/action_popupFragment_to_nav_taxi"
-            app:destination="@id/nav_taxi" />
-        <action
-            android:id="@+id/action_popupFragment_to_nav_result"
-            app:destination="@id/nav_result" />
-        <action
-            android:id="@+id/action_popupFragment_to_fragment_no_popup"
-            app:destination="@id/fragment_no_popup" />
     </fragment>
     <fragment
         android:id="@+id/rowFragment"
