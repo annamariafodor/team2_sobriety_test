@@ -15,7 +15,7 @@ public interface ResultContract{
 
         void initializeSeekBar(Date elsoDatum, long hours, double res);
 
-        void makeDialog(android.view.View view);
+        void makeDialog(android.view.View view, double res);
     }
 
     abstract class Presenter extends BasePresenter<ResultContract.View> {
@@ -24,11 +24,9 @@ public interface ResultContract{
             super(view);
         }
 
+        public abstract double getPersonalInformation();
 
-
-        public abstract void getPersonalInformation();
-
-        public abstract void getDrinks();
+        public abstract double getDrinks();
 
         public abstract void removeDrinks();
     }
