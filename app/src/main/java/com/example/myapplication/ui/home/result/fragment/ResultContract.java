@@ -2,6 +2,8 @@ package com.example.myapplication.ui.home.result.fragment;
 
 import android.view.View;
 
+import androidx.navigation.NavController;
+
 import com.example.myapplication.mvp.BasePresenter;
 import com.example.myapplication.mvp.BaseView;
 
@@ -15,7 +17,7 @@ public interface ResultContract{
 
         void initializeSeekBar(Date elsoDatum, long hours, double res);
 
-        void makeDialog(android.view.View view, double res);
+        void showTaxiButton(NavController navController);
     }
 
     abstract class Presenter extends BasePresenter<ResultContract.View> {
@@ -24,9 +26,11 @@ public interface ResultContract{
             super(view);
         }
 
-        public abstract double getPersonalInformation();
 
-        public abstract double getDrinks();
+
+        public abstract void getPersonalInformation();
+
+        public abstract void getDrinks();
 
         public abstract void removeDrinks();
     }
