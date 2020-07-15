@@ -172,7 +172,7 @@ public class EditDataDialog extends DialogFragment implements onDateSelected {
             Date currentDate = new Date(System.currentTimeMillis());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(currentDate);
-            calendar.add(calendar.HOUR_OF_DAY, -24);
+            calendar.add(calendar.HOUR_OF_DAY, -8);
             if(calendar.getTime().before(date1) && currentDate.after(date1)){ // check if input date is earlier than 24 hours or later than the current date
                 hour.getEditText().setError(null);
                 date.getEditText().setError(null);
@@ -180,7 +180,7 @@ public class EditDataDialog extends DialogFragment implements onDateSelected {
                 valid = false;
                 hour.getEditText().setError("Enter valid value for hour!");
                 date.getEditText().setError("Enter valid value for date!");
-                Toast.makeText(getActivity(), "The date and time can't be earlier than 24 hours or later than the current time!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "The date and time can't be earlier than 8 hours or later than the current time!", Toast.LENGTH_LONG).show();
             }
         }
 
