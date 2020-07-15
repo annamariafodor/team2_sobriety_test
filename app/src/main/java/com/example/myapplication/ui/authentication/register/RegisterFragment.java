@@ -1,21 +1,19 @@
 package com.example.myapplication.ui.authentication.register;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,40 +41,16 @@ public class RegisterFragment extends Fragment {
     EditText emailInput;
 
     // these for getting the exact information
-    String email, password1, password2;
-
-    // for firebase
+    private String email, password1, password2;
     private FirebaseAuth mAuth;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "RegisterFragment";
-
-
-    private String mParam1;
-    private String mParam2;
 
     public RegisterFragment() {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
-    public static RegisterFragment newInstance(String param1, String param2) {
-        RegisterFragment fragment = new RegisterFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
 
@@ -93,36 +67,29 @@ public class RegisterFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final NavController navController = Navigation.findNavController(view);
-
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
-
         // clickEvent to go Profile fragment
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 email = emailInput.getText().toString();
                 password1 = password1Input.getText().toString();
                 password2 = password2Input.getText().toString();
                 if (!isValidForm(email, password1, password2)) {
                     return;
                 }
-
-
                 // create a new user in the database
                 mAuth.createUserWithEmailAndPassword(email, password1).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-
                     // let the user know that the registration was successful
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.w("Test", "OnComplete Listener");
                         if (task.isSuccessful()) {
                             Toast.makeText(requireActivity().getBaseContext(), "User created", Toast.LENGTH_SHORT).show();
                             navController.navigate(R.id.fragment_profile);
                         } else {
                             Toast.makeText(requireActivity().getBaseContext(), "Error !" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                        }
                     }
                 });
             }

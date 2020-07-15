@@ -29,63 +29,28 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListScreenFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ListScreenFragment extends Fragment implements EditDataDialog.onDataSelected {
 
 
     @BindView(R.id.recyclerView)
     RecyclerView myRecyclerView;
-    MyAdapter myAdapter;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    DatabaseReference reference;
-    String userID;
-    ArrayList<Model> list;
-    Model m;
 
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private MyAdapter myAdapter;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private DatabaseReference reference;
+    private String userID;
+    private ArrayList<Model> list;
+    private Model m;
 
     public ListScreenFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListScreenFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ListScreenFragment newInstance(String param1, String param2) {
-        ListScreenFragment fragment = new ListScreenFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -94,15 +59,12 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_screen, container, false);
         ButterKnife.bind(this, view);
-
         myRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         list = new ArrayList<Model>();
-
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
-
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -116,13 +78,13 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
                     list.add(m);
 
                 }
-                myAdapter=new MyAdapter(getContext(),list);
+                myAdapter = new MyAdapter(getContext(), list);
                 myRecyclerView.setAdapter(myAdapter);
 
                 myAdapter.setOnItemClickListener(new MyAdapter.OnItemClickListener() {
                     @Override
                     public void deleteItem(Model model, int position) {
-                         reference.child(model.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                        reference.child(model.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 snapshot.getRef().removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -137,7 +99,6 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-
                             }
                         });
                     }
@@ -145,25 +106,19 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
                     @Override
                     public void editItem(Model model, int position) {
                         EditDataDialog dialog = new EditDataDialog();
-                        dialog.setTargetFragment(ListScreenFragment.this,1);
-                        dialog.show(getFragmentManager(),"Edit data dialog");
+                        dialog.setTargetFragment(ListScreenFragment.this, 1);
+                        dialog.show(getFragmentManager(), "Edit data dialog");
                         m = model;
                     }
-
                 });
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
-
         return view;
     }
-
 
     @Override
     public void sendInput(String quantity, String degree, String date, String hour) {
@@ -175,7 +130,6 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
-
         reference.child(m.getKey()).child("date").setValue(date);
         reference.child(m.getKey()).child("hour").setValue(hour);
         reference.child(m.getKey()).child("degree").setValue(degree);
