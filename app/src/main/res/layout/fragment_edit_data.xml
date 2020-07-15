@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,85 +12,84 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/quantityInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/quantityInput">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Quantity"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/degreeInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/degreeInput"
             android:layout_below="@+id/quantityInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Degree"
-                android:inputType="numberDecimal"/>
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hourInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/hourInput"
             android:layout_below="@+id/degreeInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/hourTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="When did you drink? (hour)"
                 android:clickable="true"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                android:hint="When did you drink? (hour)" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dateInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dateInput"
             android:layout_below="@+id/hourInput">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/dateTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="When did you drink? (date)"
                 android:clickable="true"
-                android:focusableInTouchMode="false"/>
+                android:focusableInTouchMode="false"
+                android:hint="When did you drink? (date)" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/cancelButton"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:text="Cancel"
+            android:layout_below="@id/dateInput"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/mybutton"
-            android:layout_below="@id/dateInput"
-            android:layout_marginStart="10dp"/>
+            android:textColor="#FFFFFF"
+            android:text="Cancel" />
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="100dp"
             android:layout_height="35dp"
-            android:text="Save"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/mybutton"
             android:layout_below="@id/dateInput"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            />
+            android:background="@drawable/mybutton"
+            android:textColor="#FFFFFF"
+            android:text="Save" />
     </RelativeLayout>
-
 
 
 </RelativeLayout>
