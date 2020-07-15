@@ -121,6 +121,7 @@ public class ResultPresenter extends ResultContract.Presenter {
                 if (view != null){
                     view.showResult(res);
                     view.initializeSeekBar(elsoDatum,hours,res);
+                    removeDrinks();
                 }
             }
 
@@ -132,6 +133,11 @@ public class ResultPresenter extends ResultContract.Presenter {
 
     }
 
+    @Override
+    public void removeDrinks() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
+        reference.removeValue();
+    }
 
 
 }
