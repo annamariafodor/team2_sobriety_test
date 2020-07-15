@@ -17,6 +17,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.authentication.AuthenticationActivity;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -46,6 +49,7 @@ public class SettingsFragment extends Fragment {
     Button changePasswordButton;
 
     FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -85,6 +89,12 @@ public class SettingsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mAuth = FirebaseAuth.getInstance();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //.requestIdToken(String.valueOf(R.string.default_web_client_id))
+                .requestIdToken("924938152543-t3vkang2l3rdrjq4jpf9h3rhrh6jlkb2.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(getActivity(), gso);
     }
 
     @Override
@@ -93,7 +103,7 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
-        initView();
+
         return view;
 
     }
@@ -106,6 +116,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
+                mGoogleSignInClient.signOut();
                 Intent intent = new Intent(getContext(), AuthenticationActivity.class);
                 startActivity(intent);
             }
@@ -168,8 +179,5 @@ public class SettingsFragment extends Fragment {
                 password.getText().clear();
             }
         });
-    }
-
-    private void initView() {
     }
 }

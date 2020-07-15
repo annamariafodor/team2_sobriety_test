@@ -6,8 +6,7 @@
     android:layout_marginStart="30dp"
     android:layout_marginTop="265dp"
     android:id="@+id/fragment_popup"
-    android:background="@drawable/mypopup"
-    >
+    android:background="@drawable/mypopup">
 
 
     <TextView

@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.home.result.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -66,7 +68,6 @@ public class ResultPresenter extends ResultContract.Presenter {
             }
         });
 
-
     }
 
     public void getDrinks() {
@@ -121,6 +122,7 @@ public class ResultPresenter extends ResultContract.Presenter {
                 if (view != null){
                     view.showResult(res);
                     view.initializeSeekBar(elsoDatum,hours,res);
+                    removeDrinks();
                 }
             }
 
@@ -132,6 +134,11 @@ public class ResultPresenter extends ResultContract.Presenter {
 
     }
 
+    @Override
+    public void removeDrinks() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
+        reference.removeValue();
+    }
 
 
 }
