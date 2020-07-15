@@ -1,8 +1,11 @@
 package com.example.myapplication.ui.home.result.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -39,11 +42,7 @@ import butterknife.ButterKnife;
 
 
 public class ResultFragment extends Fragment implements ResultContract.View {
-
-    @BindView(R.id.xButton)
-    ImageButton backButton;
-    @BindView(R.id.taxiButton)
-    ImageButton taxiButton;
+    private double res;
     @BindView(R.id.resultText)
     TextView resultText;
     @BindView(R.id.seekBar2)
@@ -67,27 +66,19 @@ public class ResultFragment extends Fragment implements ResultContract.View {
         ButterKnife.bind(this, view);
         calculateResult();
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Debug", "Lecci");
-                final NavController navController = Navigation.findNavController(view);
-                //navController.navigate(R.id.);
-            }
-        });
-
-        taxiButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        final NavController navController = Navigation.findNavController(view);
+        Log.d("Dialog",String.valueOf(res));
+        makeDialog(view);
+    }
+
     private void calculateResult() {
-        presenter.getPersonalInformation();
+       presenter.getPersonalInformation();
     }
 
     @Override
@@ -129,9 +120,27 @@ public class ResultFragment extends Fragment implements ResultContract.View {
         });
     }
 
+    @Override
+    public void makeDialog(View view) {
+        final NavController navController = Navigation.findNavController(view);
+        Log.d("Dialog","bement");
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Call a taxi?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        navController.navigate(R.id.nav_taxi);
+                    }
+                })
+                .setNegativeButton("No", null);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 
     @Override
     public void showLoading() {
 
     }
+
 }

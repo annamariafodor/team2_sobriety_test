@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.example.myapplication.R;
 import com.example.myapplication.ui.home.MainActivity;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -115,35 +117,39 @@ public class ProfileFragment extends Fragment {
         toMainScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    gender = genderInp.getSelectedItem().toString();
+                    height = Float.parseFloat(heightInp.getEditText().getText().toString());
+                    weight = Float.parseFloat(weightInp.getEditText().getText().toString());
+                    age = Integer.parseInt(ageInp.getEditText().getText().toString());
 
-                gender = genderInp.getSelectedItem().toString();
-                height = Float.parseFloat(heightInp.getEditText().getText().toString());
-                weight = Float.parseFloat(weightInp.getEditText().getText().toString());
-                age = Integer.parseInt(ageInp.getEditText().getText().toString());
-
-                if(!isValidForm(age, weight, height, weightInp, heightInp)) {
-                    return;
-                }
-
-                // get The current user;
-                userID = fAuth.getCurrentUser().getUid();
-
-                //create new document
-                DocumentReference documentReference = fStore.collection("users").document(userID);
-                Map<String, Object> user = new HashMap<>();
-                user.put("gender", gender);
-                user.put("age", age);
-                user.put("weight", weight);
-                user.put("height", height);
-
-                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("Profile", "onSuccess: User profile is created" + userID);
-                        Intent intent = new Intent(getContext(), MainActivity.class);
-                        startActivity(intent);
+                    if (!isValidForm(age, weight, height, weightInp, heightInp)) {
+                        return;
                     }
-                });
+
+                    // get The current user;
+
+                    userID = fAuth.getCurrentUser().getUid();
+
+                    //create new document
+                    DocumentReference documentReference = fStore.collection("users").document(userID);
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("gender", gender);
+                    user.put("age", age);
+                    user.put("weight", weight);
+                    user.put("height", height);
+
+                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("Profile", "onSuccess: User profile is created" + userID);
+                            Intent intent = new Intent(getContext(), MainActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                } catch (Exception exp) {
+                    Toast.makeText(getActivity(),"You must sign in first",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

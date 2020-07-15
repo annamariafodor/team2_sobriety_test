@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.myapplication.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -43,7 +45,7 @@ public class HelpFragment extends Fragment {
     Button send;
     @BindView(R.id.textInputEditText)
     TextInputEditText message;
-    HelpInformations info;
+    private HelpInformations info;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -111,15 +113,27 @@ public class HelpFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
                 assert currentFirebaseUser != null;
                 String email = Objects.requireNonNull(currentFirebaseUser.getEmail());
                 String messageStr = Objects.requireNonNull(message.getText()).toString();
+                if ( messageStr.isEmpty()){
+                    message.setError("Write something");
+                    return;
+                }
                 info.setEmail(email);
                 info.setMessage(messageStr);
-                myRef.push().setValue(info);
-                message.getText().clear();
-                Toast.makeText(getActivity(), "Successfully sent", Toast.LENGTH_SHORT).show();
+                myRef.push().setValue(info).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()){
+                            message.getText().clear();
+                            Toast.makeText(getActivity(),"Successfully sent",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(getActivity(),"Send is unsuccessful",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 Log.d("Debug", Objects.requireNonNull(currentFirebaseUser.getEmail()));
             }
         });

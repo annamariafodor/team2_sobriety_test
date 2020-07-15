@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.home.result.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -65,7 +67,6 @@ public class ResultPresenter extends ResultContract.Presenter {
                 }
             }
         });
-
 
     }
 
