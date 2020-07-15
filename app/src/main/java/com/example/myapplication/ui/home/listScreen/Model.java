@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.home.listScreen;
 
 public class Model {
     private String quantity,degree,date,time,key;
