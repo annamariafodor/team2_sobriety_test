@@ -25,5 +25,7 @@ public interface ResultContract{
         public abstract void getPersonalInformation();
 
         public abstract void getDrinks();
+
+        public abstract void removeDrinks();
     }
 }
