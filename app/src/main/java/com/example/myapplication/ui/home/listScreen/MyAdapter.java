@@ -29,7 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_row,null);
 
         return new MyHolder(view);
     }
