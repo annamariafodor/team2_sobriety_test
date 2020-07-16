@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.home.mainScreen;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -89,6 +90,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
     }
 
 
+    private int i=0;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -103,6 +105,7 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
                 navController.navigate(R.id.nav_list);
             }
         });
+
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,8 +137,10 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(getActivity(), "Drink added", Toast.LENGTH_SHORT).show();
+                        i++;
                     }
                 });
+
                 inputQuantity.getEditText().setText(null);
                 inputDegree.getEditText().setText(null);
                 inputDate.getEditText().setText(null);
@@ -145,6 +150,16 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
         resultButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(i==0){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Hint");
+                    builder.setMessage("Please add a drink.");
+                    builder.setPositiveButton("OK", null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return;
+                }
+                i=0;
                 navController.navigate(R.id.nav_result);
             }
         });
