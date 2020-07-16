@@ -125,9 +125,10 @@ public class MainScreenFragment extends Fragment implements onDateSelected {
                 model.setDate(date);
 
                 userID = fAuth.getCurrentUser().getUid();
+                Map<String, Object> drink = new HashMap<>();
                 //DocumentReference documentReference = fStore.collection("drinks").document(userID);
                 DatabaseReference reff = FirebaseDatabase.getInstance().getReference().child("drinks").child(userID);
-                Map<String, Object> drink = new HashMap<>();
+
                 drink.put("quantity", quantity);
                 drink.put("degree", degree);
                 drink.put("hour", hour);
