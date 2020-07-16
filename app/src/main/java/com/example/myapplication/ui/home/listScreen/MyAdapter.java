@@ -1,25 +1,17 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.home.listScreen;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.ui.home.MainContract;
-import com.example.myapplication.ui.home.listScreen.ListScreenFragment;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
-import java.util.List;
+
 public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
 
 
@@ -37,7 +29,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyHolder> {
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row,null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_row,null);
 
         return new MyHolder(view);
     }

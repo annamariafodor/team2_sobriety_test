@@ -43,46 +43,19 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     @BindView(R.id.citySpinner)
     SearchableSpinner citySpinner;
 
-    private DatabaseReference taxiRef;
-    IFireBaseLoadDone iFireBaseLoadDone;
-    List<Taxi> taxis;
-
-    boolean isFirstTimeClicked = true;
-
     @BindView(R.id.setLocation)
     TextView locationtxt;
-    TextView taxiName, taxiNumber;
+
+    private IFireBaseLoadDone iFireBaseLoadDone;
     private static final int REQUEST_CALL = 1;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-
-    private String mParam1;
-    private String mParam2;
 
     public TaxiFragment() {
         // Required empty public constructor
     }
 
-
-    // TODO: Rename and change types and number of parameters
-    public static TaxiFragment newInstance(String param1, String param2) {
-        TaxiFragment fragment = new TaxiFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -97,24 +70,17 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
 
     @SuppressLint("SetTextI18n")
     private void initView() {
-
         //initialize database
-        taxiRef = FirebaseDatabase.getInstance().getReference("taxi");
-
+        DatabaseReference taxiRef = FirebaseDatabase.getInstance().getReference("taxi");
         //init interface
         iFireBaseLoadDone = this;
-
         //get Data
         taxiRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Log.d("Debug", "OnDataChange");
-
                 List<City> cities = new ArrayList<>();
-
                 for (DataSnapshot citySnapShot : snapshot.getChildren()) {
                     City city = new City(citySnapShot.getKey());
-                    Log.d("Debug", "Cityname; " + city.getName());
                     for (DataSnapshot snapShot : citySnapShot.getChildren()) {
                         Taxi taxi = new Taxi("", "");
                         taxi.setName(snapShot.child("name").getValue(String.class));
@@ -132,9 +98,7 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                 iFireBaseLoadDone.onFirebaseLoadFailed(error.getMessage());
             }
         });
-
     }
-
 
     @Override
     public void onFirebaseLoadSuccess(List<City> cities) {
@@ -146,65 +110,50 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_spinner_item, cityList);
         citySpinner.setAdapter(spinnerAdapter);
-
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ArrayAdapter<Taxi> taxiAdapter;
+                List<Taxi> taxiList;
 
-                List<Taxi> taxiList = new ArrayList<>();
-                // it shows the taxis only if it's not the first click
-                if (!isFirstTimeClicked) {
-                    String city = citySpinner.getSelectedItem().toString();
-                    for (City c : cities) {
-                        if (city.equals(c.getName())) {
-                            taxiList = c.getTaxiList();
-                            taxiAdapter = new ArrayAdapter<Taxi>(requireActivity().getBaseContext(), android.R.layout.simple_list_item_1, taxiList);
-                            taxiListItem.setAdapter(taxiAdapter);
+                String city = citySpinner.getSelectedItem().toString();
+                for (City c : cities) {
+                    if (city.equals(c.getName())) {
+                        taxiList = c.getTaxiList();
+                        taxiAdapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_list_item_1, taxiList);
+                        taxiListItem.setAdapter(taxiAdapter);
 
-                            //Handling Click Events in ListView
-                            List<Taxi> finalTaxiList = taxiList;
-                            taxiListItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        //Handling Click Events in ListView
+                        List<Taxi> finalTaxiList = taxiList;
+                        taxiListItem.setOnItemClickListener((adapterView, view1, i, l) -> {
+                            Taxi taxi = finalTaxiList.get(i);
+                            String number = taxi.getNumber();
+                            String countryCode = "tel:+40";
+                            //I need to take the second 0 from the number
+                            number = number.substring(1);
+                            number = countryCode.concat(number);
 
-                                    Taxi taxi = finalTaxiList.get(i);
-                                    String number = taxi.getNumber();
-
-                                    //TODO: IT'S ONLY WORKING IN ROMANIA
-                                    String countryCode = "tel:+40";
-                                    //I need to take the second 0 from the number
-                                    number = number.substring(1);
-                                    number = countryCode.concat(number);
-
-                                    //CHECKING FOR PERMISSIONS
-                                    if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
-                                    } else {
-                                        Intent intent = new Intent(Intent.ACTION_CALL);
-                                        intent.setData(Uri.parse(number));
-                                        startActivity(intent);
-                                    }
-                                }
-                            });
-                        }
+                            //CHECKING FOR PERMISSIONS
+                            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+                            } else {
+                                Intent intent = new Intent(Intent.ACTION_CALL);
+                                intent.setData(Uri.parse(number));
+                                startActivity(intent);
+                            }
+                        });
                     }
-                } else {
-                    isFirstTimeClicked = false;
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
 
     @Override
     public void onFirebaseLoadFailed(String message) {
-        Log.d("Debug", "Database failed");
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 

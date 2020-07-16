@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.home.listScreen;
 
 import android.content.Intent;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.solver.widgets.Snapshot;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.R;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.lang.annotation.Documented;

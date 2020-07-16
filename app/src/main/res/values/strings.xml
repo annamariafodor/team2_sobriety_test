@@ -16,7 +16,7 @@
     <string name="login">Login</string>
 
 
-    <string name="quantity">Quantity:</string>
+    <string name="quantity">Quantity (mL):</string>
     <string name="date">Date:</string>
     <string name="time">Time:</string>
 
@@ -45,6 +45,10 @@
     <string name="fb_login_protocol_scheme">fb2772813582961315</string>
 
     <string name="msg"> permission</string>
-    <string name="set_location">Set location</string>
+    <string name="select_location">Select location</string>
     <string name="taxi_numbers_in_your_area">Taxi numbers in your area:</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
 </resources>
