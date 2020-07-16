@@ -26,11 +26,13 @@
 
 
 
-        <activity android:name=".ui.authentication.AuthenticationActivity" />
+        <activity android:name=".ui.authentication.AuthenticationActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.home.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
