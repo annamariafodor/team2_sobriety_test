@@ -46,11 +46,7 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     @BindView(R.id.setLocation)
     TextView locationtxt;
 
-    private DatabaseReference taxiRef;
     private IFireBaseLoadDone iFireBaseLoadDone;
-    private List<Taxi> taxis;
-    private boolean isFirstTimeClicked = true;
-    private TextView taxiName, taxiNumber;
     private static final int REQUEST_CALL = 1;
 
     public TaxiFragment() {
@@ -75,7 +71,7 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
     @SuppressLint("SetTextI18n")
     private void initView() {
         //initialize database
-        taxiRef = FirebaseDatabase.getInstance().getReference("taxi");
+        DatabaseReference taxiRef = FirebaseDatabase.getInstance().getReference("taxi");
         //init interface
         iFireBaseLoadDone = this;
         //get Data
@@ -102,9 +98,7 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                 iFireBaseLoadDone.onFirebaseLoadFailed(error.getMessage());
             }
         });
-
     }
-
 
     @Override
     public void onFirebaseLoadSuccess(List<City> cities) {
@@ -122,39 +116,33 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
                 ArrayAdapter<Taxi> taxiAdapter;
                 List<Taxi> taxiList;
 
-                // it shows the taxis only if it's not the first click
-                if (!isFirstTimeClicked) {
-                    String city = citySpinner.getSelectedItem().toString();
-                    for (City c : cities) {
-                        if (city.equals(c.getName())) {
-                            taxiList = c.getTaxiList();
-                            taxiAdapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_list_item_1, taxiList);
-                            taxiListItem.setAdapter(taxiAdapter);
+                String city = citySpinner.getSelectedItem().toString();
+                for (City c : cities) {
+                    if (city.equals(c.getName())) {
+                        taxiList = c.getTaxiList();
+                        taxiAdapter = new ArrayAdapter<>(requireActivity().getBaseContext(), android.R.layout.simple_list_item_1, taxiList);
+                        taxiListItem.setAdapter(taxiAdapter);
 
-                            //Handling Click Events in ListView
-                            List<Taxi> finalTaxiList = taxiList;
-                            taxiListItem.setOnItemClickListener((adapterView, view1, i, l) -> {
+                        //Handling Click Events in ListView
+                        List<Taxi> finalTaxiList = taxiList;
+                        taxiListItem.setOnItemClickListener((adapterView, view1, i, l) -> {
+                            Taxi taxi = finalTaxiList.get(i);
+                            String number = taxi.getNumber();
+                            String countryCode = "tel:+40";
+                            //I need to take the second 0 from the number
+                            number = number.substring(1);
+                            number = countryCode.concat(number);
 
-                                Taxi taxi = finalTaxiList.get(i);
-                                String number = taxi.getNumber();
-                                String countryCode = "tel:+40";
-                                //I need to take the second 0 from the number
-                                number = number.substring(1);
-                                number = countryCode.concat(number);
-
-                                //CHECKING FOR PERMISSIONS
-                                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
-                                } else {
-                                    Intent intent = new Intent(Intent.ACTION_CALL);
-                                    intent.setData(Uri.parse(number));
-                                    startActivity(intent);
-                                }
-                            });
-                        }
+                            //CHECKING FOR PERMISSIONS
+                            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+                            } else {
+                                Intent intent = new Intent(Intent.ACTION_CALL);
+                                intent.setData(Uri.parse(number));
+                                startActivity(intent);
+                            }
+                        });
                     }
-                } else {
-                    isFirstTimeClicked = false;
                 }
             }
 
