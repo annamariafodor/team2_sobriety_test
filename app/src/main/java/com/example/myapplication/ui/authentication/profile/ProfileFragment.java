@@ -70,21 +70,23 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        DocumentReference docRef = fStore.collection("users").document(fAuth.getCurrentUser().getUid());
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        heightInp.getEditText().setText(document.get("height").toString());
-                        weightInp.getEditText().setText(document.get("weight").toString());
-                        ageInp.getEditText().setText(document.get("age").toString());
+        if ( fAuth.getCurrentUser() != null ){
+            DocumentReference docRef = fStore.collection("users").document(fAuth.getCurrentUser().getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            heightInp.getEditText().setText(document.get("height").toString());
+                            weightInp.getEditText().setText(document.get("weight").toString());
+                            ageInp.getEditText().setText(document.get("age").toString());
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
+
 
         return view;
     }
