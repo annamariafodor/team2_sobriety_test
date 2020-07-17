@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.ui.authentication.login.LoginFragment;
 
 public class AuthenticationActivity extends AppCompatActivity implements AuthenticationContract.View {
 
     private AuthenticationContract.Presenter presenter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,4 +32,9 @@ public class AuthenticationActivity extends AppCompatActivity implements Authent
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
+    @Override
+    public void onBackPressed() {
+        // Do Here what ever you want do on back press;
+    }
+
 }
