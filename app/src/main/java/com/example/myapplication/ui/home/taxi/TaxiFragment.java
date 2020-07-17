@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,9 +114,16 @@ public class TaxiFragment extends Fragment implements IFireBaseLoadDone {
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                view.setEnabled(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        view.setEnabled(true);
+                    }
+                }, 50); // miliscec
+
                 ArrayAdapter<Taxi> taxiAdapter;
                 List<Taxi> taxiList;
-
                 String city = citySpinner.getSelectedItem().toString();
                 for (City c : cities) {
                     if (city.equals(c.getName())) {

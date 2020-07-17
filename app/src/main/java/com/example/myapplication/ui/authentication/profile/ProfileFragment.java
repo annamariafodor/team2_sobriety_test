@@ -53,7 +53,7 @@ public class ProfileFragment extends Fragment {
     private Integer age;
     private FirebaseFirestore fStore;
     private String userID;
-
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -94,7 +94,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+
         fStore = FirebaseFirestore.getInstance();
         userID = fAuth.getCurrentUser().getUid();
         toMainScreen.setOnClickListener(view1 -> {
