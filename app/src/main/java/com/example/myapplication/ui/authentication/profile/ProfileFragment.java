@@ -144,13 +144,7 @@ public class ProfileFragment extends Fragment {
             return false;
         }
 
-        if (age > 15 && weight < 20  ) {
-            Log.d("Debug","1");
-            weightInp.setError("Weight is not valid");
-            return false;
-        }
-
-        if ( age < 10 && height > 100 ){
+        if ( age < 16 && height > 100 ){
             Log.d("Debug","2");
             heightInp.setError("Height is not valid");
             return false;
@@ -162,26 +156,20 @@ public class ProfileFragment extends Fragment {
             return false;
         }
 
-        if (weight > 15 && height > 80  ) {
-            Log.d("Debug","1");
-            weightInp.setError("Weight is not valid");
-            return false;
-        }
-
         if (weight < 10 || weight > 600) {
-            Log.d("Debug","1");
+            Log.d("Debug","5");
             weightInp.setError("Weight is not valid");
             return false;
         }
 
         if (height < 10 || height > 280) {
-            Log.d("Debug","1");
+            Log.d("Debug","6");
             heightInp.setError("Height is not valid");
             return false;
         }
 
         if (age < 1 || age > 130) {
-            Log.d("Debug","1");
+            Log.d("Debug","7");
             ageInp.setError("Age is not valid");
             return false;
         }
