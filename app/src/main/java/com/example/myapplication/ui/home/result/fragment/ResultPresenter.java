@@ -67,7 +67,6 @@ public class ResultPresenter extends ResultContract.Presenter {
                 }
             }
         });
-
     }
 
     public void getDrinks() {
@@ -131,7 +130,7 @@ public class ResultPresenter extends ResultContract.Presenter {
 
             }
         });
-
+        Log.d("Dialog",String.valueOf(res)+"presenter");
     }
 
     @Override

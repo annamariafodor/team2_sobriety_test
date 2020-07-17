@@ -51,4 +51,7 @@
     <string name="cancel">Cancel</string>
     <string name="password">Password</string>
     <string name="register">Register</string>
+    <string name="add_drink">Add drink</string>
+    <string name="show_drinks">Show drinks</string>
+    <string name="list_drinks">List drinks</string>
 </resources>

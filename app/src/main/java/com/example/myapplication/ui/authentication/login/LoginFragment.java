@@ -36,6 +36,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Objects;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -63,7 +65,8 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
     private FirebaseAuth.AuthStateListener authStateListener;
     private AccessTokenTracker accessTokenTracker;
 
-
+    private boolean test = false;
+    private boolean n = false;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -165,6 +168,15 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
                     if (task.isSuccessful()) {
                         // Sign in success, update UI with the signed-in user's information
                         FirebaseUser user = mAuth.getCurrentUser();
+                        assert user != null;
+                        long creationTimestamp = user.getMetadata().getCreationTimestamp();
+                        long lastSignInTimestamp = user.getMetadata().getLastSignInTimestamp();
+                        if (creationTimestamp != lastSignInTimestamp) {
+                            this.test = true;
+                        } else {
+                            this.test = false;
+                        }
+                        this.n = true;
                     } else {
                         // If sign in fails, display a message to the user.
                         Snackbar.make(getView(), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
@@ -172,3 +184,5 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
                 });
     }
 }
+
+
