@@ -92,7 +92,7 @@ public class ListScreenFragment extends Fragment implements EditDataDialog.onDat
                                     }
                                 });
                                 myAdapter.remove(position);
-                                myAdapter.notifyItemRemoved(position);
+                                myAdapter.notifyDataSetChanged();
                             }
 
                             @Override
