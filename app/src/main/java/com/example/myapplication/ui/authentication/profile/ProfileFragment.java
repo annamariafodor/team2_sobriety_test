@@ -2,6 +2,7 @@ package com.example.myapplication.ui.authentication.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,6 @@ public class ProfileFragment extends Fragment {
             });
         }
 
-
         return view;
     }
 
@@ -145,26 +145,43 @@ public class ProfileFragment extends Fragment {
         }
 
         if (age > 15 && weight < 20  ) {
+            Log.d("Debug","1");
             weightInp.setError("Weight is not valid");
             return false;
         }
 
+        if ( age < 10 && height > 100 ){
+            Log.d("Debug","2");
+            heightInp.setError("Height is not valid");
+            return false;
+        }
+
+        if (weight > 100 && height < 80 ){
+            Log.d("Debug","3");
+            weightInp.setError("Height is not valid");
+            return false;
+        }
+
         if (weight > 15 && height > 80  ) {
+            Log.d("Debug","1");
             weightInp.setError("Weight is not valid");
             return false;
         }
 
         if (weight < 10 || weight > 600) {
+            Log.d("Debug","1");
             weightInp.setError("Weight is not valid");
             return false;
         }
 
         if (height < 10 || height > 280) {
+            Log.d("Debug","1");
             heightInp.setError("Height is not valid");
             return false;
         }
 
         if (age < 1 || age > 130) {
+            Log.d("Debug","1");
             ageInp.setError("Age is not valid");
             return false;
         }
