@@ -142,6 +142,15 @@ public class ProfileFragment extends Fragment {
             return false;
         }
 
+        if (age > 15 && weight < 20  ) {
+            weightInp.setError("Weight is not valid");
+            return false;
+        }
+
+        if (weight > 15 && height > 80  ) {
+            weightInp.setError("Weight is not valid");
+            return false;
+        }
 
         if (weight < 10 || weight > 600) {
             weightInp.setError("Weight is not valid");
