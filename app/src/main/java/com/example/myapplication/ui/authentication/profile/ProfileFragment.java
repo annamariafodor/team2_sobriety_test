@@ -51,10 +51,9 @@ public class ProfileFragment extends Fragment {
     private String gender;
     private Float height, weight;
     private Integer age;
-    private FirebaseAuth fAuth;
     private FirebaseFirestore fStore;
     private String userID;
-
+    FirebaseAuth fAuth = FirebaseAuth.getInstance();
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -95,8 +94,9 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fAuth = FirebaseAuth.getInstance();
+
         fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
         toMainScreen.setOnClickListener(view1 -> {
             try {
                 gender = genderInp.getSelectedItem().toString();
@@ -107,9 +107,6 @@ public class ProfileFragment extends Fragment {
                 if (!isValidForm(age, weight, height, weightInp, heightInp)) {
                     return;
                 }
-                // get The current user;
-                userID = fAuth.getCurrentUser().getUid();
-                //create new document
                 DocumentReference documentReference = fStore.collection("users").document(userID);
                 Map<String, Object> user = new HashMap<>();
                 user.put("gender", gender);
@@ -144,13 +141,7 @@ public class ProfileFragment extends Fragment {
             return false;
         }
 
-        if (age > 15 && weight < 20  ) {
-            Log.d("Debug","1");
-            weightInp.setError("Weight is not valid");
-            return false;
-        }
-
-        if ( age < 10 && height > 100 ){
+        if ( age < 16 && height > 100 ){
             Log.d("Debug","2");
             heightInp.setError("Height is not valid");
             return false;
@@ -162,26 +153,20 @@ public class ProfileFragment extends Fragment {
             return false;
         }
 
-        if (weight > 15 && height > 80  ) {
-            Log.d("Debug","1");
-            weightInp.setError("Weight is not valid");
-            return false;
-        }
-
         if (weight < 10 || weight > 600) {
-            Log.d("Debug","1");
+            Log.d("Debug","5");
             weightInp.setError("Weight is not valid");
             return false;
         }
 
         if (height < 10 || height > 280) {
-            Log.d("Debug","1");
+            Log.d("Debug","6");
             heightInp.setError("Height is not valid");
             return false;
         }
 
         if (age < 1 || age > 130) {
-            Log.d("Debug","1");
+            Log.d("Debug","7");
             ageInp.setError("Age is not valid");
             return false;
         }
