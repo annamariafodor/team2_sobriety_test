@@ -95,6 +95,20 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         ButterKnife.bind(this, view);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
         return view;
     }
 
@@ -136,7 +150,7 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
         forgot.setOnClickListener(view1 -> navController.navigate(R.id.passwordResetFragment));
         google.setOnClickListener(view12 -> {
             signIn();
-            navController.navigate(R.id.fragment_profile);
+
         });
     }
 
@@ -164,6 +178,7 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
 
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        final NavController navController = Navigation.findNavController(getView());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -178,12 +193,14 @@ public class LoginFragment<AccessTokenTracker> extends Fragment {
                             this.test = false;
                         }
                         this.n = true;
+                        navController.navigate(R.id.fragment_profile);
                     } else {
                         // If sign in fails, display a message to the user.
                         Snackbar.make(getView(), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
                     }
                 });
     }
+
 
 }
 

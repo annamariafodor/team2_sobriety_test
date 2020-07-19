@@ -96,7 +96,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
-        userID = fAuth.getCurrentUser().getUid();
+
         toMainScreen.setOnClickListener(view1 -> {
             try {
                 gender = genderInp.getSelectedItem().toString();
@@ -107,6 +107,7 @@ public class ProfileFragment extends Fragment {
                 if (!isValidForm(age, weight, height, weightInp, heightInp)) {
                     return;
                 }
+                userID = fAuth.getCurrentUser().getUid();
                 DocumentReference documentReference = fStore.collection("users").document(userID);
                 Map<String, Object> user = new HashMap<>();
                 user.put("gender", gender);

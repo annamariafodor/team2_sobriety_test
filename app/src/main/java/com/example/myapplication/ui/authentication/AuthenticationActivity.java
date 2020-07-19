@@ -32,9 +32,5 @@ public class AuthenticationActivity extends AppCompatActivity implements Authent
     public void onPointerCaptureChanged(boolean hasCapture) {
 
     }
-    @Override
-    public void onBackPressed() {
-        // Do Here what ever you want do on back press;
-    }
 
 }
