@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "924938152543",
+    "firebase_url": "https://sobriety-test.firebaseio.com",
+    "project_id": "sobriety-test",
+    "storage_bucket": "sobriety-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924938152543:android:ed4b58b20678bf3263c9ea",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "924938152543-n5g9f05tsdl7eo07fnkjfkpo1n95nj5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "964f5ed648110e4d8ce57f8d7829be35d25d86ae"
+          }
+        },
+        {
+          "client_id": "924938152543-0d23l7d1t26rrnln9lpeql1nqleaivke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "83cb720c35c2d58f2b8a51c5000bec9baaee23a7"
+          }
+        },
+        {
+          "client_id": "924938152543-t3vkang2l3rdrjq4jpf9h3rhrh6jlkb2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWuQn3-ey0B9XDXDU88LKdtRltVIlg1RQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "924938152543-t3vkang2l3rdrjq4jpf9h3rhrh6jlkb2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -13,4 +13,5 @@ public abstract class BasePresenter<V extends BaseView> {
     public BasePresenter(V view) {
         this.view = view;
     }
+
 }
